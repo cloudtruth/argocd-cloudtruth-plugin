@@ -1,0 +1,6 @@
+data:
+  configManagementPlugins: |-
+    - name: argocd-cloudtruth-plugin
+      generate:
+        command: ["argocd-cloudtruth-plugin"]
+        args: ["./**/*.y*ml"]
