@@ -16,4 +16,4 @@ require (
 	google.golang.org/protobuf v1.25.0 // indirect
 )
 
-replace github.com/argocd-cloudtruth-plugin/pkg/cloudtruth v1.0.0 => ./pkg/cloudtruth
+replace github.com/argocd-cloudtruth-plugin/pkg/cloudtruth v1.0.0 => ./build/cloudtruth
