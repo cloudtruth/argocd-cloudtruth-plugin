@@ -4,12 +4,12 @@ The CloudTruth configuration management plugin for [ArgoCD](https://argo-cd.read
 
 ## Installation
 
-ArgoCD plugin installation is somewhat of a manual process, you can either use the `install/*.yaml` files as a guide, or run `install.sh` to use kubectl patch to apply them:
+ArgoCD plugin installation is somewhat of a manual process, you can either use the `install/*.yaml` files as a guide, or run `install/setup.sh` to use kubectl patch to apply them:
 
 ```shell
 git clone https://github.com/cloudtruth/argocd-cloudtruth-plugin
 cd argocd-cloudtruth-plugin/install
-./install.sh
+./setup.sh
 ```
 
 ## Usage

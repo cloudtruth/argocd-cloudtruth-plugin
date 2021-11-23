@@ -1,27 +1,27 @@
-build/bin/argocd-cloudtruth-plugin: build/cloudtruth
-	go build -o build/bin/argocd-cloudtruth-plugin
+dist/argocd-cloudtruth-plugin: pkg/cloudtruth
+	go build -o dist/argocd-cloudtruth-plugin
 
-client: build/cloudtruth
+client: pkg/cloudtruth
 
-build/cloudtruth: build/openapi.yml
+pkg/cloudtruth: pkg/openapi.yml
 	docker run --rm \
-		-v "$(shell pwd)/build:/build" \
+		-v "$(shell pwd)/pkg:/pkg" \
 		--user "$(shell id -u):$(shell id -g)" \
 		openapitools/openapi-generator-cli generate \
-		-i /build/openapi.yml \
+		-i /pkg/openapi.yml \
 		-g go \
-		-o /build/cloudtruth \
+		-o /pkg/cloudtruth \
 		--additional-properties packageName=cloudtruth \
 		--additional-properties isGoSubmodule=true \
 		--additional-properties packageVersion=1.0.0 \
 		--additional-properties enumClassPrefix=true \
 		--type-mappings=object=interface{}
 
-build/openapi.yml: build
-	wget -O build/openapi.yml https://api.cloudtruth.io/api/schema/
+pkg/openapi.yml: pkg
+	curl -s https://api.cloudtruth.io/api/schema/ > pkg/openapi.yml 
 
-build:
-	mkdir -p build
+pkg:
+	mkdir -p pkg
 
 clean:
-	rm -rf pkg bin
+	rm -rf pkg dist
