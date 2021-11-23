@@ -10,11 +10,8 @@ spec:
         - name: argocd-repo-server
           volumeMounts:
             - name: custom-tools
-              subPath: cloudtruth
-              mountPath: /usr/local/bin/cloudtruth
-            - name: custom-tools
-              subPath: argoct.sh
-              mountPath: /usr/local/bin/argoct.sh
+              subPath: argocd-cloudtruth-plugin
+              mountPath: /usr/local/bin/argocd-cloudtruth-plugin
           envFrom:
             - secretRef:
                 name: argocd-cloudtruth-plugin
@@ -22,11 +19,11 @@ spec:
         - name: custom-tools
           emptyDir: {}
       initContainers:
-        - name: download-tools
-          image: alpine:3.8
+        - name: install-argocd-cloudtruth-plugin
+          image: cloudtruth/argocd-cloudtruth-plugin
           command: [sh, -c]
           args:
-            - wget -qO- https://github.com/cloudtruth/cloudtruth-cli/releases/latest/download/install.sh | sh && cp /usr/local/bin/cloudtruth /custom-tools/ && cp /local/argoct.sh /custom-tools/ && echo 2
+            - cp /argocd-cloudtruth-plugin /custom-tools/
           volumeMounts:
             - name: custom-tools
               mountPath: /custom-tools
