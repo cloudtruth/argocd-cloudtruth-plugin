@@ -18,8 +18,8 @@ $(cat argocd-cloudtruth-plugin-secret.yaml)
   CLOUDTRUTH_PROJECT: $(echo ${CLOUDTRUTH_PROJECT} | base64)
 EOF
 
-kubectl get -n argocd deployment/argocd-repo-server -o yaml > argocd-repo-server.original.$(date +%s).yaml
-kubectl patch -n argocd deployment/argocd-repo-server --patch "$(cat argocd-repo-server.patch.yaml)"
-
 kubectl get -n argocd configmap/argocd-cm -o yaml > argocd-cm..original.$(date +%s).yaml
 kubectl patch -n argocd configmap/argocd-cm --patch "$(cat argocd-cm.patch.yaml)"
+
+kubectl get -n argocd deployment/argocd-repo-server -o yaml > argocd-repo-server.original.$(date +%s).yaml
+kubectl patch -n argocd deployment/argocd-repo-server --patch "$(cat argocd-repo-server.patch.yaml)"
