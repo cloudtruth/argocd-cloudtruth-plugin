@@ -1,9 +1,9 @@
-dist/argocd-cloudtruth-plugin: pkg/cloudtruth
+dist/argocd-cloudtruth-plugin: pkg/cloudtruth/client.go *.go
 	go build -o dist/argocd-cloudtruth-plugin
 
-client: pkg/cloudtruth
+client: pkg/cloudtruth/client.go
 
-pkg/cloudtruth: pkg/openapi.yml
+pkg/cloudtruth/client.go: pkg/openapi.yml
 	docker run --rm \
 		-v "$(shell pwd)/pkg:/pkg" \
 		--user "$(shell id -u):$(shell id -g)" \

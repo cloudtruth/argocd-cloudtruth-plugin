@@ -12,16 +12,14 @@ import (
 )
 
 var config struct {
-	Verbose          []bool `short:"v" long:"verbose" description:"Show verbose debug information"`
-	Environment      string `short:"e" long:"environment" description:"The cloudtruth environment" env:"CLOUDTRUTH_ENVIRONMENT"`
-	Project          string `short:"p" long:"project" description:"The cloudtruth project" env:"CLOUDTRUTH_PROJECT" required:"true"`
-	Tag              string `short:"t" long:"tag" description:"The environment tag to restrict values to" env:"CLOUDTRUTH_TAG"`
-	ReferencePattern string `short:"r" long:"reference-pattern" description:"The reference pattern (go fmt) to substitute with parameters" default:"<%s>" env:"CLOUDTRUTH_REFERENCE_PATTERN"`
-	ApiKey           string `short:"a" long:"api-key" description:"The cloudtruth api key" env:"CLOUDTRUTH_API_KEY" required:"true"`
-	ApiUrl           string `short:"u" long:"api-url" description:"The cloudtruth api url" env:"CLOUDTRUTH_API_URL" hidden:"true" default:"https://api.cloudtruth.io"`
-	Positional       struct {
-		FilePatterns []string `positional-arg-name:"FILEGLOB" required:"true"`
-	} `positional-args:"true"`
+	Verbose          []bool   `short:"v" long:"verbose" description:"Show verbose debug information"`
+	Environment      string   `short:"e" long:"environment" description:"The cloudtruth environment" default:"default" env:"CLOUDTRUTH_ENVIRONMENT"`
+	Project          string   `short:"p" long:"project" description:"The cloudtruth project" env:"CLOUDTRUTH_PROJECT" required:"true"`
+	Tag              string   `short:"t" long:"tag" description:"The environment tag to restrict values to" env:"CLOUDTRUTH_TAG"`
+	ReferencePattern string   `short:"r" long:"reference-pattern" description:"The reference pattern (go fmt) to substitute with parameters" default:"<%s>" env:"CLOUDTRUTH_REFERENCE_PATTERN"`
+	FilePattern      []string `short:"f" long:"file-pattern" description:"The file pattern (glob) to perform substitutions on" default:"*.y*ml" env:"CLOUDTRUTH_FILE_PATTERN" env-delim:","`
+	ApiKey           string   `short:"a" long:"api-key" description:"The cloudtruth api key" env:"CLOUDTRUTH_API_KEY" required:"true"`
+	ApiUrl           string   `short:"u" long:"api-url" description:"The cloudtruth api url" env:"CLOUDTRUTH_API_URL" hidden:"true" default:"https://api.cloudtruth.io"`
 }
 
 //Processes given files to replace paramater references with values from cloudtruth
@@ -50,6 +48,7 @@ func main() {
 	log.Debug("ApiUrl: ", config.ApiUrl)
 	log.Debug("Environment: ", config.Environment)
 	log.Debug("Project: ", config.Project)
+	log.Trace("ALL Config: ", config)
 
 	ctapi := NewCTApi(config.ApiKey, config.ApiUrl)
 
@@ -58,7 +57,7 @@ func main() {
 
 	// TODO: scan files to figure out which ones have a pattern to be replaced rather than replacing against all files
 	first := true
-	for _, pattern := range config.Positional.FilePatterns {
+	for _, pattern := range config.FilePattern {
 		log.Info("Processing pattern: ", pattern)
 
 		matches, err := filepathx.Glob(pattern)
