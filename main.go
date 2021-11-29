@@ -11,8 +11,16 @@ import (
 	"github.com/yargevad/filepathx"
 )
 
+var (
+	version = "dev"
+	commit  = "none"
+	date    = "unknown"
+	builtBy = "unknown"
+)
+
 var config struct {
 	Verbose          []bool   `short:"v" long:"verbose" description:"Show verbose debug information"`
+	Version          bool     `long:"version" description:"Show version information"`
 	Environment      string   `short:"e" long:"environment" description:"The cloudtruth environment" default:"default" env:"CLOUDTRUTH_ENVIRONMENT"`
 	Project          string   `short:"p" long:"project" description:"The cloudtruth project" env:"CLOUDTRUTH_PROJECT" required:"true"`
 	Tag              string   `short:"t" long:"tag" description:"The environment tag to restrict values to" env:"CLOUDTRUTH_TAG"`
@@ -29,6 +37,12 @@ func main() {
 	p := flags.NewParser(&config, flags.Default)
 	p.LongDescription = "Processes given files to replace paramater references with values from cloudtruth."
 	_, err := p.Parse()
+
+	if config.Version {
+		fmt.Printf("argocd-cloudtruth-plugin %s, commit %s, built at %s by %s", version, commit, date, builtBy)
+		os.Exit(1)
+	}
+
 	if err != nil {
 		os.Exit(1)
 	}
@@ -50,7 +64,7 @@ func main() {
 	log.Debug("Project: ", config.Project)
 	log.Trace("ALL Config: ", config)
 
-	ctapi := NewCTApi(config.ApiKey, config.ApiUrl)
+	ctapi := NewCTApi(config.ApiKey, config.ApiUrl, fmt.Sprintf("argocd-cloudtruth-plugin/%s/%s/go", version, commit))
 
 	// TODO: allow user to specify project and/or environment in the replacement pattern, e.g. <ENV:PROJ:PARAM>
 	params := ctapi.parameters(config.Project, config.Environment, config.Tag)

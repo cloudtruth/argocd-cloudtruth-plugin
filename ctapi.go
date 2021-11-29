@@ -24,11 +24,12 @@ type Parameter struct {
 	secret bool
 }
 
-func NewCTApi(api_key string, api_url string) *CTApi {
+func NewCTApi(api_key string, api_url string, user_agent string) *CTApi {
 	log.Debug("Creating new CTApi")
 
 	ctapi := new(CTApi)
 	ctapi.configuration = cloudtruth.NewConfiguration()
+	ctapi.configuration.UserAgent = user_agent
 
 	u, err := url.Parse(api_url)
 	if err != nil {
