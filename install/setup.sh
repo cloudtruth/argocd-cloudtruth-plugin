@@ -4,7 +4,7 @@
 set -e
 remote=0
 
-if [[ "$0" == "sh" ]]; then
+if test "$0" = "sh"; then
   remote=1
   baseurl=${baseurl:-https://raw.githubusercontent.com/cloudtruth/argocd-cloudtruth-plugin/main/install}
   baseurl_params=${baseurl_params:-}
@@ -13,8 +13,8 @@ else
   basedir=$(cd $(dirname $0) && pwd)
 fi
 
-function echoFile {
-  if [[ "$remote" == "1" ]]; then
+echoFile() {
+  if test "$remote" = "1"; then
     curl -s ${baseurl}/${1}${baseurl_params}
   else
     cat ${basedir}/${1}
@@ -30,15 +30,15 @@ echo
 
 printf "Input Cloudtruth Api Key (required): "
 read CLOUDTRUTH_API_KEY < /dev/tty
-if [[ -z ${CLOUDTRUTH_API_KEY} ]]; then echo "Api Key is required"; exit 1; fi
+if test -z ${CLOUDTRUTH_API_KEY}; then echo "Api Key is required"; exit 1; fi
 
 printf "Input Cloudtruth Environment [default]: "
 read CLOUDTRUTH_ENVIRONMENT < /dev/tty
-if [[ -z ${CLOUDTRUTH_ENVIRONMENT} ]]; then echo "Using 'default' for environment"; CLOUDTRUTH_ENVIRONMENT=default; fi
+if test -z ${CLOUDTRUTH_ENVIRONMENT}; then echo "Using 'default' for environment"; CLOUDTRUTH_ENVIRONMENT=default; fi
 
 printf "Input Cloudtruth Project [MyFirstProject]: "
 read CLOUDTRUTH_PROJECT < /dev/tty
-if [[ -z ${CLOUDTRUTH_PROJECT} ]]; then echo "Using 'MyFirstProject' for project"; CLOUDTRUTH_PROJECT=MyFirstProject; fi
+if test -z ${CLOUDTRUTH_PROJECT}; then echo "Using 'MyFirstProject' for project"; CLOUDTRUTH_PROJECT=MyFirstProject; fi
 
 printf "Input Cloudtruth Tag []: "
 read CLOUDTRUTH_TAG < /dev/tty
@@ -51,7 +51,7 @@ $(echoFile argocd-cloudtruth-plugin-secret.yaml)
 EOF
 )
 
-if [[ -n ${CLOUDTRUTH_TAG} ]]; then
+if test -n ${CLOUDTRUTH_TAG}; then
 secret_yaml=$(cat <<EOF
 ${secret_yaml}
   CLOUDTRUTH_TAG: $(printf "${CLOUDTRUTH_TAG}" | base64)
