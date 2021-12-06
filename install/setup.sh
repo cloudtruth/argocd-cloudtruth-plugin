@@ -2,7 +2,7 @@
 
 # fail fast
 set -e
-typeset -i remote=0
+remote=0
 
 if [[ "$0" == "sh" ]]; then
   remote=1
@@ -14,13 +14,12 @@ else
 fi
 
 function echoFile {
-  if ((remote)); then
+  if [[ "$remote" == "1" ]]; then
     curl -s ${baseurl}/${1}${baseurl_params}
   else
     cat ${basedir}/${1}
   fi
 }
-export -f echoFile
 
 ARGO_NAMESPACE=${ARGO_NAMESPACE:-argocd}
 echo "Installing to namespace '${ARGO_NAMESPACE}', override with: ARGO_NAMESPACE=xyz setup.sh"
