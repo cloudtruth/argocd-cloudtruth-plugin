@@ -42,6 +42,13 @@ To edit an existing project, enable the plugin from the PARAMETERS tab:
 
 Once enabled, the plugin will act upon the yaml files produced by the Argo project, performing substitutions of text like `<PARAMETER_OR_SECRET_NAME>` with the lookup of the value of `PARAMETER_OR_SECRET_NAME` in CloudTruth for the given `CLOUDTRUTH_PROJECT`, `CLOUDTRUTH_ENVIRONMENT` and `CLOUDTRUTH_TAG`
 
+### Adding the plugin to existing projects
+
+The [Argo CD cli](https://argo-cd.readthedocs.io/en/stable/getting_started/#2-download-argo-cd-cli) will allow you to add plugins to your existing apps.
+```shell
+argocd app set YOUR_APP --config-management-plugin argocd-cloudtruth-plugin
+```
+
 ## Development
 
 After checking out the repo, run `make`.  To generate new client stubs (vs what is checked in), run `make clean` before running `make`
