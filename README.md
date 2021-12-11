@@ -51,7 +51,8 @@ argocd app set YOUR_APP --config-management-plugin argocd-cloudtruth-plugin
 ```
 
 ### Override plugin parameters
-You can set the plugin environment paramaters on [create](https://argo-cd.readthedocs.io/en/stable/user-guide/commands/argocd_app_create/) or [set](https://argo-cd.readthedocs.io/en/stable/user-guide/commands/argocd_app_set/) them after the app is deployed with the ```--plugin-env``` option.  This allows you to change config settings on sync.
+You can set the plugin environment parameters on [create](https://argo-cd.readthedocs.io/en/stable/user-guide/commands/argocd_app_create/) or [set](https://argo-cd.readthedocs.io/en/stable/user-guide/commands/argocd_app_set/) them after the app is deployed with the ```--plugin-env``` option.  This allows you to change app config settings on the next sync.
+
 **create**
 ```shell
 argocd app create YOUR_APP --repo https://github.com/YOUR_REPO --path cloudtruth-plugin --dest-server YOUR_K8S_SERVER --dest-namespace default --config-management-plugin argocd-cloudtruth-plugin --plugin-env CLOUDTRUTH_ENVIRONMENT=YOUR_CLOUDTRUTH_ENVIRONMENT
