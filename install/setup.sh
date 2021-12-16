@@ -67,4 +67,4 @@ kubectl patch -n ${ARGO_NAMESPACE} configmap/argocd-cm --patch "$(echoFile argoc
 kubectl get -n ${ARGO_NAMESPACE} deployment/argocd-repo-server -o yaml > ${basedir}/argocd-repo-server.original.$(date +%s).yaml
 kubectl patch -n ${ARGO_NAMESPACE} deployment/argocd-repo-server --patch "$(echoFile argocd-repo-server.patch.yaml)"
 
-kubectl rollout restart -n argocd deployment/argocd-repo-server
+kubectl rollout restart -n ${ARGO_NAMESPACE} deployment/argocd-repo-server
