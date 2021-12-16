@@ -34,11 +34,11 @@ Once the plugin has been installed, you can enable it when creating a new Argo p
 
 and override the variables needed for that project:
 
-![Enable for a new plugin](docs/plugin-config.png)
+![Set plugin parameter](docs/plugin-config.png)
 
-To edit an existing project, enable the plugin from the PARAMETERS tab:
+To edit an existing project, visit the plugin settings from the PARAMETERS tab:
 
-![Enable for a new plugin](docs/plugin-add.png)
+![Edit plugin on a project](docs/plugin-add.png)
 
 Once enabled, the plugin will act upon the yaml files produced by the Argo project, performing substitutions of text like `<PARAMETER_OR_SECRET_NAME>` with the lookup of the value of `PARAMETER_OR_SECRET_NAME` in CloudTruth for the given `CLOUDTRUTH_PROJECT`, `CLOUDTRUTH_ENVIRONMENT` and `CLOUDTRUTH_TAG`
 
@@ -55,12 +55,12 @@ You can set the plugin environment parameters on [create](https://argo-cd.readth
 
 **create**
 ```shell
-argocd app create YOUR_APP --repo https://github.com/YOUR_REPO --path cloudtruth-plugin --dest-server YOUR_K8S_SERVER --dest-namespace default --config-management-plugin argocd-cloudtruth-plugin --plugin-env CLOUDTRUTH_ENVIRONMENT=YOUR_CLOUDTRUTH_ENVIRONMENT
+argocd app create YOUR_APP --repo https://github.com/YOUR_REPO --path YOUR_PATH_IN_REPO --dest-server YOUR_K8S_SERVER --dest-namespace default --config-management-plugin argocd-cloudtruth-plugin --plugin-env CLOUDTRUTH_PROJECT=YOUR_CLOUDTRUTH_PROJECT
 ```
 
 **set**
 ```shell
-argocd app set YOUR_APP --plugin-env CLOUDTRUTH_ENVIRONMENT=YOUR_CLOUDTRUTH_ENVIRONMENT
+argocd app set YOUR_APP --plugin-env CLOUDTRUTH_PROJECT=YOUR_CLOUDTRUTH_PROJECT
 ```
 
 
