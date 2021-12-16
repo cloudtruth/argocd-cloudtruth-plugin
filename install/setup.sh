@@ -51,7 +51,7 @@ $(echoFile argocd-cloudtruth-plugin-secret.yaml)
 EOF
 )
 
-if test -n ${CLOUDTRUTH_TAG}; then
+if test -n "${CLOUDTRUTH_TAG}"; then
 secret_yaml=$(cat <<EOF
 ${secret_yaml}
   CLOUDTRUTH_TAG: $(printf "${CLOUDTRUTH_TAG}" | base64)
@@ -66,3 +66,5 @@ kubectl patch -n ${ARGO_NAMESPACE} configmap/argocd-cm --patch "$(echoFile argoc
 
 kubectl get -n ${ARGO_NAMESPACE} deployment/argocd-repo-server -o yaml > ${basedir}/argocd-repo-server.original.$(date +%s).yaml
 kubectl patch -n ${ARGO_NAMESPACE} deployment/argocd-repo-server --patch "$(echoFile argocd-repo-server.patch.yaml)"
+
+kubectl rollout restart -n argocd deployment/argocd-repo-server
