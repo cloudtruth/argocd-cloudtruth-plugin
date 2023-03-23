@@ -37,8 +37,8 @@ func main() {
     serviceAccountCreateRequest := *openapiclient.NewServiceAccountCreateRequest("Name_example") // ServiceAccountCreateRequest | 
 
     configuration := openapiclient.NewConfiguration()
-    api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.ServiceaccountsApi.ServiceaccountsCreate(context.Background()).ServiceAccountCreateRequest(serviceAccountCreateRequest).Execute()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.ServiceaccountsApi.ServiceaccountsCreate(context.Background()).ServiceAccountCreateRequest(serviceAccountCreateRequest).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `ServiceaccountsApi.ServiceaccountsCreate``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -67,7 +67,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth)
+[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth), [tokenAuth](../README.md#tokenAuth)
 
 ### HTTP request headers
 
@@ -101,8 +101,8 @@ func main() {
     id := "id_example" // string | A unique value identifying this service account.
 
     configuration := openapiclient.NewConfiguration()
-    api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.ServiceaccountsApi.ServiceaccountsDestroy(context.Background(), id).Execute()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.ServiceaccountsApi.ServiceaccountsDestroy(context.Background(), id).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `ServiceaccountsApi.ServiceaccountsDestroy``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -133,7 +133,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth)
+[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth), [tokenAuth](../README.md#tokenAuth)
 
 ### HTTP request headers
 
@@ -169,8 +169,8 @@ func main() {
     pageSize := int32(56) // int32 | Number of results to return per page. (optional)
 
     configuration := openapiclient.NewConfiguration()
-    api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.ServiceaccountsApi.ServiceaccountsList(context.Background()).Ordering(ordering).Page(page).PageSize(pageSize).Execute()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.ServiceaccountsApi.ServiceaccountsList(context.Background()).Ordering(ordering).Page(page).PageSize(pageSize).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `ServiceaccountsApi.ServiceaccountsList``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -201,7 +201,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth)
+[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth), [tokenAuth](../README.md#tokenAuth)
 
 ### HTTP request headers
 
@@ -236,8 +236,8 @@ func main() {
     patchedServiceAccount := *openapiclient.NewPatchedServiceAccount() // PatchedServiceAccount |  (optional)
 
     configuration := openapiclient.NewConfiguration()
-    api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.ServiceaccountsApi.ServiceaccountsPartialUpdate(context.Background(), id).PatchedServiceAccount(patchedServiceAccount).Execute()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.ServiceaccountsApi.ServiceaccountsPartialUpdate(context.Background(), id).PatchedServiceAccount(patchedServiceAccount).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `ServiceaccountsApi.ServiceaccountsPartialUpdate``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -271,7 +271,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth)
+[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth), [tokenAuth](../README.md#tokenAuth)
 
 ### HTTP request headers
 
@@ -305,8 +305,8 @@ func main() {
     id := "id_example" // string | A unique value identifying this service account.
 
     configuration := openapiclient.NewConfiguration()
-    api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.ServiceaccountsApi.ServiceaccountsRetrieve(context.Background(), id).Execute()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.ServiceaccountsApi.ServiceaccountsRetrieve(context.Background(), id).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `ServiceaccountsApi.ServiceaccountsRetrieve``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -339,7 +339,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth)
+[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth), [tokenAuth](../README.md#tokenAuth)
 
 ### HTTP request headers
 
@@ -353,7 +353,7 @@ Name | Type | Description  | Notes
 
 ## ServiceaccountsUpdate
 
-> ServiceAccount ServiceaccountsUpdate(ctx, id).ServiceAccount(serviceAccount).Execute()
+> ServiceAccountUpdateRequest ServiceaccountsUpdate(ctx, id).ServiceAccountUpdateRequest(serviceAccountUpdateRequest).Execute()
 
 
 
@@ -366,22 +366,21 @@ import (
     "context"
     "fmt"
     "os"
-    "time"
     openapiclient "./openapi"
 )
 
 func main() {
     id := "id_example" // string | A unique value identifying this service account.
-    serviceAccount := *openapiclient.NewServiceAccount("Url_example", "Id_example", *openapiclient.NewUser("Url_example", "Id_example", "Name_example", "Email_example", "PictureUrl_example", time.Now(), time.Now()), time.Now(), time.Now(), time.Now()) // ServiceAccount |  (optional)
+    serviceAccountUpdateRequest := *openapiclient.NewServiceAccountUpdateRequest("Role_example") // ServiceAccountUpdateRequest |  (optional)
 
     configuration := openapiclient.NewConfiguration()
-    api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.ServiceaccountsApi.ServiceaccountsUpdate(context.Background(), id).ServiceAccount(serviceAccount).Execute()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.ServiceaccountsApi.ServiceaccountsUpdate(context.Background(), id).ServiceAccountUpdateRequest(serviceAccountUpdateRequest).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `ServiceaccountsApi.ServiceaccountsUpdate``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
-    // response from `ServiceaccountsUpdate`: ServiceAccount
+    // response from `ServiceaccountsUpdate`: ServiceAccountUpdateRequest
     fmt.Fprintf(os.Stdout, "Response from `ServiceaccountsApi.ServiceaccountsUpdate`: %v\n", resp)
 }
 ```
@@ -402,15 +401,15 @@ Other parameters are passed through a pointer to a apiServiceaccountsUpdateReque
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
- **serviceAccount** | [**ServiceAccount**](ServiceAccount.md) |  | 
+ **serviceAccountUpdateRequest** | [**ServiceAccountUpdateRequest**](ServiceAccountUpdateRequest.md) |  | 
 
 ### Return type
 
-[**ServiceAccount**](ServiceAccount.md)
+[**ServiceAccountUpdateRequest**](ServiceAccountUpdateRequest.md)
 
 ### Authorization
 
-[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth)
+[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth), [tokenAuth](../README.md#tokenAuth)
 
 ### HTTP request headers
 

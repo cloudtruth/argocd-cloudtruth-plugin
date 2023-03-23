@@ -13,23 +13,19 @@ package cloudtruth
 
 import (
 	"bytes"
-	_context "context"
-	_ioutil "io/ioutil"
-	_nethttp "net/http"
-	_neturl "net/url"
+	"context"
+	"io/ioutil"
+	"net/http"
+	"net/url"
 	"strings"
 )
 
-// Linger please
-var (
-	_ _context.Context
-)
 
 // ServiceaccountsApiService ServiceaccountsApi service
 type ServiceaccountsApiService service
 
 type ApiServiceaccountsCreateRequest struct {
-	ctx _context.Context
+	ctx context.Context
 	ApiService *ServiceaccountsApiService
 	serviceAccountCreateRequest *ServiceAccountCreateRequest
 }
@@ -39,7 +35,7 @@ func (r ApiServiceaccountsCreateRequest) ServiceAccountCreateRequest(serviceAcco
 	return r
 }
 
-func (r ApiServiceaccountsCreateRequest) Execute() (ServiceAccountCreateResponse, *_nethttp.Response, error) {
+func (r ApiServiceaccountsCreateRequest) Execute() (*ServiceAccountCreateResponse, *http.Response, error) {
 	return r.ApiService.ServiceaccountsCreateExecute(r)
 }
 
@@ -57,10 +53,10 @@ ServiceaccountsCreate Create a ServiceAccount user.
             to generate a new API key.
             
 
- @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiServiceaccountsCreateRequest
 */
-func (a *ServiceaccountsApiService) ServiceaccountsCreate(ctx _context.Context) ApiServiceaccountsCreateRequest {
+func (a *ServiceaccountsApiService) ServiceaccountsCreate(ctx context.Context) ApiServiceaccountsCreateRequest {
 	return ApiServiceaccountsCreateRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -69,26 +65,24 @@ func (a *ServiceaccountsApiService) ServiceaccountsCreate(ctx _context.Context) 
 
 // Execute executes the request
 //  @return ServiceAccountCreateResponse
-func (a *ServiceaccountsApiService) ServiceaccountsCreateExecute(r ApiServiceaccountsCreateRequest) (ServiceAccountCreateResponse, *_nethttp.Response, error) {
+func (a *ServiceaccountsApiService) ServiceaccountsCreateExecute(r ApiServiceaccountsCreateRequest) (*ServiceAccountCreateResponse, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodPost
+		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
-		localVarFormFileName string
-		localVarFileName     string
-		localVarFileBytes    []byte
-		localVarReturnValue  ServiceAccountCreateResponse
+		formFiles            []formFile
+		localVarReturnValue  *ServiceAccountCreateResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ServiceaccountsApiService.ServiceaccountsCreate")
 	if err != nil {
-		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/api/v1/serviceaccounts/"
 
 	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := _neturl.Values{}
-	localVarFormParams := _neturl.Values{}
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
 	if r.serviceAccountCreateRequest == nil {
 		return localVarReturnValue, nil, reportError("serviceAccountCreateRequest is required and must be specified")
 	}
@@ -140,7 +134,7 @@ func (a *ServiceaccountsApiService) ServiceaccountsCreateExecute(r ApiServiceacc
 			}
 		}
 	}
-	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err
 	}
@@ -150,15 +144,15 @@ func (a *ServiceaccountsApiService) ServiceaccountsCreateExecute(r ApiServiceacc
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
-	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := GenericOpenAPIError{
+		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
@@ -167,7 +161,7 @@ func (a *ServiceaccountsApiService) ServiceaccountsCreateExecute(r ApiServiceacc
 
 	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
-		newErr := GenericOpenAPIError{
+		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: err.Error(),
 		}
@@ -178,24 +172,23 @@ func (a *ServiceaccountsApiService) ServiceaccountsCreateExecute(r ApiServiceacc
 }
 
 type ApiServiceaccountsDestroyRequest struct {
-	ctx _context.Context
+	ctx context.Context
 	ApiService *ServiceaccountsApiService
 	id string
 }
 
-
-func (r ApiServiceaccountsDestroyRequest) Execute() (*_nethttp.Response, error) {
+func (r ApiServiceaccountsDestroyRequest) Execute() (*http.Response, error) {
 	return r.ApiService.ServiceaccountsDestroyExecute(r)
 }
 
 /*
 ServiceaccountsDestroy Method for ServiceaccountsDestroy
 
- @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param id A unique value identifying this service account.
  @return ApiServiceaccountsDestroyRequest
 */
-func (a *ServiceaccountsApiService) ServiceaccountsDestroy(ctx _context.Context, id string) ApiServiceaccountsDestroyRequest {
+func (a *ServiceaccountsApiService) ServiceaccountsDestroy(ctx context.Context, id string) ApiServiceaccountsDestroyRequest {
 	return ApiServiceaccountsDestroyRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -204,26 +197,24 @@ func (a *ServiceaccountsApiService) ServiceaccountsDestroy(ctx _context.Context,
 }
 
 // Execute executes the request
-func (a *ServiceaccountsApiService) ServiceaccountsDestroyExecute(r ApiServiceaccountsDestroyRequest) (*_nethttp.Response, error) {
+func (a *ServiceaccountsApiService) ServiceaccountsDestroyExecute(r ApiServiceaccountsDestroyRequest) (*http.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodDelete
+		localVarHTTPMethod   = http.MethodDelete
 		localVarPostBody     interface{}
-		localVarFormFileName string
-		localVarFileName     string
-		localVarFileBytes    []byte
+		formFiles            []formFile
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ServiceaccountsApiService.ServiceaccountsDestroy")
 	if err != nil {
-		return nil, GenericOpenAPIError{error: err.Error()}
+		return nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/api/v1/serviceaccounts/{id}/"
-	localVarPath = strings.Replace(localVarPath, "{"+"id"+"}", _neturl.PathEscape(parameterToString(r.id, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"id"+"}", url.PathEscape(parameterToString(r.id, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := _neturl.Values{}
-	localVarFormParams := _neturl.Values{}
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
@@ -270,7 +261,7 @@ func (a *ServiceaccountsApiService) ServiceaccountsDestroyExecute(r ApiServiceac
 			}
 		}
 	}
-	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return nil, err
 	}
@@ -280,15 +271,15 @@ func (a *ServiceaccountsApiService) ServiceaccountsDestroyExecute(r ApiServiceac
 		return localVarHTTPResponse, err
 	}
 
-	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarHTTPResponse, err
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := GenericOpenAPIError{
+		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
@@ -299,7 +290,7 @@ func (a *ServiceaccountsApiService) ServiceaccountsDestroyExecute(r ApiServiceac
 }
 
 type ApiServiceaccountsListRequest struct {
-	ctx _context.Context
+	ctx context.Context
 	ApiService *ServiceaccountsApiService
 	ordering *string
 	page *int32
@@ -311,28 +302,30 @@ func (r ApiServiceaccountsListRequest) Ordering(ordering string) ApiServiceaccou
 	r.ordering = &ordering
 	return r
 }
+
 // A page number within the paginated result set.
 func (r ApiServiceaccountsListRequest) Page(page int32) ApiServiceaccountsListRequest {
 	r.page = &page
 	return r
 }
+
 // Number of results to return per page.
 func (r ApiServiceaccountsListRequest) PageSize(pageSize int32) ApiServiceaccountsListRequest {
 	r.pageSize = &pageSize
 	return r
 }
 
-func (r ApiServiceaccountsListRequest) Execute() (PaginatedServiceAccountList, *_nethttp.Response, error) {
+func (r ApiServiceaccountsListRequest) Execute() (*PaginatedServiceAccountList, *http.Response, error) {
 	return r.ApiService.ServiceaccountsListExecute(r)
 }
 
 /*
 ServiceaccountsList Method for ServiceaccountsList
 
- @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiServiceaccountsListRequest
 */
-func (a *ServiceaccountsApiService) ServiceaccountsList(ctx _context.Context) ApiServiceaccountsListRequest {
+func (a *ServiceaccountsApiService) ServiceaccountsList(ctx context.Context) ApiServiceaccountsListRequest {
 	return ApiServiceaccountsListRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -341,26 +334,24 @@ func (a *ServiceaccountsApiService) ServiceaccountsList(ctx _context.Context) Ap
 
 // Execute executes the request
 //  @return PaginatedServiceAccountList
-func (a *ServiceaccountsApiService) ServiceaccountsListExecute(r ApiServiceaccountsListRequest) (PaginatedServiceAccountList, *_nethttp.Response, error) {
+func (a *ServiceaccountsApiService) ServiceaccountsListExecute(r ApiServiceaccountsListRequest) (*PaginatedServiceAccountList, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodGet
+		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
-		localVarFormFileName string
-		localVarFileName     string
-		localVarFileBytes    []byte
-		localVarReturnValue  PaginatedServiceAccountList
+		formFiles            []formFile
+		localVarReturnValue  *PaginatedServiceAccountList
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ServiceaccountsApiService.ServiceaccountsList")
 	if err != nil {
-		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/api/v1/serviceaccounts/"
 
 	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := _neturl.Values{}
-	localVarFormParams := _neturl.Values{}
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
 
 	if r.ordering != nil {
 		localVarQueryParams.Add("ordering", parameterToString(*r.ordering, ""))
@@ -416,7 +407,7 @@ func (a *ServiceaccountsApiService) ServiceaccountsListExecute(r ApiServiceaccou
 			}
 		}
 	}
-	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err
 	}
@@ -426,15 +417,15 @@ func (a *ServiceaccountsApiService) ServiceaccountsListExecute(r ApiServiceaccou
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
-	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := GenericOpenAPIError{
+		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
@@ -443,7 +434,7 @@ func (a *ServiceaccountsApiService) ServiceaccountsListExecute(r ApiServiceaccou
 
 	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
-		newErr := GenericOpenAPIError{
+		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: err.Error(),
 		}
@@ -454,7 +445,7 @@ func (a *ServiceaccountsApiService) ServiceaccountsListExecute(r ApiServiceaccou
 }
 
 type ApiServiceaccountsPartialUpdateRequest struct {
-	ctx _context.Context
+	ctx context.Context
 	ApiService *ServiceaccountsApiService
 	id string
 	patchedServiceAccount *PatchedServiceAccount
@@ -465,18 +456,18 @@ func (r ApiServiceaccountsPartialUpdateRequest) PatchedServiceAccount(patchedSer
 	return r
 }
 
-func (r ApiServiceaccountsPartialUpdateRequest) Execute() (ServiceAccount, *_nethttp.Response, error) {
+func (r ApiServiceaccountsPartialUpdateRequest) Execute() (*ServiceAccount, *http.Response, error) {
 	return r.ApiService.ServiceaccountsPartialUpdateExecute(r)
 }
 
 /*
 ServiceaccountsPartialUpdate Method for ServiceaccountsPartialUpdate
 
- @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param id A unique value identifying this service account.
  @return ApiServiceaccountsPartialUpdateRequest
 */
-func (a *ServiceaccountsApiService) ServiceaccountsPartialUpdate(ctx _context.Context, id string) ApiServiceaccountsPartialUpdateRequest {
+func (a *ServiceaccountsApiService) ServiceaccountsPartialUpdate(ctx context.Context, id string) ApiServiceaccountsPartialUpdateRequest {
 	return ApiServiceaccountsPartialUpdateRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -486,27 +477,25 @@ func (a *ServiceaccountsApiService) ServiceaccountsPartialUpdate(ctx _context.Co
 
 // Execute executes the request
 //  @return ServiceAccount
-func (a *ServiceaccountsApiService) ServiceaccountsPartialUpdateExecute(r ApiServiceaccountsPartialUpdateRequest) (ServiceAccount, *_nethttp.Response, error) {
+func (a *ServiceaccountsApiService) ServiceaccountsPartialUpdateExecute(r ApiServiceaccountsPartialUpdateRequest) (*ServiceAccount, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodPatch
+		localVarHTTPMethod   = http.MethodPatch
 		localVarPostBody     interface{}
-		localVarFormFileName string
-		localVarFileName     string
-		localVarFileBytes    []byte
-		localVarReturnValue  ServiceAccount
+		formFiles            []formFile
+		localVarReturnValue  *ServiceAccount
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ServiceaccountsApiService.ServiceaccountsPartialUpdate")
 	if err != nil {
-		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/api/v1/serviceaccounts/{id}/"
-	localVarPath = strings.Replace(localVarPath, "{"+"id"+"}", _neturl.PathEscape(parameterToString(r.id, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"id"+"}", url.PathEscape(parameterToString(r.id, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := _neturl.Values{}
-	localVarFormParams := _neturl.Values{}
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{"application/json", "application/x-www-form-urlencoded", "multipart/form-data"}
@@ -555,7 +544,7 @@ func (a *ServiceaccountsApiService) ServiceaccountsPartialUpdateExecute(r ApiSer
 			}
 		}
 	}
-	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err
 	}
@@ -565,15 +554,15 @@ func (a *ServiceaccountsApiService) ServiceaccountsPartialUpdateExecute(r ApiSer
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
-	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := GenericOpenAPIError{
+		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
@@ -582,7 +571,7 @@ func (a *ServiceaccountsApiService) ServiceaccountsPartialUpdateExecute(r ApiSer
 
 	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
-		newErr := GenericOpenAPIError{
+		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: err.Error(),
 		}
@@ -593,24 +582,23 @@ func (a *ServiceaccountsApiService) ServiceaccountsPartialUpdateExecute(r ApiSer
 }
 
 type ApiServiceaccountsRetrieveRequest struct {
-	ctx _context.Context
+	ctx context.Context
 	ApiService *ServiceaccountsApiService
 	id string
 }
 
-
-func (r ApiServiceaccountsRetrieveRequest) Execute() (ServiceAccount, *_nethttp.Response, error) {
+func (r ApiServiceaccountsRetrieveRequest) Execute() (*ServiceAccount, *http.Response, error) {
 	return r.ApiService.ServiceaccountsRetrieveExecute(r)
 }
 
 /*
 ServiceaccountsRetrieve Method for ServiceaccountsRetrieve
 
- @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param id A unique value identifying this service account.
  @return ApiServiceaccountsRetrieveRequest
 */
-func (a *ServiceaccountsApiService) ServiceaccountsRetrieve(ctx _context.Context, id string) ApiServiceaccountsRetrieveRequest {
+func (a *ServiceaccountsApiService) ServiceaccountsRetrieve(ctx context.Context, id string) ApiServiceaccountsRetrieveRequest {
 	return ApiServiceaccountsRetrieveRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -620,27 +608,25 @@ func (a *ServiceaccountsApiService) ServiceaccountsRetrieve(ctx _context.Context
 
 // Execute executes the request
 //  @return ServiceAccount
-func (a *ServiceaccountsApiService) ServiceaccountsRetrieveExecute(r ApiServiceaccountsRetrieveRequest) (ServiceAccount, *_nethttp.Response, error) {
+func (a *ServiceaccountsApiService) ServiceaccountsRetrieveExecute(r ApiServiceaccountsRetrieveRequest) (*ServiceAccount, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodGet
+		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
-		localVarFormFileName string
-		localVarFileName     string
-		localVarFileBytes    []byte
-		localVarReturnValue  ServiceAccount
+		formFiles            []formFile
+		localVarReturnValue  *ServiceAccount
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ServiceaccountsApiService.ServiceaccountsRetrieve")
 	if err != nil {
-		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/api/v1/serviceaccounts/{id}/"
-	localVarPath = strings.Replace(localVarPath, "{"+"id"+"}", _neturl.PathEscape(parameterToString(r.id, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"id"+"}", url.PathEscape(parameterToString(r.id, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := _neturl.Values{}
-	localVarFormParams := _neturl.Values{}
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
@@ -687,7 +673,7 @@ func (a *ServiceaccountsApiService) ServiceaccountsRetrieveExecute(r ApiServicea
 			}
 		}
 	}
-	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err
 	}
@@ -697,15 +683,15 @@ func (a *ServiceaccountsApiService) ServiceaccountsRetrieveExecute(r ApiServicea
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
-	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := GenericOpenAPIError{
+		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
@@ -714,7 +700,7 @@ func (a *ServiceaccountsApiService) ServiceaccountsRetrieveExecute(r ApiServicea
 
 	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
-		newErr := GenericOpenAPIError{
+		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: err.Error(),
 		}
@@ -725,29 +711,29 @@ func (a *ServiceaccountsApiService) ServiceaccountsRetrieveExecute(r ApiServicea
 }
 
 type ApiServiceaccountsUpdateRequest struct {
-	ctx _context.Context
+	ctx context.Context
 	ApiService *ServiceaccountsApiService
 	id string
-	serviceAccount *ServiceAccount
+	serviceAccountUpdateRequest *ServiceAccountUpdateRequest
 }
 
-func (r ApiServiceaccountsUpdateRequest) ServiceAccount(serviceAccount ServiceAccount) ApiServiceaccountsUpdateRequest {
-	r.serviceAccount = &serviceAccount
+func (r ApiServiceaccountsUpdateRequest) ServiceAccountUpdateRequest(serviceAccountUpdateRequest ServiceAccountUpdateRequest) ApiServiceaccountsUpdateRequest {
+	r.serviceAccountUpdateRequest = &serviceAccountUpdateRequest
 	return r
 }
 
-func (r ApiServiceaccountsUpdateRequest) Execute() (ServiceAccount, *_nethttp.Response, error) {
+func (r ApiServiceaccountsUpdateRequest) Execute() (*ServiceAccountUpdateRequest, *http.Response, error) {
 	return r.ApiService.ServiceaccountsUpdateExecute(r)
 }
 
 /*
 ServiceaccountsUpdate Method for ServiceaccountsUpdate
 
- @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param id A unique value identifying this service account.
  @return ApiServiceaccountsUpdateRequest
 */
-func (a *ServiceaccountsApiService) ServiceaccountsUpdate(ctx _context.Context, id string) ApiServiceaccountsUpdateRequest {
+func (a *ServiceaccountsApiService) ServiceaccountsUpdate(ctx context.Context, id string) ApiServiceaccountsUpdateRequest {
 	return ApiServiceaccountsUpdateRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -756,28 +742,26 @@ func (a *ServiceaccountsApiService) ServiceaccountsUpdate(ctx _context.Context, 
 }
 
 // Execute executes the request
-//  @return ServiceAccount
-func (a *ServiceaccountsApiService) ServiceaccountsUpdateExecute(r ApiServiceaccountsUpdateRequest) (ServiceAccount, *_nethttp.Response, error) {
+//  @return ServiceAccountUpdateRequest
+func (a *ServiceaccountsApiService) ServiceaccountsUpdateExecute(r ApiServiceaccountsUpdateRequest) (*ServiceAccountUpdateRequest, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodPut
+		localVarHTTPMethod   = http.MethodPut
 		localVarPostBody     interface{}
-		localVarFormFileName string
-		localVarFileName     string
-		localVarFileBytes    []byte
-		localVarReturnValue  ServiceAccount
+		formFiles            []formFile
+		localVarReturnValue  *ServiceAccountUpdateRequest
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ServiceaccountsApiService.ServiceaccountsUpdate")
 	if err != nil {
-		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/api/v1/serviceaccounts/{id}/"
-	localVarPath = strings.Replace(localVarPath, "{"+"id"+"}", _neturl.PathEscape(parameterToString(r.id, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"id"+"}", url.PathEscape(parameterToString(r.id, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := _neturl.Values{}
-	localVarFormParams := _neturl.Values{}
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{"application/json", "application/x-www-form-urlencoded", "multipart/form-data"}
@@ -797,7 +781,7 @@ func (a *ServiceaccountsApiService) ServiceaccountsUpdateExecute(r ApiServiceacc
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
 	// body params
-	localVarPostBody = r.serviceAccount
+	localVarPostBody = r.serviceAccountUpdateRequest
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
@@ -826,7 +810,7 @@ func (a *ServiceaccountsApiService) ServiceaccountsUpdateExecute(r ApiServiceacc
 			}
 		}
 	}
-	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err
 	}
@@ -836,15 +820,15 @@ func (a *ServiceaccountsApiService) ServiceaccountsUpdateExecute(r ApiServiceacc
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
-	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := GenericOpenAPIError{
+		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
@@ -853,7 +837,7 @@ func (a *ServiceaccountsApiService) ServiceaccountsUpdateExecute(r ApiServiceacc
 
 	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
-		newErr := GenericOpenAPIError{
+		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: err.Error(),
 		}

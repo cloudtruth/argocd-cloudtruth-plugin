@@ -25,7 +25,7 @@ type ValueCreate struct {
 	ExternalFqn *string `json:"external_fqn,omitempty"`
 	// If the value is `external`, the content returned by the integration can be reduced by applying a JMESpath expression.  This is valid as long as the content is structured and of a supported format.  JMESpath expressions are supported on `json`, `yaml`, and `dotenv` content.
 	ExternalFilter *string `json:"external_filter,omitempty"`
-	// This is the content to use when resolving the Value for an internal non-secret, or when storing a secret.  When storing a secret, this content is stored in your organization's dedicated vault and this field is cleared.  This field is required if the value is being created or updated and is `internal`.  This field cannot be specified when creating or updating an `external` value.
+	// This is the content to use when resolving the Value for an internal non-secret, or when storing a secret.  This field cannot be specified when creating or updating an `external` value.
 	InternalValue NullableString `json:"internal_value,omitempty"`
 	// If `true`, apply template substitution rules to this value.  If `false`, this value is a literal value.  Note: secrets cannot be interpolated.
 	Interpolated *bool `json:"interpolated,omitempty"`
@@ -62,7 +62,7 @@ func (o *ValueCreate) GetEnvironment() string {
 // GetEnvironmentOk returns a tuple with the Environment field value
 // and a boolean to check if the value has been set.
 func (o *ValueCreate) GetEnvironmentOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Environment, true
@@ -182,7 +182,7 @@ func (o *ValueCreate) GetInternalValue() string {
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *ValueCreate) GetInternalValueOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return o.InternalValue.Get(), o.InternalValue.IsSet()

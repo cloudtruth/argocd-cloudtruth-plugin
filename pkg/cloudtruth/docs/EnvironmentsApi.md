@@ -42,8 +42,8 @@ func main() {
     environmentCreate := *openapiclient.NewEnvironmentCreate("Name_example") // EnvironmentCreate | 
 
     configuration := openapiclient.NewConfiguration()
-    api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.EnvironmentsApi.EnvironmentsCreate(context.Background()).EnvironmentCreate(environmentCreate).Execute()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.EnvironmentsApi.EnvironmentsCreate(context.Background()).EnvironmentCreate(environmentCreate).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `EnvironmentsApi.EnvironmentsCreate``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -72,7 +72,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth)
+[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth), [tokenAuth](../README.md#tokenAuth)
 
 ### HTTP request headers
 
@@ -103,11 +103,11 @@ import (
 )
 
 func main() {
-    id := TODO // string | 
+    id := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | 
 
     configuration := openapiclient.NewConfiguration()
-    api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.EnvironmentsApi.EnvironmentsDestroy(context.Background(), id).Execute()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.EnvironmentsApi.EnvironmentsDestroy(context.Background(), id).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `EnvironmentsApi.EnvironmentsDestroy``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -121,7 +121,7 @@ func main() {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**id** | [**string**](.md) |  | 
+**id** | **string** |  | 
 
 ### Other Parameters
 
@@ -138,7 +138,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth)
+[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth), [tokenAuth](../README.md#tokenAuth)
 
 ### HTTP request headers
 
@@ -152,7 +152,7 @@ Name | Type | Description  | Notes
 
 ## EnvironmentsList
 
-> PaginatedEnvironmentList EnvironmentsList(ctx).DescriptionIcontains(descriptionIcontains).Name(name).NameIcontains(nameIcontains).Ordering(ordering).Page(page).PageSize(pageSize).ParentName(parentName).ParentNameIcontains(parentNameIcontains).Execute()
+> PaginatedEnvironmentList EnvironmentsList(ctx).DescriptionIcontains(descriptionIcontains).Name(name).NameIcontains(nameIcontains).Ordering(ordering).Page(page).PageSize(pageSize).Execute()
 
 
 
@@ -175,12 +175,10 @@ func main() {
     ordering := "ordering_example" // string | Which field to use when ordering the results. (optional)
     page := int32(56) // int32 | A page number within the paginated result set. (optional)
     pageSize := int32(56) // int32 | Number of results to return per page. (optional)
-    parentName := "parentName_example" // string |  (optional)
-    parentNameIcontains := "parentNameIcontains_example" // string |  (optional)
 
     configuration := openapiclient.NewConfiguration()
-    api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.EnvironmentsApi.EnvironmentsList(context.Background()).DescriptionIcontains(descriptionIcontains).Name(name).NameIcontains(nameIcontains).Ordering(ordering).Page(page).PageSize(pageSize).ParentName(parentName).ParentNameIcontains(parentNameIcontains).Execute()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.EnvironmentsApi.EnvironmentsList(context.Background()).DescriptionIcontains(descriptionIcontains).Name(name).NameIcontains(nameIcontains).Ordering(ordering).Page(page).PageSize(pageSize).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `EnvironmentsApi.EnvironmentsList``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -207,8 +205,6 @@ Name | Type | Description  | Notes
  **ordering** | **string** | Which field to use when ordering the results. | 
  **page** | **int32** | A page number within the paginated result set. | 
  **pageSize** | **int32** | Number of results to return per page. | 
- **parentName** | **string** |  | 
- **parentNameIcontains** | **string** |  | 
 
 ### Return type
 
@@ -216,7 +212,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth)
+[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth), [tokenAuth](../README.md#tokenAuth)
 
 ### HTTP request headers
 
@@ -230,7 +226,7 @@ Name | Type | Description  | Notes
 
 ## EnvironmentsPartialUpdate
 
-> Environment EnvironmentsPartialUpdate(ctx, id).PatchedEnvironment(patchedEnvironment).Execute()
+> EnvironmentUpdate EnvironmentsPartialUpdate(ctx, id).PatchedEnvironmentUpdate(patchedEnvironmentUpdate).Execute()
 
 
 
@@ -247,17 +243,17 @@ import (
 )
 
 func main() {
-    id := TODO // string | 
-    patchedEnvironment := *openapiclient.NewPatchedEnvironment() // PatchedEnvironment |  (optional)
+    id := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | 
+    patchedEnvironmentUpdate := *openapiclient.NewPatchedEnvironmentUpdate() // PatchedEnvironmentUpdate |  (optional)
 
     configuration := openapiclient.NewConfiguration()
-    api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.EnvironmentsApi.EnvironmentsPartialUpdate(context.Background(), id).PatchedEnvironment(patchedEnvironment).Execute()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.EnvironmentsApi.EnvironmentsPartialUpdate(context.Background(), id).PatchedEnvironmentUpdate(patchedEnvironmentUpdate).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `EnvironmentsApi.EnvironmentsPartialUpdate``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
-    // response from `EnvironmentsPartialUpdate`: Environment
+    // response from `EnvironmentsPartialUpdate`: EnvironmentUpdate
     fmt.Fprintf(os.Stdout, "Response from `EnvironmentsApi.EnvironmentsPartialUpdate`: %v\n", resp)
 }
 ```
@@ -268,7 +264,7 @@ func main() {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**id** | [**string**](.md) |  | 
+**id** | **string** |  | 
 
 ### Other Parameters
 
@@ -278,15 +274,15 @@ Other parameters are passed through a pointer to a apiEnvironmentsPartialUpdateR
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
- **patchedEnvironment** | [**PatchedEnvironment**](PatchedEnvironment.md) |  | 
+ **patchedEnvironmentUpdate** | [**PatchedEnvironmentUpdate**](PatchedEnvironmentUpdate.md) |  | 
 
 ### Return type
 
-[**Environment**](Environment.md)
+[**EnvironmentUpdate**](EnvironmentUpdate.md)
 
 ### Authorization
 
-[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth)
+[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth), [tokenAuth](../README.md#tokenAuth)
 
 ### HTTP request headers
 
@@ -300,7 +296,7 @@ Name | Type | Description  | Notes
 
 ## EnvironmentsPushesList
 
-> PaginatedAwsPushTaskStepList EnvironmentsPushesList(ctx, environmentPk).Ordering(ordering).Page(page).PageSize(pageSize).Execute()
+> PaginatedTaskStepList EnvironmentsPushesList(ctx, environmentPk).Ordering(ordering).Page(page).PageSize(pageSize).Execute()
 
 List push operations.
 
@@ -319,19 +315,19 @@ import (
 )
 
 func main() {
-    environmentPk := TODO // string | 
+    environmentPk := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | 
     ordering := "ordering_example" // string | Which field to use when ordering the results. (optional)
     page := int32(56) // int32 | A page number within the paginated result set. (optional)
     pageSize := int32(56) // int32 | Number of results to return per page. (optional)
 
     configuration := openapiclient.NewConfiguration()
-    api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.EnvironmentsApi.EnvironmentsPushesList(context.Background(), environmentPk).Ordering(ordering).Page(page).PageSize(pageSize).Execute()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.EnvironmentsApi.EnvironmentsPushesList(context.Background(), environmentPk).Ordering(ordering).Page(page).PageSize(pageSize).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `EnvironmentsApi.EnvironmentsPushesList``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
-    // response from `EnvironmentsPushesList`: PaginatedAwsPushTaskStepList
+    // response from `EnvironmentsPushesList`: PaginatedTaskStepList
     fmt.Fprintf(os.Stdout, "Response from `EnvironmentsApi.EnvironmentsPushesList`: %v\n", resp)
 }
 ```
@@ -342,7 +338,7 @@ func main() {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**environmentPk** | [**string**](.md) |  | 
+**environmentPk** | **string** |  | 
 
 ### Other Parameters
 
@@ -358,11 +354,11 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**PaginatedAwsPushTaskStepList**](PaginatedAwsPushTaskStepList.md)
+[**PaginatedTaskStepList**](PaginatedTaskStepList.md)
 
 ### Authorization
 
-[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth)
+[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth), [tokenAuth](../README.md#tokenAuth)
 
 ### HTTP request headers
 
@@ -393,11 +389,11 @@ import (
 )
 
 func main() {
-    id := TODO // string | 
+    id := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | A UUID string identifying this environment ledger.
 
     configuration := openapiclient.NewConfiguration()
-    api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.EnvironmentsApi.EnvironmentsRetrieve(context.Background(), id).Execute()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.EnvironmentsApi.EnvironmentsRetrieve(context.Background(), id).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `EnvironmentsApi.EnvironmentsRetrieve``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -413,7 +409,7 @@ func main() {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**id** | [**string**](.md) |  | 
+**id** | **string** | A UUID string identifying this environment ledger. | 
 
 ### Other Parameters
 
@@ -430,7 +426,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth)
+[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth), [tokenAuth](../README.md#tokenAuth)
 
 ### HTTP request headers
 
@@ -463,12 +459,12 @@ import (
 )
 
 func main() {
-    environmentPk := TODO // string | 
+    environmentPk := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | 
     tagCreate := *openapiclient.NewTagCreate("Name_example") // TagCreate | 
 
     configuration := openapiclient.NewConfiguration()
-    api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.EnvironmentsApi.EnvironmentsTagsCreate(context.Background(), environmentPk).TagCreate(tagCreate).Execute()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.EnvironmentsApi.EnvironmentsTagsCreate(context.Background(), environmentPk).TagCreate(tagCreate).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `EnvironmentsApi.EnvironmentsTagsCreate``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -484,7 +480,7 @@ func main() {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**environmentPk** | [**string**](.md) |  | 
+**environmentPk** | **string** |  | 
 
 ### Other Parameters
 
@@ -502,7 +498,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth)
+[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth), [tokenAuth](../README.md#tokenAuth)
 
 ### HTTP request headers
 
@@ -535,12 +531,12 @@ import (
 )
 
 func main() {
-    environmentPk := TODO // string | 
-    id := TODO // string | 
+    environmentPk := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | 
+    id := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | 
 
     configuration := openapiclient.NewConfiguration()
-    api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.EnvironmentsApi.EnvironmentsTagsDestroy(context.Background(), environmentPk, id).Execute()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.EnvironmentsApi.EnvironmentsTagsDestroy(context.Background(), environmentPk, id).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `EnvironmentsApi.EnvironmentsTagsDestroy``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -554,8 +550,8 @@ func main() {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**environmentPk** | [**string**](.md) |  | 
-**id** | [**string**](.md) |  | 
+**environmentPk** | **string** |  | 
+**id** | **string** |  | 
 
 ### Other Parameters
 
@@ -573,7 +569,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth)
+[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth), [tokenAuth](../README.md#tokenAuth)
 
 ### HTTP request headers
 
@@ -607,7 +603,7 @@ import (
 )
 
 func main() {
-    environmentPk := TODO // string | 
+    environmentPk := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | 
     descriptionIcontains := "descriptionIcontains_example" // string |  (optional)
     name := "name_example" // string |  (optional)
     nameIcontains := "nameIcontains_example" // string |  (optional)
@@ -619,8 +615,8 @@ func main() {
     timestampLte := time.Now() // time.Time |  (optional)
 
     configuration := openapiclient.NewConfiguration()
-    api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.EnvironmentsApi.EnvironmentsTagsList(context.Background(), environmentPk).DescriptionIcontains(descriptionIcontains).Name(name).NameIcontains(nameIcontains).Ordering(ordering).Page(page).PageSize(pageSize).Timestamp(timestamp).TimestampGte(timestampGte).TimestampLte(timestampLte).Execute()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.EnvironmentsApi.EnvironmentsTagsList(context.Background(), environmentPk).DescriptionIcontains(descriptionIcontains).Name(name).NameIcontains(nameIcontains).Ordering(ordering).Page(page).PageSize(pageSize).Timestamp(timestamp).TimestampGte(timestampGte).TimestampLte(timestampLte).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `EnvironmentsApi.EnvironmentsTagsList``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -636,7 +632,7 @@ func main() {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**environmentPk** | [**string**](.md) |  | 
+**environmentPk** | **string** |  | 
 
 ### Other Parameters
 
@@ -662,7 +658,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth)
+[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth), [tokenAuth](../README.md#tokenAuth)
 
 ### HTTP request headers
 
@@ -695,13 +691,13 @@ import (
 )
 
 func main() {
-    environmentPk := TODO // string | 
-    id := TODO // string | 
+    environmentPk := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | 
+    id := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | 
     patchedTagUpdate := *openapiclient.NewPatchedTagUpdate() // PatchedTagUpdate |  (optional)
 
     configuration := openapiclient.NewConfiguration()
-    api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.EnvironmentsApi.EnvironmentsTagsPartialUpdate(context.Background(), environmentPk, id).PatchedTagUpdate(patchedTagUpdate).Execute()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.EnvironmentsApi.EnvironmentsTagsPartialUpdate(context.Background(), environmentPk, id).PatchedTagUpdate(patchedTagUpdate).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `EnvironmentsApi.EnvironmentsTagsPartialUpdate``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -717,8 +713,8 @@ func main() {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**environmentPk** | [**string**](.md) |  | 
-**id** | [**string**](.md) |  | 
+**environmentPk** | **string** |  | 
+**id** | **string** |  | 
 
 ### Other Parameters
 
@@ -737,7 +733,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth)
+[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth), [tokenAuth](../README.md#tokenAuth)
 
 ### HTTP request headers
 
@@ -770,12 +766,12 @@ import (
 )
 
 func main() {
-    environmentPk := TODO // string | 
-    id := TODO // string | 
+    environmentPk := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | 
+    id := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | 
 
     configuration := openapiclient.NewConfiguration()
-    api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.EnvironmentsApi.EnvironmentsTagsRetrieve(context.Background(), environmentPk, id).Execute()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.EnvironmentsApi.EnvironmentsTagsRetrieve(context.Background(), environmentPk, id).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `EnvironmentsApi.EnvironmentsTagsRetrieve``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -791,8 +787,8 @@ func main() {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**environmentPk** | [**string**](.md) |  | 
-**id** | [**string**](.md) |  | 
+**environmentPk** | **string** |  | 
+**id** | **string** |  | 
 
 ### Other Parameters
 
@@ -810,7 +806,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth)
+[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth), [tokenAuth](../README.md#tokenAuth)
 
 ### HTTP request headers
 
@@ -843,13 +839,13 @@ import (
 )
 
 func main() {
-    environmentPk := TODO // string | 
-    id := TODO // string | 
+    environmentPk := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | 
+    id := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | 
     tagUpdate := *openapiclient.NewTagUpdate("Id_example", "Name_example") // TagUpdate | 
 
     configuration := openapiclient.NewConfiguration()
-    api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.EnvironmentsApi.EnvironmentsTagsUpdate(context.Background(), environmentPk, id).TagUpdate(tagUpdate).Execute()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.EnvironmentsApi.EnvironmentsTagsUpdate(context.Background(), environmentPk, id).TagUpdate(tagUpdate).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `EnvironmentsApi.EnvironmentsTagsUpdate``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -865,8 +861,8 @@ func main() {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**environmentPk** | [**string**](.md) |  | 
-**id** | [**string**](.md) |  | 
+**environmentPk** | **string** |  | 
+**id** | **string** |  | 
 
 ### Other Parameters
 
@@ -885,7 +881,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth)
+[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth), [tokenAuth](../README.md#tokenAuth)
 
 ### HTTP request headers
 
@@ -899,7 +895,7 @@ Name | Type | Description  | Notes
 
 ## EnvironmentsUpdate
 
-> Environment EnvironmentsUpdate(ctx, id).Environment(environment).Execute()
+> EnvironmentUpdate EnvironmentsUpdate(ctx, id).EnvironmentUpdate(environmentUpdate).Execute()
 
 
 
@@ -917,17 +913,17 @@ import (
 )
 
 func main() {
-    id := TODO // string | 
-    environment := *openapiclient.NewEnvironment("Url_example", "Id_example", "Name_example", []string{"Children_example"}, time.Now(), time.Now()) // Environment | 
+    id := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | 
+    environmentUpdate := *openapiclient.NewEnvironmentUpdate("Id_example", "Name_example", []string{"Children_example"}, "TODO", time.Now(), time.Now()) // EnvironmentUpdate | 
 
     configuration := openapiclient.NewConfiguration()
-    api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.EnvironmentsApi.EnvironmentsUpdate(context.Background(), id).Environment(environment).Execute()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.EnvironmentsApi.EnvironmentsUpdate(context.Background(), id).EnvironmentUpdate(environmentUpdate).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `EnvironmentsApi.EnvironmentsUpdate``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
-    // response from `EnvironmentsUpdate`: Environment
+    // response from `EnvironmentsUpdate`: EnvironmentUpdate
     fmt.Fprintf(os.Stdout, "Response from `EnvironmentsApi.EnvironmentsUpdate`: %v\n", resp)
 }
 ```
@@ -938,7 +934,7 @@ func main() {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**id** | [**string**](.md) |  | 
+**id** | **string** |  | 
 
 ### Other Parameters
 
@@ -948,15 +944,15 @@ Other parameters are passed through a pointer to a apiEnvironmentsUpdateRequest 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
- **environment** | [**Environment**](Environment.md) |  | 
+ **environmentUpdate** | [**EnvironmentUpdate**](EnvironmentUpdate.md) |  | 
 
 ### Return type
 
-[**Environment**](Environment.md)
+[**EnvironmentUpdate**](EnvironmentUpdate.md)
 
 ### Authorization
 
-[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth)
+[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth), [tokenAuth](../README.md#tokenAuth)
 
 ### HTTP request headers
 

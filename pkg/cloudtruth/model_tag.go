@@ -27,7 +27,10 @@ type Tag struct {
 	Description *string `json:"description,omitempty"`
 	// The point in time this tag represents.
 	Timestamp time.Time `json:"timestamp"`
+	// Deprecated. Only shows pushes for aws integrations in /api/v1/.
 	Pushes []AwsPush `json:"pushes"`
+	// Push actions associated with the tag.
+	PushUrls []string `json:"push_urls"`
 	Usage TagReadUsage `json:"usage"`
 }
 
@@ -35,13 +38,14 @@ type Tag struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewTag(url string, id string, name string, timestamp time.Time, pushes []AwsPush, usage TagReadUsage) *Tag {
+func NewTag(url string, id string, name string, timestamp time.Time, pushes []AwsPush, pushUrls []string, usage TagReadUsage) *Tag {
 	this := Tag{}
 	this.Url = url
 	this.Id = id
 	this.Name = name
 	this.Timestamp = timestamp
 	this.Pushes = pushes
+	this.PushUrls = pushUrls
 	this.Usage = usage
 	return &this
 }
@@ -67,7 +71,7 @@ func (o *Tag) GetUrl() string {
 // GetUrlOk returns a tuple with the Url field value
 // and a boolean to check if the value has been set.
 func (o *Tag) GetUrlOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Url, true
@@ -91,7 +95,7 @@ func (o *Tag) GetId() string {
 // GetIdOk returns a tuple with the Id field value
 // and a boolean to check if the value has been set.
 func (o *Tag) GetIdOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Id, true
@@ -115,7 +119,7 @@ func (o *Tag) GetName() string {
 // GetNameOk returns a tuple with the Name field value
 // and a boolean to check if the value has been set.
 func (o *Tag) GetNameOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Name, true
@@ -171,7 +175,7 @@ func (o *Tag) GetTimestamp() time.Time {
 // GetTimestampOk returns a tuple with the Timestamp field value
 // and a boolean to check if the value has been set.
 func (o *Tag) GetTimestampOk() (*time.Time, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Timestamp, true
@@ -194,16 +198,40 @@ func (o *Tag) GetPushes() []AwsPush {
 
 // GetPushesOk returns a tuple with the Pushes field value
 // and a boolean to check if the value has been set.
-func (o *Tag) GetPushesOk() (*[]AwsPush, bool) {
-	if o == nil  {
+func (o *Tag) GetPushesOk() ([]AwsPush, bool) {
+	if o == nil {
 		return nil, false
 	}
-	return &o.Pushes, true
+	return o.Pushes, true
 }
 
 // SetPushes sets field value
 func (o *Tag) SetPushes(v []AwsPush) {
 	o.Pushes = v
+}
+
+// GetPushUrls returns the PushUrls field value
+func (o *Tag) GetPushUrls() []string {
+	if o == nil {
+		var ret []string
+		return ret
+	}
+
+	return o.PushUrls
+}
+
+// GetPushUrlsOk returns a tuple with the PushUrls field value
+// and a boolean to check if the value has been set.
+func (o *Tag) GetPushUrlsOk() ([]string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.PushUrls, true
+}
+
+// SetPushUrls sets field value
+func (o *Tag) SetPushUrls(v []string) {
+	o.PushUrls = v
 }
 
 // GetUsage returns the Usage field value
@@ -219,7 +247,7 @@ func (o *Tag) GetUsage() TagReadUsage {
 // GetUsageOk returns a tuple with the Usage field value
 // and a boolean to check if the value has been set.
 func (o *Tag) GetUsageOk() (*TagReadUsage, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Usage, true
@@ -249,6 +277,9 @@ func (o Tag) MarshalJSON() ([]byte, error) {
 	}
 	if true {
 		toSerialize["pushes"] = o.Pushes
+	}
+	if true {
+		toSerialize["push_urls"] = o.PushUrls
 	}
 	if true {
 		toSerialize["usage"] = o.Usage

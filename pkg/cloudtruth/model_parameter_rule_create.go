@@ -53,7 +53,7 @@ func (o *ParameterRuleCreate) GetType() ParameterRuleTypeEnum {
 // GetTypeOk returns a tuple with the Type field value
 // and a boolean to check if the value has been set.
 func (o *ParameterRuleCreate) GetTypeOk() (*ParameterRuleTypeEnum, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Type, true
@@ -77,7 +77,7 @@ func (o *ParameterRuleCreate) GetConstraint() string {
 // GetConstraintOk returns a tuple with the Constraint field value
 // and a boolean to check if the value has been set.
 func (o *ParameterRuleCreate) GetConstraintOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Constraint, true

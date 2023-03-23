@@ -9,14 +9,15 @@ Name | Type | Description | Notes
 **Name** | **string** | The tag name. Tag names may contain alphanumeric, hyphen, underscore, or period characters. Tag names are case sensitive. The name cannot be modified. | 
 **Description** | Pointer to **string** | A description of the tag.  You may find it helpful to document how this tag is used to assist others when they need to maintain software that uses this content. | [optional] 
 **Timestamp** | **time.Time** | The point in time this tag represents. | 
-**Pushes** | [**[]AwsPush**](AwsPush.md) |  | [readonly] 
+**Pushes** | [**[]AwsPush**](AwsPush.md) | Deprecated. Only shows pushes for aws integrations in /api/v1/. | [readonly] 
+**PushUrls** | **[]string** | Push actions associated with the tag. | [readonly] 
 **Usage** | [**TagReadUsage**](TagReadUsage.md) |  | [readonly] 
 
 ## Methods
 
 ### NewTag
 
-`func NewTag(url string, id string, name string, timestamp time.Time, pushes []AwsPush, usage TagReadUsage, ) *Tag`
+`func NewTag(url string, id string, name string, timestamp time.Time, pushes []AwsPush, pushUrls []string, usage TagReadUsage, ) *Tag`
 
 NewTag instantiates a new Tag object
 This constructor will assign default values to properties that have it defined,
@@ -154,6 +155,26 @@ and a boolean to check if the value has been set.
 `func (o *Tag) SetPushes(v []AwsPush)`
 
 SetPushes sets Pushes field to given value.
+
+
+### GetPushUrls
+
+`func (o *Tag) GetPushUrls() []string`
+
+GetPushUrls returns the PushUrls field if non-nil, zero value otherwise.
+
+### GetPushUrlsOk
+
+`func (o *Tag) GetPushUrlsOk() (*[]string, bool)`
+
+GetPushUrlsOk returns a tuple with the PushUrls field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetPushUrls
+
+`func (o *Tag) SetPushUrls(v []string)`
+
+SetPushUrls sets PushUrls field to given value.
 
 
 ### GetUsage

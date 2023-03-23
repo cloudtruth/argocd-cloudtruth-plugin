@@ -20,7 +20,7 @@ type PaginatedUserList struct {
 	Count *int32 `json:"count,omitempty"`
 	Next NullableString `json:"next,omitempty"`
 	Previous NullableString `json:"previous,omitempty"`
-	Results *[]User `json:"results,omitempty"`
+	Results []User `json:"results,omitempty"`
 }
 
 // NewPaginatedUserList instantiates a new PaginatedUserList object
@@ -85,7 +85,7 @@ func (o *PaginatedUserList) GetNext() string {
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *PaginatedUserList) GetNextOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return o.Next.Get(), o.Next.IsSet()
@@ -127,7 +127,7 @@ func (o *PaginatedUserList) GetPrevious() string {
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *PaginatedUserList) GetPreviousOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return o.Previous.Get(), o.Previous.IsSet()
@@ -162,12 +162,12 @@ func (o *PaginatedUserList) GetResults() []User {
 		var ret []User
 		return ret
 	}
-	return *o.Results
+	return o.Results
 }
 
 // GetResultsOk returns a tuple with the Results field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *PaginatedUserList) GetResultsOk() (*[]User, bool) {
+func (o *PaginatedUserList) GetResultsOk() ([]User, bool) {
 	if o == nil || o.Results == nil {
 		return nil, false
 	}
@@ -185,7 +185,7 @@ func (o *PaginatedUserList) HasResults() bool {
 
 // SetResults gets a reference to the given []User and assigns it to the Results field.
 func (o *PaginatedUserList) SetResults(v []User) {
-	o.Results = &v
+	o.Results = v
 }
 
 func (o PaginatedUserList) MarshalJSON() ([]byte, error) {

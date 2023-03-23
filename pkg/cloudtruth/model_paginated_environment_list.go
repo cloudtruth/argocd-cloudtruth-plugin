@@ -20,7 +20,7 @@ type PaginatedEnvironmentList struct {
 	Count *int32 `json:"count,omitempty"`
 	Next NullableString `json:"next,omitempty"`
 	Previous NullableString `json:"previous,omitempty"`
-	Results *[]Environment `json:"results,omitempty"`
+	Results []Environment `json:"results,omitempty"`
 }
 
 // NewPaginatedEnvironmentList instantiates a new PaginatedEnvironmentList object
@@ -85,7 +85,7 @@ func (o *PaginatedEnvironmentList) GetNext() string {
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *PaginatedEnvironmentList) GetNextOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return o.Next.Get(), o.Next.IsSet()
@@ -127,7 +127,7 @@ func (o *PaginatedEnvironmentList) GetPrevious() string {
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *PaginatedEnvironmentList) GetPreviousOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return o.Previous.Get(), o.Previous.IsSet()
@@ -162,12 +162,12 @@ func (o *PaginatedEnvironmentList) GetResults() []Environment {
 		var ret []Environment
 		return ret
 	}
-	return *o.Results
+	return o.Results
 }
 
 // GetResultsOk returns a tuple with the Results field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *PaginatedEnvironmentList) GetResultsOk() (*[]Environment, bool) {
+func (o *PaginatedEnvironmentList) GetResultsOk() ([]Environment, bool) {
 	if o == nil || o.Results == nil {
 		return nil, false
 	}
@@ -185,7 +185,7 @@ func (o *PaginatedEnvironmentList) HasResults() bool {
 
 // SetResults gets a reference to the given []Environment and assigns it to the Results field.
 func (o *PaginatedEnvironmentList) SetResults(v []Environment) {
-	o.Results = &v
+	o.Results = v
 }
 
 func (o PaginatedEnvironmentList) MarshalJSON() ([]byte, error) {

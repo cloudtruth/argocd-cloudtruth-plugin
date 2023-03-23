@@ -7,19 +7,25 @@ Name | Type | Description | Notes
 **Url** | **string** |  | [readonly] 
 **Id** | **string** | A unique identifier for the organization. | [readonly] 
 **Name** | **string** | The organization name. | 
+**ProjectNamePattern** | Pointer to **string** | A regular expression project names must match | [optional] 
+**Maintenance** | **bool** | If set, we are performing maintenance on this organization and have disabled making changes | [readonly] 
+**MfaEnabled** | Pointer to **bool** | Multi-factor authentication for the organization | [optional] 
+**Version** | [**VersionEnum**](VersionEnum.md) | The current version of this Organization | [readonly] 
 **Current** | **bool** | Indicates if this Organization is the one currently targeted by the Bearer token used by the client to authorize. | [readonly] 
+**Role** | [**RoleEnum**](RoleEnum.md) | Your role in the organization. | [readonly] 
 **SubscriptionExpiresAt** | **NullableTime** |  | [readonly] 
+**SubscriptionFeatures** | **[]string** |  | [readonly] 
 **SubscriptionId** | **NullableString** |  | [readonly] 
 **SubscriptionPlanId** | **NullableString** |  | [readonly] 
 **SubscriptionPlanName** | **NullableString** |  | [readonly] 
 **CreatedAt** | **time.Time** |  | [readonly] 
-**ModifiedAt** | **time.Time** |  | [readonly] 
+**ModifiedAt** | **NullableTime** |  | [readonly] 
 
 ## Methods
 
 ### NewOrganization
 
-`func NewOrganization(url string, id string, name string, current bool, subscriptionExpiresAt NullableTime, subscriptionId NullableString, subscriptionPlanId NullableString, subscriptionPlanName NullableString, createdAt time.Time, modifiedAt time.Time, ) *Organization`
+`func NewOrganization(url string, id string, name string, maintenance bool, version VersionEnum, current bool, role RoleEnum, subscriptionExpiresAt NullableTime, subscriptionFeatures []string, subscriptionId NullableString, subscriptionPlanId NullableString, subscriptionPlanName NullableString, createdAt time.Time, modifiedAt NullableTime, ) *Organization`
 
 NewOrganization instantiates a new Organization object
 This constructor will assign default values to properties that have it defined,
@@ -94,6 +100,96 @@ and a boolean to check if the value has been set.
 SetName sets Name field to given value.
 
 
+### GetProjectNamePattern
+
+`func (o *Organization) GetProjectNamePattern() string`
+
+GetProjectNamePattern returns the ProjectNamePattern field if non-nil, zero value otherwise.
+
+### GetProjectNamePatternOk
+
+`func (o *Organization) GetProjectNamePatternOk() (*string, bool)`
+
+GetProjectNamePatternOk returns a tuple with the ProjectNamePattern field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetProjectNamePattern
+
+`func (o *Organization) SetProjectNamePattern(v string)`
+
+SetProjectNamePattern sets ProjectNamePattern field to given value.
+
+### HasProjectNamePattern
+
+`func (o *Organization) HasProjectNamePattern() bool`
+
+HasProjectNamePattern returns a boolean if a field has been set.
+
+### GetMaintenance
+
+`func (o *Organization) GetMaintenance() bool`
+
+GetMaintenance returns the Maintenance field if non-nil, zero value otherwise.
+
+### GetMaintenanceOk
+
+`func (o *Organization) GetMaintenanceOk() (*bool, bool)`
+
+GetMaintenanceOk returns a tuple with the Maintenance field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetMaintenance
+
+`func (o *Organization) SetMaintenance(v bool)`
+
+SetMaintenance sets Maintenance field to given value.
+
+
+### GetMfaEnabled
+
+`func (o *Organization) GetMfaEnabled() bool`
+
+GetMfaEnabled returns the MfaEnabled field if non-nil, zero value otherwise.
+
+### GetMfaEnabledOk
+
+`func (o *Organization) GetMfaEnabledOk() (*bool, bool)`
+
+GetMfaEnabledOk returns a tuple with the MfaEnabled field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetMfaEnabled
+
+`func (o *Organization) SetMfaEnabled(v bool)`
+
+SetMfaEnabled sets MfaEnabled field to given value.
+
+### HasMfaEnabled
+
+`func (o *Organization) HasMfaEnabled() bool`
+
+HasMfaEnabled returns a boolean if a field has been set.
+
+### GetVersion
+
+`func (o *Organization) GetVersion() VersionEnum`
+
+GetVersion returns the Version field if non-nil, zero value otherwise.
+
+### GetVersionOk
+
+`func (o *Organization) GetVersionOk() (*VersionEnum, bool)`
+
+GetVersionOk returns a tuple with the Version field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetVersion
+
+`func (o *Organization) SetVersion(v VersionEnum)`
+
+SetVersion sets Version field to given value.
+
+
 ### GetCurrent
 
 `func (o *Organization) GetCurrent() bool`
@@ -112,6 +208,26 @@ and a boolean to check if the value has been set.
 `func (o *Organization) SetCurrent(v bool)`
 
 SetCurrent sets Current field to given value.
+
+
+### GetRole
+
+`func (o *Organization) GetRole() RoleEnum`
+
+GetRole returns the Role field if non-nil, zero value otherwise.
+
+### GetRoleOk
+
+`func (o *Organization) GetRoleOk() (*RoleEnum, bool)`
+
+GetRoleOk returns a tuple with the Role field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetRole
+
+`func (o *Organization) SetRole(v RoleEnum)`
+
+SetRole sets Role field to given value.
 
 
 ### GetSubscriptionExpiresAt
@@ -144,6 +260,26 @@ SetSubscriptionExpiresAt sets SubscriptionExpiresAt field to given value.
 `func (o *Organization) UnsetSubscriptionExpiresAt()`
 
 UnsetSubscriptionExpiresAt ensures that no value is present for SubscriptionExpiresAt, not even an explicit nil
+### GetSubscriptionFeatures
+
+`func (o *Organization) GetSubscriptionFeatures() []string`
+
+GetSubscriptionFeatures returns the SubscriptionFeatures field if non-nil, zero value otherwise.
+
+### GetSubscriptionFeaturesOk
+
+`func (o *Organization) GetSubscriptionFeaturesOk() (*[]string, bool)`
+
+GetSubscriptionFeaturesOk returns a tuple with the SubscriptionFeatures field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetSubscriptionFeatures
+
+`func (o *Organization) SetSubscriptionFeatures(v []string)`
+
+SetSubscriptionFeatures sets SubscriptionFeatures field to given value.
+
+
 ### GetSubscriptionId
 
 `func (o *Organization) GetSubscriptionId() string`
@@ -274,6 +410,16 @@ and a boolean to check if the value has been set.
 SetModifiedAt sets ModifiedAt field to given value.
 
 
+### SetModifiedAtNil
+
+`func (o *Organization) SetModifiedAtNil(b bool)`
+
+ SetModifiedAtNil sets the value for ModifiedAt to be an explicit nil
+
+### UnsetModifiedAt
+`func (o *Organization) UnsetModifiedAt()`
+
+UnsetModifiedAt ensures that no value is present for ModifiedAt, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

@@ -5,20 +5,20 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Url** | **string** |  | [readonly] 
-**Id** | **string** | The unique identifier for the push action task. | [readonly] 
+**Id** | **string** | The unique identifier for the task. | [readonly] 
 **Reason** | Pointer to **NullableString** | The reason why this task was triggered. | [optional] 
 **DryRun** | Pointer to **bool** | Indicates task steps were only simulated, not actually performed. | [optional] 
 **State** | Pointer to [**StateEnum**](StateEnum.md) | The current state of this task. | [optional] 
 **ErrorCode** | Pointer to **NullableString** | If an error occurs early during processing, before attempting to process values, this code may be helpful in determining the problem. | [optional] 
 **ErrorDetail** | Pointer to **NullableString** | If an error occurs early during processing, before attempting to process values, this detail may be helpful in determining the problem. | [optional] 
 **CreatedAt** | **time.Time** |  | [readonly] 
-**ModifiedAt** | **time.Time** |  | [readonly] 
+**ModifiedAt** | **NullableTime** |  | [readonly] 
 
 ## Methods
 
 ### NewAwsPullTask
 
-`func NewAwsPullTask(url string, id string, createdAt time.Time, modifiedAt time.Time, ) *AwsPullTask`
+`func NewAwsPullTask(url string, id string, createdAt time.Time, modifiedAt NullableTime, ) *AwsPullTask`
 
 NewAwsPullTask instantiates a new AwsPullTask object
 This constructor will assign default values to properties that have it defined,
@@ -268,6 +268,16 @@ and a boolean to check if the value has been set.
 SetModifiedAt sets ModifiedAt field to given value.
 
 
+### SetModifiedAtNil
+
+`func (o *AwsPullTask) SetModifiedAtNil(b bool)`
+
+ SetModifiedAtNil sets the value for ModifiedAt to be an explicit nil
+
+### UnsetModifiedAt
+`func (o *AwsPullTask) UnsetModifiedAt()`
+
+UnsetModifiedAt ensures that no value is present for ModifiedAt, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

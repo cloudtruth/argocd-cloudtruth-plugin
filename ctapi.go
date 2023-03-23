@@ -60,7 +60,7 @@ func (ctapi *CTApi) environment_ids() map[string]string {
 		}
 		// log.Printf("Response from `EnvironmentsApi.EnvironmentsList`: %v\n", resp)
 		ctapi.environment_ids_cache = make(map[string]string)
-		for _, p := range *resp.Results {
+		for _, p := range resp.Results {
 			ctapi.environment_ids_cache[p.Name] = p.Id
 		}
 	}
@@ -90,7 +90,7 @@ func (ctapi *CTApi) project_ids() map[string]string {
 		}
 		// log.Printf("Response from `ProjectsApi.ProjectsList`: %v\n", resp)
 		ctapi.project_ids_cache = make(map[string]string)
-		for _, p := range *resp.Results {
+		for _, p := range resp.Results {
 			ctapi.project_ids_cache[p.Name] = p.Id
 		}
 	}
@@ -129,8 +129,8 @@ func (ctapi *CTApi) parameters(project string, environment string, tag string) m
 	}
 	// log.Printf("Response from `ProjectsApi.ProjectsParametersList`: %v\n", resp)
 	result := make(map[string]Parameter)
-	for _, p := range *resp.Results {
-		var v cloudtruth.Value
+	for _, p := range resp.Results {
+		var v cloudtruth.ParameterValuesValue
 		for _, v = range p.Values {
 			break
 		}

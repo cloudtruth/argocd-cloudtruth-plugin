@@ -22,7 +22,7 @@ type AwsPushTaskStep struct {
 	// Unique identifier for a task step.
 	Id string `json:"id"`
 	// The operation performed, if any.  When the operation is an update, there may be additional details in the success_detail field to describe the change.  When the project is filled in but the environment and parameterare not, the operation is on the project.  When the environmentis filled in but the project and parameter are not, the operationis on the environment.  When the project and parameter are filledin but the environment is not, the operation is on the parameter.When all three are filled in, the operation is on the value ofthe parameter of the project in the specified environment.
-	Operation OperationEnum `json:"operation"`
+	Operation NullableOperationEnum `json:"operation,omitempty"`
 	// Indicates if the operation was successful.
 	Success bool `json:"success"`
 	// Additional details about the successful operation, if any.
@@ -51,23 +51,24 @@ type AwsPushTaskStep struct {
 	VenueId NullableString `json:"venue_id,omitempty"`
 	// The name of the item or resource as known by the integration.
 	VenueName NullableString `json:"venue_name,omitempty"`
+	// The summary of this step (what it was trying to do).
+	Summary NullableString `json:"summary,omitempty"`
 	// An error code, if not successful.
 	ErrorCode NullableString `json:"error_code,omitempty"`
 	// Details on the error that occurred during processing.
 	ErrorDetail NullableString `json:"error_detail,omitempty"`
 	CreatedAt time.Time `json:"created_at"`
-	ModifiedAt time.Time `json:"modified_at"`
+	ModifiedAt NullableTime `json:"modified_at"`
 }
 
 // NewAwsPushTaskStep instantiates a new AwsPushTaskStep object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewAwsPushTaskStep(url string, id string, operation OperationEnum, success bool, environment NullableString, project NullableString, parameter NullableString, createdAt time.Time, modifiedAt time.Time) *AwsPushTaskStep {
+func NewAwsPushTaskStep(url string, id string, success bool, environment NullableString, project NullableString, parameter NullableString, createdAt time.Time, modifiedAt NullableTime) *AwsPushTaskStep {
 	this := AwsPushTaskStep{}
 	this.Url = url
 	this.Id = id
-	this.Operation = operation
 	this.Success = success
 	this.Environment = environment
 	this.Project = project
@@ -98,7 +99,7 @@ func (o *AwsPushTaskStep) GetUrl() string {
 // GetUrlOk returns a tuple with the Url field value
 // and a boolean to check if the value has been set.
 func (o *AwsPushTaskStep) GetUrlOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Url, true
@@ -122,7 +123,7 @@ func (o *AwsPushTaskStep) GetId() string {
 // GetIdOk returns a tuple with the Id field value
 // and a boolean to check if the value has been set.
 func (o *AwsPushTaskStep) GetIdOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Id, true
@@ -133,28 +134,46 @@ func (o *AwsPushTaskStep) SetId(v string) {
 	o.Id = v
 }
 
-// GetOperation returns the Operation field value
+// GetOperation returns the Operation field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *AwsPushTaskStep) GetOperation() OperationEnum {
-	if o == nil {
+	if o == nil || o.Operation.Get() == nil {
 		var ret OperationEnum
 		return ret
 	}
-
-	return o.Operation
+	return *o.Operation.Get()
 }
 
-// GetOperationOk returns a tuple with the Operation field value
+// GetOperationOk returns a tuple with the Operation field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *AwsPushTaskStep) GetOperationOk() (*OperationEnum, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
-	return &o.Operation, true
+	return o.Operation.Get(), o.Operation.IsSet()
 }
 
-// SetOperation sets field value
+// HasOperation returns a boolean if a field has been set.
+func (o *AwsPushTaskStep) HasOperation() bool {
+	if o != nil && o.Operation.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetOperation gets a reference to the given NullableOperationEnum and assigns it to the Operation field.
 func (o *AwsPushTaskStep) SetOperation(v OperationEnum) {
-	o.Operation = v
+	o.Operation.Set(&v)
+}
+// SetOperationNil sets the value for Operation to be an explicit nil
+func (o *AwsPushTaskStep) SetOperationNil() {
+	o.Operation.Set(nil)
+}
+
+// UnsetOperation ensures that no value is present for Operation, not even an explicit nil
+func (o *AwsPushTaskStep) UnsetOperation() {
+	o.Operation.Unset()
 }
 
 // GetSuccess returns the Success field value
@@ -170,7 +189,7 @@ func (o *AwsPushTaskStep) GetSuccess() bool {
 // GetSuccessOk returns a tuple with the Success field value
 // and a boolean to check if the value has been set.
 func (o *AwsPushTaskStep) GetSuccessOk() (*bool, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Success, true
@@ -194,7 +213,7 @@ func (o *AwsPushTaskStep) GetSuccessDetail() string {
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *AwsPushTaskStep) GetSuccessDetailOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return o.SuccessDetail.Get(), o.SuccessDetail.IsSet()
@@ -236,7 +255,7 @@ func (o *AwsPushTaskStep) GetFqn() string {
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *AwsPushTaskStep) GetFqnOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return o.Fqn.Get(), o.Fqn.IsSet()
@@ -280,7 +299,7 @@ func (o *AwsPushTaskStep) GetEnvironment() string {
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *AwsPushTaskStep) GetEnvironmentOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return o.Environment.Get(), o.Environment.IsSet()
@@ -304,7 +323,7 @@ func (o *AwsPushTaskStep) GetEnvironmentId() string {
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *AwsPushTaskStep) GetEnvironmentIdOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return o.EnvironmentId.Get(), o.EnvironmentId.IsSet()
@@ -346,7 +365,7 @@ func (o *AwsPushTaskStep) GetEnvironmentName() string {
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *AwsPushTaskStep) GetEnvironmentNameOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return o.EnvironmentName.Get(), o.EnvironmentName.IsSet()
@@ -390,7 +409,7 @@ func (o *AwsPushTaskStep) GetProject() string {
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *AwsPushTaskStep) GetProjectOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return o.Project.Get(), o.Project.IsSet()
@@ -414,7 +433,7 @@ func (o *AwsPushTaskStep) GetProjectId() string {
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *AwsPushTaskStep) GetProjectIdOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return o.ProjectId.Get(), o.ProjectId.IsSet()
@@ -456,7 +475,7 @@ func (o *AwsPushTaskStep) GetProjectName() string {
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *AwsPushTaskStep) GetProjectNameOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return o.ProjectName.Get(), o.ProjectName.IsSet()
@@ -500,7 +519,7 @@ func (o *AwsPushTaskStep) GetParameter() string {
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *AwsPushTaskStep) GetParameterOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return o.Parameter.Get(), o.Parameter.IsSet()
@@ -524,7 +543,7 @@ func (o *AwsPushTaskStep) GetParameterId() string {
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *AwsPushTaskStep) GetParameterIdOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return o.ParameterId.Get(), o.ParameterId.IsSet()
@@ -566,7 +585,7 @@ func (o *AwsPushTaskStep) GetParameterName() string {
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *AwsPushTaskStep) GetParameterNameOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return o.ParameterName.Get(), o.ParameterName.IsSet()
@@ -608,7 +627,7 @@ func (o *AwsPushTaskStep) GetVenueId() string {
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *AwsPushTaskStep) GetVenueIdOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return o.VenueId.Get(), o.VenueId.IsSet()
@@ -650,7 +669,7 @@ func (o *AwsPushTaskStep) GetVenueName() string {
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *AwsPushTaskStep) GetVenueNameOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return o.VenueName.Get(), o.VenueName.IsSet()
@@ -679,6 +698,48 @@ func (o *AwsPushTaskStep) UnsetVenueName() {
 	o.VenueName.Unset()
 }
 
+// GetSummary returns the Summary field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *AwsPushTaskStep) GetSummary() string {
+	if o == nil || o.Summary.Get() == nil {
+		var ret string
+		return ret
+	}
+	return *o.Summary.Get()
+}
+
+// GetSummaryOk returns a tuple with the Summary field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *AwsPushTaskStep) GetSummaryOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.Summary.Get(), o.Summary.IsSet()
+}
+
+// HasSummary returns a boolean if a field has been set.
+func (o *AwsPushTaskStep) HasSummary() bool {
+	if o != nil && o.Summary.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetSummary gets a reference to the given NullableString and assigns it to the Summary field.
+func (o *AwsPushTaskStep) SetSummary(v string) {
+	o.Summary.Set(&v)
+}
+// SetSummaryNil sets the value for Summary to be an explicit nil
+func (o *AwsPushTaskStep) SetSummaryNil() {
+	o.Summary.Set(nil)
+}
+
+// UnsetSummary ensures that no value is present for Summary, not even an explicit nil
+func (o *AwsPushTaskStep) UnsetSummary() {
+	o.Summary.Unset()
+}
+
 // GetErrorCode returns the ErrorCode field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *AwsPushTaskStep) GetErrorCode() string {
 	if o == nil || o.ErrorCode.Get() == nil {
@@ -692,7 +753,7 @@ func (o *AwsPushTaskStep) GetErrorCode() string {
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *AwsPushTaskStep) GetErrorCodeOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return o.ErrorCode.Get(), o.ErrorCode.IsSet()
@@ -734,7 +795,7 @@ func (o *AwsPushTaskStep) GetErrorDetail() string {
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *AwsPushTaskStep) GetErrorDetailOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return o.ErrorDetail.Get(), o.ErrorDetail.IsSet()
@@ -776,7 +837,7 @@ func (o *AwsPushTaskStep) GetCreatedAt() time.Time {
 // GetCreatedAtOk returns a tuple with the CreatedAt field value
 // and a boolean to check if the value has been set.
 func (o *AwsPushTaskStep) GetCreatedAtOk() (*time.Time, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.CreatedAt, true
@@ -788,27 +849,29 @@ func (o *AwsPushTaskStep) SetCreatedAt(v time.Time) {
 }
 
 // GetModifiedAt returns the ModifiedAt field value
+// If the value is explicit nil, the zero value for time.Time will be returned
 func (o *AwsPushTaskStep) GetModifiedAt() time.Time {
-	if o == nil {
+	if o == nil || o.ModifiedAt.Get() == nil {
 		var ret time.Time
 		return ret
 	}
 
-	return o.ModifiedAt
+	return *o.ModifiedAt.Get()
 }
 
 // GetModifiedAtOk returns a tuple with the ModifiedAt field value
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *AwsPushTaskStep) GetModifiedAtOk() (*time.Time, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
-	return &o.ModifiedAt, true
+	return o.ModifiedAt.Get(), o.ModifiedAt.IsSet()
 }
 
 // SetModifiedAt sets field value
 func (o *AwsPushTaskStep) SetModifiedAt(v time.Time) {
-	o.ModifiedAt = v
+	o.ModifiedAt.Set(&v)
 }
 
 func (o AwsPushTaskStep) MarshalJSON() ([]byte, error) {
@@ -819,8 +882,8 @@ func (o AwsPushTaskStep) MarshalJSON() ([]byte, error) {
 	if true {
 		toSerialize["id"] = o.Id
 	}
-	if true {
-		toSerialize["operation"] = o.Operation
+	if o.Operation.IsSet() {
+		toSerialize["operation"] = o.Operation.Get()
 	}
 	if true {
 		toSerialize["success"] = o.Success
@@ -864,6 +927,9 @@ func (o AwsPushTaskStep) MarshalJSON() ([]byte, error) {
 	if o.VenueName.IsSet() {
 		toSerialize["venue_name"] = o.VenueName.Get()
 	}
+	if o.Summary.IsSet() {
+		toSerialize["summary"] = o.Summary.Get()
+	}
 	if o.ErrorCode.IsSet() {
 		toSerialize["error_code"] = o.ErrorCode.Get()
 	}
@@ -874,7 +940,7 @@ func (o AwsPushTaskStep) MarshalJSON() ([]byte, error) {
 		toSerialize["created_at"] = o.CreatedAt
 	}
 	if true {
-		toSerialize["modified_at"] = o.ModifiedAt
+		toSerialize["modified_at"] = o.ModifiedAt.Get()
 	}
 	return json.Marshal(toSerialize)
 }

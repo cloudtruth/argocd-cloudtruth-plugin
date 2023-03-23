@@ -21,9 +21,10 @@ type ParameterCreate struct {
 	Name string `json:"name"`
 	// A description of the parameter.  You may find it helpful to document how this parameter is used to assist others when they need to maintain software that uses this content.
 	Description *string `json:"description,omitempty"`
-	// Indicates if this content is secret or not.  When a parameter is considered to be a secret, any internal values are stored in a dedicated vault for your organization for maximum security.  External values are inspected on-demand to ensure they align with the parameter's secret setting and if they do not, those external values are not allowed to be used.
+	// Indicates if this content is secret or not.  External values are inspected on-demand to ensure they align with the parameter's secret setting and if they do not, those external values are not allowed to be used.
 	Secret *bool `json:"secret,omitempty"`
-	Type *ParameterTypeEnum `json:"type,omitempty"`
+	// The type of this Parameter.
+	Type *string `json:"type,omitempty"`
 }
 
 // NewParameterCreate instantiates a new ParameterCreate object
@@ -33,6 +34,8 @@ type ParameterCreate struct {
 func NewParameterCreate(name string) *ParameterCreate {
 	this := ParameterCreate{}
 	this.Name = name
+	var type_ string = "string"
+	this.Type = &type_
 	return &this
 }
 
@@ -41,6 +44,8 @@ func NewParameterCreate(name string) *ParameterCreate {
 // but it doesn't guarantee that properties required by API are set
 func NewParameterCreateWithDefaults() *ParameterCreate {
 	this := ParameterCreate{}
+	var type_ string = "string"
+	this.Type = &type_
 	return &this
 }
 
@@ -57,7 +62,7 @@ func (o *ParameterCreate) GetName() string {
 // GetNameOk returns a tuple with the Name field value
 // and a boolean to check if the value has been set.
 func (o *ParameterCreate) GetNameOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Name, true
@@ -133,9 +138,9 @@ func (o *ParameterCreate) SetSecret(v bool) {
 }
 
 // GetType returns the Type field value if set, zero value otherwise.
-func (o *ParameterCreate) GetType() ParameterTypeEnum {
+func (o *ParameterCreate) GetType() string {
 	if o == nil || o.Type == nil {
-		var ret ParameterTypeEnum
+		var ret string
 		return ret
 	}
 	return *o.Type
@@ -143,7 +148,7 @@ func (o *ParameterCreate) GetType() ParameterTypeEnum {
 
 // GetTypeOk returns a tuple with the Type field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ParameterCreate) GetTypeOk() (*ParameterTypeEnum, bool) {
+func (o *ParameterCreate) GetTypeOk() (*string, bool) {
 	if o == nil || o.Type == nil {
 		return nil, false
 	}
@@ -159,8 +164,8 @@ func (o *ParameterCreate) HasType() bool {
 	return false
 }
 
-// SetType gets a reference to the given ParameterTypeEnum and assigns it to the Type field.
-func (o *ParameterCreate) SetType(v ParameterTypeEnum) {
+// SetType gets a reference to the given string and assigns it to the Type field.
+func (o *ParameterCreate) SetType(v string) {
 	o.Type = &v
 }
 

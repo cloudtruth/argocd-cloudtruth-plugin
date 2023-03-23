@@ -4,31 +4,35 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Url** | **string** |  | [readonly] 
-**Id** | **string** | A unique identifier for the value. | [readonly] 
+**Url** | **string** | The value url. | [readonly] 
+**Id** | **string** |  | [readonly] 
+**LedgerId** | **string** |  | [readonly] 
 **Environment** | **string** | The environment this value is set in. | [readonly] 
+**EnvironmentId** | **string** | The environment id for this value. | [readonly] 
 **EnvironmentName** | **string** | The environment name for this value.  This is a convenience to avoid another query against the server to resolve the environment url into a name. | [readonly] 
-**EarliestTag** | **NullableString** | The earliest tag name this value appears in (within the value&#39;s environment). | [readonly] 
 **Parameter** | **string** | The parameter this value is for. | [readonly] 
-**External** | Pointer to **bool** | An external parameter leverages a CloudTruth integration to retrieve content on-demand from an external source.  When this is &#x60;false&#x60; the value is stored by CloudTruth and considered to be _internal_.  When this is &#x60;true&#x60;, the &#x60;external_fqn&#x60; field must be set. | [optional] 
-**ExternalFqn** | Pointer to **string** | The FQN, or Fully-Qualified Name, is the path through the integration to get to the desired content.  This must be present and reference a valid integration when the value is &#x60;external&#x60;. | [optional] 
-**ExternalFilter** | Pointer to **string** | If the value is &#x60;external&#x60;, the content returned by the integration can be reduced by applying a JMESpath expression.  This is valid as long as the content is structured and of a supported format.  JMESpath expressions are supported on &#x60;json&#x60;, &#x60;yaml&#x60;, and &#x60;dotenv&#x60; content. | [optional] 
-**ExternalError** | **NullableString** | If the value is external, and an error occurs retrieving it, the reason for the retrieval error will be placed into this field.  The query parameter &#x60;partial_success&#x60; can be used to control whether this condition causes an HTTP error response or not. | [readonly] 
-**InternalValue** | Pointer to **NullableString** | This is the content to use when resolving the Value for an internal non-secret, or when storing a secret.  When storing a secret, this content is stored in your organization&#39;s dedicated vault and this field is cleared.  This field is required if the value is being created or updated and is &#x60;internal&#x60;.  This field cannot be specified when creating or updating an &#x60;external&#x60; value. | [optional] 
-**Interpolated** | Pointer to **bool** | If &#x60;true&#x60;, apply template substitution rules to this value.  If &#x60;false&#x60;, this value is a literal value.  Note: secrets cannot be interpolated. | [optional] 
-**Value** | **NullableString** | This is the actual content of the Value for the given parameter in the given environment.  Depending on the settings in the Value, the following things occur to calculate the &#x60;value&#x60;:  For values that are not &#x60;external&#x60; and parameters that are not &#x60;secret&#x60;, the system will use the content in &#x60;internal_value&#x60; to satisfy the request.  For values that are not &#x60;external&#x60; and parameters that are &#x60;secret&#x60;, the system will retrieve the content from your organization&#39;s dedicated vault.  For values that are &#x60;external&#x60;, the system will retrieve the content from the integration on-demand.  You can control the error handling behavior of the server through the &#x60;partial_success&#x60; query parameter.  If the content from the integration is &#x60;secret&#x60; and the parameter is not, an error will occur.  If an &#x60;external_filter&#x60; is present then the content will have a JMESpath query applied, and that becomes the resulting value.  If you request secret masking, no secret content will be included in the result and instead a series of asterisks will be used instead for the value.  If you request wrapping, the secret content will be wrapped in an envelope that is bound to your JWT token.  For more information about secret wrapping, see the docs.  Clients applying this value to a shell environment should set &#x60;&lt;parameter_name&gt;&#x3D;&lt;value&gt;&#x60; even if &#x60;value&#x60; is the empty string.  If &#x60;value&#x60; is &#x60;null&#x60;, the client should unset that shell environment variable. | [readonly] 
+**ParameterId** | **string** | The parameter id for this value. | [readonly] 
+**External** | Pointer to **bool** |  | [optional] 
+**ExternalFqn** | Pointer to **string** |  | [optional] 
+**ExternalFilter** | Pointer to **NullableString** |  | [optional] 
+**ExternalError** | **NullableString** | This field is deprecated and unused. | [readonly] 
+**ExternalStatus** | [**NullableValueExternalStatus**](ValueExternalStatus.md) |  | 
+**InternalValue** | Pointer to **NullableString** |  | [optional] 
+**Interpolated** | Pointer to **bool** |  | [optional] 
+**Value** | **NullableString** | This is the actual content of the Value for the given parameter in the given environment.  If you request secret masking, no secret content will be included in the result and instead a series of asterisks will be used instead for the value.  Clients applying this value to a shell environment should set &#x60;&lt;parameter_name&gt;&#x3D;&lt;value&gt;&#x60; even if &#x60;value&#x60; is the empty string.  If &#x60;value&#x60; is &#x60;null&#x60;, the client should unset that shell environment variable. | [readonly] 
 **Evaluated** | **bool** | If true, the &#x60;value&#x60; field has undergone template evaluation. | [readonly] 
-**Secret** | **NullableBool** | Indicates the value content is a secret.  Normally this is &#x60;true&#x60; when the parameter is a secret, however it is possible for a parameter to be a secret with a external value that is not a secret.  It is not possible to convert a parameter from a secret to a non-secret if any of the values are external and a secret.  Clients can check this condition by leveraging this field. | [readonly] 
-**ReferencedParameters** | **[]string** | The parameters this value references, if interpolated. | [readonly] 
-**ReferencedTemplates** | **[]string** | The templates this value references, if interpolated. | [readonly] 
+**Secret** | **NullableBool** | Indicates the value content is a secret.  Normally this is &#x60;true&#x60; when the parameter is a secret. It is possible for a parameter to be a secret with a external value that is not a secret.  It is not possible to convert a parameter from a secret to a non-secret if any of the values are external and a secret.  Clients can check this condition by leveraging this field.  It is also possible for a parameter to not be a secret but for this value to be dynamic and reference a Parameter that is a secret.  In this case, we indicate the value is a secret. | [readonly] 
+**ReferencedProjects** | **[]string** | The projects this value references, if dynamic.  This field is not valid for history requests. | [readonly] 
+**ReferencedParameters** | **[]string** | The parameters this value references, if dynamic.  this field is not valid for history requests. | [readonly] 
+**ReferencedTemplates** | **[]string** | The templates this value references, if dynamic.  This field is not valid for history requests. | [readonly] 
 **CreatedAt** | **time.Time** |  | [readonly] 
-**ModifiedAt** | **time.Time** |  | [readonly] 
+**ModifiedAt** | **NullableTime** |  | [readonly] 
 
 ## Methods
 
 ### NewValue
 
-`func NewValue(url string, id string, environment string, environmentName string, earliestTag NullableString, parameter string, externalError NullableString, value NullableString, evaluated bool, secret NullableBool, referencedParameters []string, referencedTemplates []string, createdAt time.Time, modifiedAt time.Time, ) *Value`
+`func NewValue(url string, id string, ledgerId string, environment string, environmentId string, environmentName string, parameter string, parameterId string, externalError NullableString, externalStatus NullableValueExternalStatus, value NullableString, evaluated bool, secret NullableBool, referencedProjects []string, referencedParameters []string, referencedTemplates []string, createdAt time.Time, modifiedAt NullableTime, ) *Value`
 
 NewValue instantiates a new Value object
 This constructor will assign default values to properties that have it defined,
@@ -83,6 +87,26 @@ and a boolean to check if the value has been set.
 SetId sets Id field to given value.
 
 
+### GetLedgerId
+
+`func (o *Value) GetLedgerId() string`
+
+GetLedgerId returns the LedgerId field if non-nil, zero value otherwise.
+
+### GetLedgerIdOk
+
+`func (o *Value) GetLedgerIdOk() (*string, bool)`
+
+GetLedgerIdOk returns a tuple with the LedgerId field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetLedgerId
+
+`func (o *Value) SetLedgerId(v string)`
+
+SetLedgerId sets LedgerId field to given value.
+
+
 ### GetEnvironment
 
 `func (o *Value) GetEnvironment() string`
@@ -101,6 +125,26 @@ and a boolean to check if the value has been set.
 `func (o *Value) SetEnvironment(v string)`
 
 SetEnvironment sets Environment field to given value.
+
+
+### GetEnvironmentId
+
+`func (o *Value) GetEnvironmentId() string`
+
+GetEnvironmentId returns the EnvironmentId field if non-nil, zero value otherwise.
+
+### GetEnvironmentIdOk
+
+`func (o *Value) GetEnvironmentIdOk() (*string, bool)`
+
+GetEnvironmentIdOk returns a tuple with the EnvironmentId field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetEnvironmentId
+
+`func (o *Value) SetEnvironmentId(v string)`
+
+SetEnvironmentId sets EnvironmentId field to given value.
 
 
 ### GetEnvironmentName
@@ -123,36 +167,6 @@ and a boolean to check if the value has been set.
 SetEnvironmentName sets EnvironmentName field to given value.
 
 
-### GetEarliestTag
-
-`func (o *Value) GetEarliestTag() string`
-
-GetEarliestTag returns the EarliestTag field if non-nil, zero value otherwise.
-
-### GetEarliestTagOk
-
-`func (o *Value) GetEarliestTagOk() (*string, bool)`
-
-GetEarliestTagOk returns a tuple with the EarliestTag field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetEarliestTag
-
-`func (o *Value) SetEarliestTag(v string)`
-
-SetEarliestTag sets EarliestTag field to given value.
-
-
-### SetEarliestTagNil
-
-`func (o *Value) SetEarliestTagNil(b bool)`
-
- SetEarliestTagNil sets the value for EarliestTag to be an explicit nil
-
-### UnsetEarliestTag
-`func (o *Value) UnsetEarliestTag()`
-
-UnsetEarliestTag ensures that no value is present for EarliestTag, not even an explicit nil
 ### GetParameter
 
 `func (o *Value) GetParameter() string`
@@ -171,6 +185,26 @@ and a boolean to check if the value has been set.
 `func (o *Value) SetParameter(v string)`
 
 SetParameter sets Parameter field to given value.
+
+
+### GetParameterId
+
+`func (o *Value) GetParameterId() string`
+
+GetParameterId returns the ParameterId field if non-nil, zero value otherwise.
+
+### GetParameterIdOk
+
+`func (o *Value) GetParameterIdOk() (*string, bool)`
+
+GetParameterIdOk returns a tuple with the ParameterId field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetParameterId
+
+`func (o *Value) SetParameterId(v string)`
+
+SetParameterId sets ParameterId field to given value.
 
 
 ### GetExternal
@@ -248,6 +282,16 @@ SetExternalFilter sets ExternalFilter field to given value.
 
 HasExternalFilter returns a boolean if a field has been set.
 
+### SetExternalFilterNil
+
+`func (o *Value) SetExternalFilterNil(b bool)`
+
+ SetExternalFilterNil sets the value for ExternalFilter to be an explicit nil
+
+### UnsetExternalFilter
+`func (o *Value) UnsetExternalFilter()`
+
+UnsetExternalFilter ensures that no value is present for ExternalFilter, not even an explicit nil
 ### GetExternalError
 
 `func (o *Value) GetExternalError() string`
@@ -278,6 +322,36 @@ SetExternalError sets ExternalError field to given value.
 `func (o *Value) UnsetExternalError()`
 
 UnsetExternalError ensures that no value is present for ExternalError, not even an explicit nil
+### GetExternalStatus
+
+`func (o *Value) GetExternalStatus() ValueExternalStatus`
+
+GetExternalStatus returns the ExternalStatus field if non-nil, zero value otherwise.
+
+### GetExternalStatusOk
+
+`func (o *Value) GetExternalStatusOk() (*ValueExternalStatus, bool)`
+
+GetExternalStatusOk returns a tuple with the ExternalStatus field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetExternalStatus
+
+`func (o *Value) SetExternalStatus(v ValueExternalStatus)`
+
+SetExternalStatus sets ExternalStatus field to given value.
+
+
+### SetExternalStatusNil
+
+`func (o *Value) SetExternalStatusNil(b bool)`
+
+ SetExternalStatusNil sets the value for ExternalStatus to be an explicit nil
+
+### UnsetExternalStatus
+`func (o *Value) UnsetExternalStatus()`
+
+UnsetExternalStatus ensures that no value is present for ExternalStatus, not even an explicit nil
 ### GetInternalValue
 
 `func (o *Value) GetInternalValue() string`
@@ -418,6 +492,26 @@ SetSecret sets Secret field to given value.
 `func (o *Value) UnsetSecret()`
 
 UnsetSecret ensures that no value is present for Secret, not even an explicit nil
+### GetReferencedProjects
+
+`func (o *Value) GetReferencedProjects() []string`
+
+GetReferencedProjects returns the ReferencedProjects field if non-nil, zero value otherwise.
+
+### GetReferencedProjectsOk
+
+`func (o *Value) GetReferencedProjectsOk() (*[]string, bool)`
+
+GetReferencedProjectsOk returns a tuple with the ReferencedProjects field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetReferencedProjects
+
+`func (o *Value) SetReferencedProjects(v []string)`
+
+SetReferencedProjects sets ReferencedProjects field to given value.
+
+
 ### GetReferencedParameters
 
 `func (o *Value) GetReferencedParameters() []string`
@@ -498,6 +592,16 @@ and a boolean to check if the value has been set.
 SetModifiedAt sets ModifiedAt field to given value.
 
 
+### SetModifiedAtNil
+
+`func (o *Value) SetModifiedAtNil(b bool)`
+
+ SetModifiedAtNil sets the value for ModifiedAt to be an explicit nil
+
+### UnsetModifiedAt
+`func (o *Value) UnsetModifiedAt()`
+
+UnsetModifiedAt ensures that no value is present for ModifiedAt, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

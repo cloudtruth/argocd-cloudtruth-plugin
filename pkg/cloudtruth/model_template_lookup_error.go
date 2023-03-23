@@ -50,11 +50,11 @@ func (o *TemplateLookupError) GetDetail() []TemplateLookupErrorEntry {
 
 // GetDetailOk returns a tuple with the Detail field value
 // and a boolean to check if the value has been set.
-func (o *TemplateLookupError) GetDetailOk() (*[]TemplateLookupErrorEntry, bool) {
-	if o == nil  {
+func (o *TemplateLookupError) GetDetailOk() ([]TemplateLookupErrorEntry, bool) {
+	if o == nil {
 		return nil, false
 	}
-	return &o.Detail, true
+	return o.Detail, true
 }
 
 // SetDetail sets field value

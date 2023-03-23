@@ -4,20 +4,23 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Url** | **string** |  | [readonly] 
-**Id** | **string** | A unique identifier for the environment. | [readonly] 
+**Url** | **string** | The URL for the environment. | [readonly] 
+**Id** | **string** |  | [readonly] 
+**LedgerId** | **string** |  | [readonly] 
 **Name** | **string** | The environment name. | 
 **Description** | Pointer to **string** | A description of the environment.  You may find it helpful to document how this environment is used to assist others when they need to maintain software that uses this content. | [optional] 
 **Parent** | Pointer to **NullableString** | Environments can inherit from a single parent environment which provides values for parameters when specific environments do not have a value set.  Every organization has one default environment that cannot be removed. | [optional] 
 **Children** | **[]string** | This is the opposite of &#x60;parent&#x60;, see that field for more details. | [readonly] 
+**AccessControlled** | Pointer to **bool** | Indicates if access control is being enforced through grants. | [optional] 
+**Role** | [**NullableRoleEnum**](RoleEnum.md) | Your role in the environment, if the environment is access-controlled. | [readonly] 
 **CreatedAt** | **time.Time** |  | [readonly] 
-**ModifiedAt** | **time.Time** |  | [readonly] 
+**ModifiedAt** | **NullableTime** |  | [readonly] 
 
 ## Methods
 
 ### NewEnvironment
 
-`func NewEnvironment(url string, id string, name string, children []string, createdAt time.Time, modifiedAt time.Time, ) *Environment`
+`func NewEnvironment(url string, id string, ledgerId string, name string, children []string, role NullableRoleEnum, createdAt time.Time, modifiedAt NullableTime, ) *Environment`
 
 NewEnvironment instantiates a new Environment object
 This constructor will assign default values to properties that have it defined,
@@ -70,6 +73,26 @@ and a boolean to check if the value has been set.
 `func (o *Environment) SetId(v string)`
 
 SetId sets Id field to given value.
+
+
+### GetLedgerId
+
+`func (o *Environment) GetLedgerId() string`
+
+GetLedgerId returns the LedgerId field if non-nil, zero value otherwise.
+
+### GetLedgerIdOk
+
+`func (o *Environment) GetLedgerIdOk() (*string, bool)`
+
+GetLedgerIdOk returns a tuple with the LedgerId field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetLedgerId
+
+`func (o *Environment) SetLedgerId(v string)`
+
+SetLedgerId sets LedgerId field to given value.
 
 
 ### GetName
@@ -172,6 +195,61 @@ and a boolean to check if the value has been set.
 SetChildren sets Children field to given value.
 
 
+### GetAccessControlled
+
+`func (o *Environment) GetAccessControlled() bool`
+
+GetAccessControlled returns the AccessControlled field if non-nil, zero value otherwise.
+
+### GetAccessControlledOk
+
+`func (o *Environment) GetAccessControlledOk() (*bool, bool)`
+
+GetAccessControlledOk returns a tuple with the AccessControlled field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetAccessControlled
+
+`func (o *Environment) SetAccessControlled(v bool)`
+
+SetAccessControlled sets AccessControlled field to given value.
+
+### HasAccessControlled
+
+`func (o *Environment) HasAccessControlled() bool`
+
+HasAccessControlled returns a boolean if a field has been set.
+
+### GetRole
+
+`func (o *Environment) GetRole() RoleEnum`
+
+GetRole returns the Role field if non-nil, zero value otherwise.
+
+### GetRoleOk
+
+`func (o *Environment) GetRoleOk() (*RoleEnum, bool)`
+
+GetRoleOk returns a tuple with the Role field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetRole
+
+`func (o *Environment) SetRole(v RoleEnum)`
+
+SetRole sets Role field to given value.
+
+
+### SetRoleNil
+
+`func (o *Environment) SetRoleNil(b bool)`
+
+ SetRoleNil sets the value for Role to be an explicit nil
+
+### UnsetRole
+`func (o *Environment) UnsetRole()`
+
+UnsetRole ensures that no value is present for Role, not even an explicit nil
 ### GetCreatedAt
 
 `func (o *Environment) GetCreatedAt() time.Time`
@@ -212,6 +290,16 @@ and a boolean to check if the value has been set.
 SetModifiedAt sets ModifiedAt field to given value.
 
 
+### SetModifiedAtNil
+
+`func (o *Environment) SetModifiedAtNil(b bool)`
+
+ SetModifiedAtNil sets the value for ModifiedAt to be an explicit nil
+
+### UnsetModifiedAt
+`func (o *Environment) UnsetModifiedAt()`
+
+UnsetModifiedAt ensures that no value is present for ModifiedAt, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

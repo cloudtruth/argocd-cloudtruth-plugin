@@ -17,16 +17,20 @@ import (
 
 // TemplatePreview struct for TemplatePreview
 type TemplatePreview struct {
+	// The template body to instantiate on request, instantiated on response.
 	Body string `json:"body"`
+	// If True, the instantiated template contains secrets.
+	HasSecret bool `json:"has_secret"`
 }
 
 // NewTemplatePreview instantiates a new TemplatePreview object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewTemplatePreview(body string) *TemplatePreview {
+func NewTemplatePreview(body string, hasSecret bool) *TemplatePreview {
 	this := TemplatePreview{}
 	this.Body = body
+	this.HasSecret = hasSecret
 	return &this
 }
 
@@ -51,7 +55,7 @@ func (o *TemplatePreview) GetBody() string {
 // GetBodyOk returns a tuple with the Body field value
 // and a boolean to check if the value has been set.
 func (o *TemplatePreview) GetBodyOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Body, true
@@ -62,10 +66,37 @@ func (o *TemplatePreview) SetBody(v string) {
 	o.Body = v
 }
 
+// GetHasSecret returns the HasSecret field value
+func (o *TemplatePreview) GetHasSecret() bool {
+	if o == nil {
+		var ret bool
+		return ret
+	}
+
+	return o.HasSecret
+}
+
+// GetHasSecretOk returns a tuple with the HasSecret field value
+// and a boolean to check if the value has been set.
+func (o *TemplatePreview) GetHasSecretOk() (*bool, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.HasSecret, true
+}
+
+// SetHasSecret sets field value
+func (o *TemplatePreview) SetHasSecret(v bool) {
+	o.HasSecret = v
+}
+
 func (o TemplatePreview) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if true {
 		toSerialize["body"] = o.Body
+	}
+	if true {
+		toSerialize["has_secret"] = o.HasSecret
 	}
 	return json.Marshal(toSerialize)
 }

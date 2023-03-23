@@ -9,15 +9,15 @@ Name | Type | Description | Notes
 **User** | [**User**](User.md) |  | [readonly] 
 **Description** | Pointer to **string** | An optional description of the process or system using the service account. | [optional] 
 **CreatedAt** | **time.Time** |  | [readonly] 
-**ModifiedAt** | **time.Time** |  | [readonly] 
-**LastUsedAt** | **time.Time** | The most recent date and time the service account was used. | [readonly] 
+**ModifiedAt** | **NullableTime** |  | [readonly] 
+**LastUsedAt** | **NullableTime** | The most recent date and time the service account was used.  It will be null if the service account has not been used. | [readonly] 
 **Apikey** | **string** | The API Key to use as a Bearer token for the service account. | [readonly] 
 
 ## Methods
 
 ### NewServiceAccountCreateResponse
 
-`func NewServiceAccountCreateResponse(url string, id string, user User, createdAt time.Time, modifiedAt time.Time, lastUsedAt time.Time, apikey string, ) *ServiceAccountCreateResponse`
+`func NewServiceAccountCreateResponse(url string, id string, user User, createdAt time.Time, modifiedAt NullableTime, lastUsedAt NullableTime, apikey string, ) *ServiceAccountCreateResponse`
 
 NewServiceAccountCreateResponse instantiates a new ServiceAccountCreateResponse object
 This constructor will assign default values to properties that have it defined,
@@ -157,6 +157,16 @@ and a boolean to check if the value has been set.
 SetModifiedAt sets ModifiedAt field to given value.
 
 
+### SetModifiedAtNil
+
+`func (o *ServiceAccountCreateResponse) SetModifiedAtNil(b bool)`
+
+ SetModifiedAtNil sets the value for ModifiedAt to be an explicit nil
+
+### UnsetModifiedAt
+`func (o *ServiceAccountCreateResponse) UnsetModifiedAt()`
+
+UnsetModifiedAt ensures that no value is present for ModifiedAt, not even an explicit nil
 ### GetLastUsedAt
 
 `func (o *ServiceAccountCreateResponse) GetLastUsedAt() time.Time`
@@ -177,6 +187,16 @@ and a boolean to check if the value has been set.
 SetLastUsedAt sets LastUsedAt field to given value.
 
 
+### SetLastUsedAtNil
+
+`func (o *ServiceAccountCreateResponse) SetLastUsedAtNil(b bool)`
+
+ SetLastUsedAtNil sets the value for LastUsedAt to be an explicit nil
+
+### UnsetLastUsedAt
+`func (o *ServiceAccountCreateResponse) UnsetLastUsedAt()`
+
+UnsetLastUsedAt ensures that no value is present for LastUsedAt, not even an explicit nil
 ### GetApikey
 
 `func (o *ServiceAccountCreateResponse) GetApikey() string`

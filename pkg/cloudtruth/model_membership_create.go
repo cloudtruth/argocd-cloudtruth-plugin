@@ -55,7 +55,7 @@ func (o *MembershipCreate) GetUser() string {
 // GetUserOk returns a tuple with the User field value
 // and a boolean to check if the value has been set.
 func (o *MembershipCreate) GetUserOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.User, true
@@ -79,7 +79,7 @@ func (o *MembershipCreate) GetRole() RoleEnum {
 // GetRoleOk returns a tuple with the Role field value
 // and a boolean to check if the value has been set.
 func (o *MembershipCreate) GetRoleOk() (*RoleEnum, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Role, true

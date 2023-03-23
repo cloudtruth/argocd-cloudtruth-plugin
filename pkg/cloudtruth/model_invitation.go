@@ -33,14 +33,16 @@ type Invitation struct {
 	// Additional details about the state of the invitation.
 	StateDetail string `json:"state_detail"`
 	// The resulting membership, should the user accept.
-	Membership string `json:"membership"`
+	Membership NullableString `json:"membership"`
+	// The organization that the user will become a member of, should the user accept.
+	Organization string `json:"organization"`
 }
 
 // NewInvitation instantiates a new Invitation object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewInvitation(url string, id string, email string, role RoleEnum, inviter string, inviterName string, state string, stateDetail string, membership string) *Invitation {
+func NewInvitation(url string, id string, email string, role RoleEnum, inviter string, inviterName string, state string, stateDetail string, membership NullableString, organization string) *Invitation {
 	this := Invitation{}
 	this.Url = url
 	this.Id = id
@@ -51,6 +53,7 @@ func NewInvitation(url string, id string, email string, role RoleEnum, inviter s
 	this.State = state
 	this.StateDetail = stateDetail
 	this.Membership = membership
+	this.Organization = organization
 	return &this
 }
 
@@ -75,7 +78,7 @@ func (o *Invitation) GetUrl() string {
 // GetUrlOk returns a tuple with the Url field value
 // and a boolean to check if the value has been set.
 func (o *Invitation) GetUrlOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Url, true
@@ -99,7 +102,7 @@ func (o *Invitation) GetId() string {
 // GetIdOk returns a tuple with the Id field value
 // and a boolean to check if the value has been set.
 func (o *Invitation) GetIdOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Id, true
@@ -123,7 +126,7 @@ func (o *Invitation) GetEmail() string {
 // GetEmailOk returns a tuple with the Email field value
 // and a boolean to check if the value has been set.
 func (o *Invitation) GetEmailOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Email, true
@@ -147,7 +150,7 @@ func (o *Invitation) GetRole() RoleEnum {
 // GetRoleOk returns a tuple with the Role field value
 // and a boolean to check if the value has been set.
 func (o *Invitation) GetRoleOk() (*RoleEnum, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Role, true
@@ -171,7 +174,7 @@ func (o *Invitation) GetInviter() string {
 // GetInviterOk returns a tuple with the Inviter field value
 // and a boolean to check if the value has been set.
 func (o *Invitation) GetInviterOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Inviter, true
@@ -195,7 +198,7 @@ func (o *Invitation) GetInviterName() string {
 // GetInviterNameOk returns a tuple with the InviterName field value
 // and a boolean to check if the value has been set.
 func (o *Invitation) GetInviterNameOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.InviterName, true
@@ -219,7 +222,7 @@ func (o *Invitation) GetState() string {
 // GetStateOk returns a tuple with the State field value
 // and a boolean to check if the value has been set.
 func (o *Invitation) GetStateOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.State, true
@@ -243,7 +246,7 @@ func (o *Invitation) GetStateDetail() string {
 // GetStateDetailOk returns a tuple with the StateDetail field value
 // and a boolean to check if the value has been set.
 func (o *Invitation) GetStateDetailOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.StateDetail, true
@@ -255,27 +258,53 @@ func (o *Invitation) SetStateDetail(v string) {
 }
 
 // GetMembership returns the Membership field value
+// If the value is explicit nil, the zero value for string will be returned
 func (o *Invitation) GetMembership() string {
+	if o == nil || o.Membership.Get() == nil {
+		var ret string
+		return ret
+	}
+
+	return *o.Membership.Get()
+}
+
+// GetMembershipOk returns a tuple with the Membership field value
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *Invitation) GetMembershipOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.Membership.Get(), o.Membership.IsSet()
+}
+
+// SetMembership sets field value
+func (o *Invitation) SetMembership(v string) {
+	o.Membership.Set(&v)
+}
+
+// GetOrganization returns the Organization field value
+func (o *Invitation) GetOrganization() string {
 	if o == nil {
 		var ret string
 		return ret
 	}
 
-	return o.Membership
+	return o.Organization
 }
 
-// GetMembershipOk returns a tuple with the Membership field value
+// GetOrganizationOk returns a tuple with the Organization field value
 // and a boolean to check if the value has been set.
-func (o *Invitation) GetMembershipOk() (*string, bool) {
-	if o == nil  {
+func (o *Invitation) GetOrganizationOk() (*string, bool) {
+	if o == nil {
 		return nil, false
 	}
-	return &o.Membership, true
+	return &o.Organization, true
 }
 
-// SetMembership sets field value
-func (o *Invitation) SetMembership(v string) {
-	o.Membership = v
+// SetOrganization sets field value
+func (o *Invitation) SetOrganization(v string) {
+	o.Organization = v
 }
 
 func (o Invitation) MarshalJSON() ([]byte, error) {
@@ -305,7 +334,10 @@ func (o Invitation) MarshalJSON() ([]byte, error) {
 		toSerialize["state_detail"] = o.StateDetail
 	}
 	if true {
-		toSerialize["membership"] = o.Membership
+		toSerialize["membership"] = o.Membership.Get()
+	}
+	if true {
+		toSerialize["organization"] = o.Organization
 	}
 	return json.Marshal(toSerialize)
 }

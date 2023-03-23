@@ -61,7 +61,7 @@ func (o *TemplateLookupErrorEntry) GetParameterId() string {
 // GetParameterIdOk returns a tuple with the ParameterId field value
 // and a boolean to check if the value has been set.
 func (o *TemplateLookupErrorEntry) GetParameterIdOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.ParameterId, true
@@ -85,7 +85,7 @@ func (o *TemplateLookupErrorEntry) GetParameterName() string {
 // GetParameterNameOk returns a tuple with the ParameterName field value
 // and a boolean to check if the value has been set.
 func (o *TemplateLookupErrorEntry) GetParameterNameOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.ParameterName, true
@@ -109,7 +109,7 @@ func (o *TemplateLookupErrorEntry) GetErrorCode() string {
 // GetErrorCodeOk returns a tuple with the ErrorCode field value
 // and a boolean to check if the value has been set.
 func (o *TemplateLookupErrorEntry) GetErrorCodeOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.ErrorCode, true
@@ -133,7 +133,7 @@ func (o *TemplateLookupErrorEntry) GetErrorDetail() string {
 // GetErrorDetailOk returns a tuple with the ErrorDetail field value
 // and a boolean to check if the value has been set.
 func (o *TemplateLookupErrorEntry) GetErrorDetailOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.ErrorDetail, true

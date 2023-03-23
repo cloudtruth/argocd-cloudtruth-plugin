@@ -20,7 +20,7 @@ type PaginatedInvitationList struct {
 	Count *int32 `json:"count,omitempty"`
 	Next NullableString `json:"next,omitempty"`
 	Previous NullableString `json:"previous,omitempty"`
-	Results *[]Invitation `json:"results,omitempty"`
+	Results []Invitation `json:"results,omitempty"`
 }
 
 // NewPaginatedInvitationList instantiates a new PaginatedInvitationList object
@@ -85,7 +85,7 @@ func (o *PaginatedInvitationList) GetNext() string {
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *PaginatedInvitationList) GetNextOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return o.Next.Get(), o.Next.IsSet()
@@ -127,7 +127,7 @@ func (o *PaginatedInvitationList) GetPrevious() string {
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *PaginatedInvitationList) GetPreviousOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return o.Previous.Get(), o.Previous.IsSet()
@@ -162,12 +162,12 @@ func (o *PaginatedInvitationList) GetResults() []Invitation {
 		var ret []Invitation
 		return ret
 	}
-	return *o.Results
+	return o.Results
 }
 
 // GetResultsOk returns a tuple with the Results field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *PaginatedInvitationList) GetResultsOk() (*[]Invitation, bool) {
+func (o *PaginatedInvitationList) GetResultsOk() ([]Invitation, bool) {
 	if o == nil || o.Results == nil {
 		return nil, false
 	}
@@ -185,7 +185,7 @@ func (o *PaginatedInvitationList) HasResults() bool {
 
 // SetResults gets a reference to the given []Invitation and assigns it to the Results field.
 func (o *PaginatedInvitationList) SetResults(v []Invitation) {
-	o.Results = &v
+	o.Results = v
 }
 
 func (o PaginatedInvitationList) MarshalJSON() ([]byte, error) {

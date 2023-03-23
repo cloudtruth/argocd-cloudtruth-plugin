@@ -10,9 +10,9 @@ Name | Type | Description | Notes
 **Description** | Pointer to **string** | An optional description for the integration. | [optional] 
 **Status** | [**StatusEnum**](StatusEnum.md) | The status of the integration connection with the third-party provider as of the &#x60;status_last_checked_at&#x60; field.  The status is updated automatically by the server when the integration is modified. | [readonly] 
 **StatusDetail** | **string** | If an error occurs, more details will be available in this field. | [readonly] 
-**StatusLastCheckedAt** | **time.Time** | The last time the status was evaluated. | [readonly] 
+**StatusLastCheckedAt** | **NullableTime** | The last time the status was evaluated. | [readonly] 
 **CreatedAt** | **time.Time** |  | [readonly] 
-**ModifiedAt** | **time.Time** |  | [readonly] 
+**ModifiedAt** | **NullableTime** |  | [readonly] 
 **Fqn** | **string** |  | [readonly] 
 **Type** | **string** | The type of integration. | [readonly] 
 **Writable** | Pointer to **bool** | Allow actions to write to the integration. | [optional] 
@@ -23,7 +23,7 @@ Name | Type | Description | Notes
 
 ### NewGitHubIntegration
 
-`func NewGitHubIntegration(url string, id string, name string, status StatusEnum, statusDetail string, statusLastCheckedAt time.Time, createdAt time.Time, modifiedAt time.Time, fqn string, type_ string, ghInstallationId int32, ghOrganizationSlug string, ) *GitHubIntegration`
+`func NewGitHubIntegration(url string, id string, name string, status StatusEnum, statusDetail string, statusLastCheckedAt NullableTime, createdAt time.Time, modifiedAt NullableTime, fqn string, type_ string, ghInstallationId int32, ghOrganizationSlug string, ) *GitHubIntegration`
 
 NewGitHubIntegration instantiates a new GitHubIntegration object
 This constructor will assign default values to properties that have it defined,
@@ -183,6 +183,16 @@ and a boolean to check if the value has been set.
 SetStatusLastCheckedAt sets StatusLastCheckedAt field to given value.
 
 
+### SetStatusLastCheckedAtNil
+
+`func (o *GitHubIntegration) SetStatusLastCheckedAtNil(b bool)`
+
+ SetStatusLastCheckedAtNil sets the value for StatusLastCheckedAt to be an explicit nil
+
+### UnsetStatusLastCheckedAt
+`func (o *GitHubIntegration) UnsetStatusLastCheckedAt()`
+
+UnsetStatusLastCheckedAt ensures that no value is present for StatusLastCheckedAt, not even an explicit nil
 ### GetCreatedAt
 
 `func (o *GitHubIntegration) GetCreatedAt() time.Time`
@@ -223,6 +233,16 @@ and a boolean to check if the value has been set.
 SetModifiedAt sets ModifiedAt field to given value.
 
 
+### SetModifiedAtNil
+
+`func (o *GitHubIntegration) SetModifiedAtNil(b bool)`
+
+ SetModifiedAtNil sets the value for ModifiedAt to be an explicit nil
+
+### UnsetModifiedAt
+`func (o *GitHubIntegration) UnsetModifiedAt()`
+
+UnsetModifiedAt ensures that no value is present for ModifiedAt, not even an explicit nil
 ### GetFqn
 
 `func (o *GitHubIntegration) GetFqn() string`

@@ -31,15 +31,14 @@ type AuditTrail struct {
 	ObjectType ObjectTypeEnum `json:"object_type"`
 	// The timestamp of the activity that was audited.
 	Timestamp time.Time `json:"timestamp"`
-	// Details of the user associated with this change.
-	User User `json:"user"`
+	User AuditTrailUser `json:"user"`
 }
 
 // NewAuditTrail instantiates a new AuditTrail object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewAuditTrail(url string, id string, action string, objectId string, objectName string, objectType ObjectTypeEnum, timestamp time.Time, user User) *AuditTrail {
+func NewAuditTrail(url string, id string, action string, objectId string, objectName string, objectType ObjectTypeEnum, timestamp time.Time, user AuditTrailUser) *AuditTrail {
 	this := AuditTrail{}
 	this.Url = url
 	this.Id = id
@@ -73,7 +72,7 @@ func (o *AuditTrail) GetUrl() string {
 // GetUrlOk returns a tuple with the Url field value
 // and a boolean to check if the value has been set.
 func (o *AuditTrail) GetUrlOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Url, true
@@ -97,7 +96,7 @@ func (o *AuditTrail) GetId() string {
 // GetIdOk returns a tuple with the Id field value
 // and a boolean to check if the value has been set.
 func (o *AuditTrail) GetIdOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Id, true
@@ -121,7 +120,7 @@ func (o *AuditTrail) GetAction() string {
 // GetActionOk returns a tuple with the Action field value
 // and a boolean to check if the value has been set.
 func (o *AuditTrail) GetActionOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Action, true
@@ -145,7 +144,7 @@ func (o *AuditTrail) GetObjectId() string {
 // GetObjectIdOk returns a tuple with the ObjectId field value
 // and a boolean to check if the value has been set.
 func (o *AuditTrail) GetObjectIdOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.ObjectId, true
@@ -169,7 +168,7 @@ func (o *AuditTrail) GetObjectName() string {
 // GetObjectNameOk returns a tuple with the ObjectName field value
 // and a boolean to check if the value has been set.
 func (o *AuditTrail) GetObjectNameOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.ObjectName, true
@@ -193,7 +192,7 @@ func (o *AuditTrail) GetObjectType() ObjectTypeEnum {
 // GetObjectTypeOk returns a tuple with the ObjectType field value
 // and a boolean to check if the value has been set.
 func (o *AuditTrail) GetObjectTypeOk() (*ObjectTypeEnum, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.ObjectType, true
@@ -217,7 +216,7 @@ func (o *AuditTrail) GetTimestamp() time.Time {
 // GetTimestampOk returns a tuple with the Timestamp field value
 // and a boolean to check if the value has been set.
 func (o *AuditTrail) GetTimestampOk() (*time.Time, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Timestamp, true
@@ -229,9 +228,9 @@ func (o *AuditTrail) SetTimestamp(v time.Time) {
 }
 
 // GetUser returns the User field value
-func (o *AuditTrail) GetUser() User {
+func (o *AuditTrail) GetUser() AuditTrailUser {
 	if o == nil {
-		var ret User
+		var ret AuditTrailUser
 		return ret
 	}
 
@@ -240,15 +239,15 @@ func (o *AuditTrail) GetUser() User {
 
 // GetUserOk returns a tuple with the User field value
 // and a boolean to check if the value has been set.
-func (o *AuditTrail) GetUserOk() (*User, bool) {
-	if o == nil  {
+func (o *AuditTrail) GetUserOk() (*AuditTrailUser, bool) {
+	if o == nil {
 		return nil, false
 	}
 	return &o.User, true
 }
 
 // SetUser sets field value
-func (o *AuditTrail) SetUser(v User) {
+func (o *AuditTrail) SetUser(v AuditTrailUser) {
 	o.User = v
 }
 

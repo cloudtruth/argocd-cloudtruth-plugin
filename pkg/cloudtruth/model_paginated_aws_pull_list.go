@@ -20,7 +20,7 @@ type PaginatedAwsPullList struct {
 	Count *int32 `json:"count,omitempty"`
 	Next NullableString `json:"next,omitempty"`
 	Previous NullableString `json:"previous,omitempty"`
-	Results *[]AwsPull `json:"results,omitempty"`
+	Results []AwsPull `json:"results,omitempty"`
 }
 
 // NewPaginatedAwsPullList instantiates a new PaginatedAwsPullList object
@@ -85,7 +85,7 @@ func (o *PaginatedAwsPullList) GetNext() string {
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *PaginatedAwsPullList) GetNextOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return o.Next.Get(), o.Next.IsSet()
@@ -127,7 +127,7 @@ func (o *PaginatedAwsPullList) GetPrevious() string {
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *PaginatedAwsPullList) GetPreviousOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return o.Previous.Get(), o.Previous.IsSet()
@@ -162,12 +162,12 @@ func (o *PaginatedAwsPullList) GetResults() []AwsPull {
 		var ret []AwsPull
 		return ret
 	}
-	return *o.Results
+	return o.Results
 }
 
 // GetResultsOk returns a tuple with the Results field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *PaginatedAwsPullList) GetResultsOk() (*[]AwsPull, bool) {
+func (o *PaginatedAwsPullList) GetResultsOk() ([]AwsPull, bool) {
 	if o == nil || o.Results == nil {
 		return nil, false
 	}
@@ -185,7 +185,7 @@ func (o *PaginatedAwsPullList) HasResults() bool {
 
 // SetResults gets a reference to the given []AwsPull and assigns it to the Results field.
 func (o *PaginatedAwsPullList) SetResults(v []AwsPull) {
-	o.Results = &v
+	o.Results = v
 }
 
 func (o PaginatedAwsPullList) MarshalJSON() ([]byte, error) {

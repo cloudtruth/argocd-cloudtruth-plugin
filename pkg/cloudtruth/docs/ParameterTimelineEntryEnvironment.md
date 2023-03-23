@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Id** | **string** | A unique identifier for the environment. | [readonly] 
+**EnvironmentId** | **NullableString** | A unique identifier for the environment. | [readonly] 
 **Name** | **string** | The environment name. | 
 **Override** | **bool** | Indicates if the value change was direct or if it flowed into the environment. If &#x60;true&#x60; then the value was actually set directly into this environment. If &#x60;false&#x60; then the environment has no value set directly so it inherited the value from its parent. | [readonly] 
 
@@ -12,7 +12,7 @@ Name | Type | Description | Notes
 
 ### NewParameterTimelineEntryEnvironment
 
-`func NewParameterTimelineEntryEnvironment(id string, name string, override bool, ) *ParameterTimelineEntryEnvironment`
+`func NewParameterTimelineEntryEnvironment(environmentId NullableString, name string, override bool, ) *ParameterTimelineEntryEnvironment`
 
 NewParameterTimelineEntryEnvironment instantiates a new ParameterTimelineEntryEnvironment object
 This constructor will assign default values to properties that have it defined,
@@ -27,26 +27,36 @@ NewParameterTimelineEntryEnvironmentWithDefaults instantiates a new ParameterTim
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
-### GetId
+### GetEnvironmentId
 
-`func (o *ParameterTimelineEntryEnvironment) GetId() string`
+`func (o *ParameterTimelineEntryEnvironment) GetEnvironmentId() string`
 
-GetId returns the Id field if non-nil, zero value otherwise.
+GetEnvironmentId returns the EnvironmentId field if non-nil, zero value otherwise.
 
-### GetIdOk
+### GetEnvironmentIdOk
 
-`func (o *ParameterTimelineEntryEnvironment) GetIdOk() (*string, bool)`
+`func (o *ParameterTimelineEntryEnvironment) GetEnvironmentIdOk() (*string, bool)`
 
-GetIdOk returns a tuple with the Id field if it's non-nil, zero value otherwise
+GetEnvironmentIdOk returns a tuple with the EnvironmentId field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetId
+### SetEnvironmentId
 
-`func (o *ParameterTimelineEntryEnvironment) SetId(v string)`
+`func (o *ParameterTimelineEntryEnvironment) SetEnvironmentId(v string)`
 
-SetId sets Id field to given value.
+SetEnvironmentId sets EnvironmentId field to given value.
 
 
+### SetEnvironmentIdNil
+
+`func (o *ParameterTimelineEntryEnvironment) SetEnvironmentIdNil(b bool)`
+
+ SetEnvironmentIdNil sets the value for EnvironmentId to be an explicit nil
+
+### UnsetEnvironmentId
+`func (o *ParameterTimelineEntryEnvironment) UnsetEnvironmentId()`
+
+UnsetEnvironmentId ensures that no value is present for EnvironmentId, not even an explicit nil
 ### GetName
 
 `func (o *ParameterTimelineEntryEnvironment) GetName() string`

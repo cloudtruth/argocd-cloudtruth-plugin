@@ -4,18 +4,18 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**HistoryDate** | **time.Time** |  | 
 **HistoryType** | [**HistoryTypeEnum**](HistoryTypeEnum.md) |  | [readonly] 
-**HistoryUser** | Pointer to **NullableString** | The unique identifier of a user. | [optional] 
+**ModifiedAt** | **NullableTime** |  | [readonly] 
+**ModifiedBy** | Pointer to **string** |  | [optional] 
 **HistoryEnvironments** | [**[]ParameterTimelineEntryEnvironment**](ParameterTimelineEntryEnvironment.md) | The affected environment(s). | [readonly] 
 **HistoryModel** | [**HistoryModelEnum**](HistoryModelEnum.md) | The component of the parameter that changed. | [readonly] 
-**HistoryParameter** | [**ParameterTimelineEntryParameter**](ParameterTimelineEntryParameter.md) | The affected parameter. | [readonly] 
+**HistoryParameter** | [**ParameterTimelineEntryHistoryParameter**](ParameterTimelineEntryHistoryParameter.md) |  | 
 
 ## Methods
 
 ### NewParameterTimelineEntry
 
-`func NewParameterTimelineEntry(historyDate time.Time, historyType HistoryTypeEnum, historyEnvironments []ParameterTimelineEntryEnvironment, historyModel HistoryModelEnum, historyParameter ParameterTimelineEntryParameter, ) *ParameterTimelineEntry`
+`func NewParameterTimelineEntry(historyType HistoryTypeEnum, modifiedAt NullableTime, historyEnvironments []ParameterTimelineEntryEnvironment, historyModel HistoryModelEnum, historyParameter ParameterTimelineEntryHistoryParameter, ) *ParameterTimelineEntry`
 
 NewParameterTimelineEntry instantiates a new ParameterTimelineEntry object
 This constructor will assign default values to properties that have it defined,
@@ -29,26 +29,6 @@ will change when the set of required properties is changed
 NewParameterTimelineEntryWithDefaults instantiates a new ParameterTimelineEntry object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
-
-### GetHistoryDate
-
-`func (o *ParameterTimelineEntry) GetHistoryDate() time.Time`
-
-GetHistoryDate returns the HistoryDate field if non-nil, zero value otherwise.
-
-### GetHistoryDateOk
-
-`func (o *ParameterTimelineEntry) GetHistoryDateOk() (*time.Time, bool)`
-
-GetHistoryDateOk returns a tuple with the HistoryDate field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetHistoryDate
-
-`func (o *ParameterTimelineEntry) SetHistoryDate(v time.Time)`
-
-SetHistoryDate sets HistoryDate field to given value.
-
 
 ### GetHistoryType
 
@@ -70,41 +50,61 @@ and a boolean to check if the value has been set.
 SetHistoryType sets HistoryType field to given value.
 
 
-### GetHistoryUser
+### GetModifiedAt
 
-`func (o *ParameterTimelineEntry) GetHistoryUser() string`
+`func (o *ParameterTimelineEntry) GetModifiedAt() time.Time`
 
-GetHistoryUser returns the HistoryUser field if non-nil, zero value otherwise.
+GetModifiedAt returns the ModifiedAt field if non-nil, zero value otherwise.
 
-### GetHistoryUserOk
+### GetModifiedAtOk
 
-`func (o *ParameterTimelineEntry) GetHistoryUserOk() (*string, bool)`
+`func (o *ParameterTimelineEntry) GetModifiedAtOk() (*time.Time, bool)`
 
-GetHistoryUserOk returns a tuple with the HistoryUser field if it's non-nil, zero value otherwise
+GetModifiedAtOk returns a tuple with the ModifiedAt field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetHistoryUser
+### SetModifiedAt
 
-`func (o *ParameterTimelineEntry) SetHistoryUser(v string)`
+`func (o *ParameterTimelineEntry) SetModifiedAt(v time.Time)`
 
-SetHistoryUser sets HistoryUser field to given value.
+SetModifiedAt sets ModifiedAt field to given value.
 
-### HasHistoryUser
 
-`func (o *ParameterTimelineEntry) HasHistoryUser() bool`
+### SetModifiedAtNil
 
-HasHistoryUser returns a boolean if a field has been set.
+`func (o *ParameterTimelineEntry) SetModifiedAtNil(b bool)`
 
-### SetHistoryUserNil
+ SetModifiedAtNil sets the value for ModifiedAt to be an explicit nil
 
-`func (o *ParameterTimelineEntry) SetHistoryUserNil(b bool)`
+### UnsetModifiedAt
+`func (o *ParameterTimelineEntry) UnsetModifiedAt()`
 
- SetHistoryUserNil sets the value for HistoryUser to be an explicit nil
+UnsetModifiedAt ensures that no value is present for ModifiedAt, not even an explicit nil
+### GetModifiedBy
 
-### UnsetHistoryUser
-`func (o *ParameterTimelineEntry) UnsetHistoryUser()`
+`func (o *ParameterTimelineEntry) GetModifiedBy() string`
 
-UnsetHistoryUser ensures that no value is present for HistoryUser, not even an explicit nil
+GetModifiedBy returns the ModifiedBy field if non-nil, zero value otherwise.
+
+### GetModifiedByOk
+
+`func (o *ParameterTimelineEntry) GetModifiedByOk() (*string, bool)`
+
+GetModifiedByOk returns a tuple with the ModifiedBy field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetModifiedBy
+
+`func (o *ParameterTimelineEntry) SetModifiedBy(v string)`
+
+SetModifiedBy sets ModifiedBy field to given value.
+
+### HasModifiedBy
+
+`func (o *ParameterTimelineEntry) HasModifiedBy() bool`
+
+HasModifiedBy returns a boolean if a field has been set.
+
 ### GetHistoryEnvironments
 
 `func (o *ParameterTimelineEntry) GetHistoryEnvironments() []ParameterTimelineEntryEnvironment`
@@ -147,20 +147,20 @@ SetHistoryModel sets HistoryModel field to given value.
 
 ### GetHistoryParameter
 
-`func (o *ParameterTimelineEntry) GetHistoryParameter() ParameterTimelineEntryParameter`
+`func (o *ParameterTimelineEntry) GetHistoryParameter() ParameterTimelineEntryHistoryParameter`
 
 GetHistoryParameter returns the HistoryParameter field if non-nil, zero value otherwise.
 
 ### GetHistoryParameterOk
 
-`func (o *ParameterTimelineEntry) GetHistoryParameterOk() (*ParameterTimelineEntryParameter, bool)`
+`func (o *ParameterTimelineEntry) GetHistoryParameterOk() (*ParameterTimelineEntryHistoryParameter, bool)`
 
 GetHistoryParameterOk returns a tuple with the HistoryParameter field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetHistoryParameter
 
-`func (o *ParameterTimelineEntry) SetHistoryParameter(v ParameterTimelineEntryParameter)`
+`func (o *ParameterTimelineEntry) SetHistoryParameter(v ParameterTimelineEntryHistoryParameter)`
 
 SetHistoryParameter sets HistoryParameter field to given value.
 

@@ -17,11 +17,10 @@ import (
 
 // TemplateTimelineEntryTemplate Helper methods for all views or serializers that expose template concepts.
 type TemplateTimelineEntryTemplate struct {
-	// A unique identifier for the parameter.
 	Id string `json:"id"`
+	LedgerId string `json:"ledger_id"`
 	// The parameter name.
 	Name string `json:"name"`
-	// A description of the parameter.  You may find it helpful to document how this parameter is used to assist others when they need to maintain software that uses this content.
 	Description *string `json:"description,omitempty"`
 	// The content of the template.  Use mustache-style templating delimiters of `{{` and `}}` to reference parameter values by name for substitution into the template result.
 	Body *string `json:"body,omitempty"`
@@ -31,9 +30,10 @@ type TemplateTimelineEntryTemplate struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewTemplateTimelineEntryTemplate(id string, name string) *TemplateTimelineEntryTemplate {
+func NewTemplateTimelineEntryTemplate(id string, ledgerId string, name string) *TemplateTimelineEntryTemplate {
 	this := TemplateTimelineEntryTemplate{}
 	this.Id = id
+	this.LedgerId = ledgerId
 	this.Name = name
 	return &this
 }
@@ -59,7 +59,7 @@ func (o *TemplateTimelineEntryTemplate) GetId() string {
 // GetIdOk returns a tuple with the Id field value
 // and a boolean to check if the value has been set.
 func (o *TemplateTimelineEntryTemplate) GetIdOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Id, true
@@ -68,6 +68,30 @@ func (o *TemplateTimelineEntryTemplate) GetIdOk() (*string, bool) {
 // SetId sets field value
 func (o *TemplateTimelineEntryTemplate) SetId(v string) {
 	o.Id = v
+}
+
+// GetLedgerId returns the LedgerId field value
+func (o *TemplateTimelineEntryTemplate) GetLedgerId() string {
+	if o == nil {
+		var ret string
+		return ret
+	}
+
+	return o.LedgerId
+}
+
+// GetLedgerIdOk returns a tuple with the LedgerId field value
+// and a boolean to check if the value has been set.
+func (o *TemplateTimelineEntryTemplate) GetLedgerIdOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.LedgerId, true
+}
+
+// SetLedgerId sets field value
+func (o *TemplateTimelineEntryTemplate) SetLedgerId(v string) {
+	o.LedgerId = v
 }
 
 // GetName returns the Name field value
@@ -83,7 +107,7 @@ func (o *TemplateTimelineEntryTemplate) GetName() string {
 // GetNameOk returns a tuple with the Name field value
 // and a boolean to check if the value has been set.
 func (o *TemplateTimelineEntryTemplate) GetNameOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Name, true
@@ -162,6 +186,9 @@ func (o TemplateTimelineEntryTemplate) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if true {
 		toSerialize["id"] = o.Id
+	}
+	if true {
+		toSerialize["ledger_id"] = o.LedgerId
 	}
 	if true {
 		toSerialize["name"] = o.Name

@@ -6,7 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Url** | **string** |  | [readonly] 
 **Id** | **string** | Unique identifier for a task step. | [readonly] 
-**Operation** | [**OperationEnum**](OperationEnum.md) | The operation performed, if any.  When the operation is an update, there may be additional details in the success_detail field to describe the change.  When the project is filled in but the environment and parameterare not, the operation is on the project.  When the environmentis filled in but the project and parameter are not, the operationis on the environment.  When the project and parameter are filledin but the environment is not, the operation is on the parameter.When all three are filled in, the operation is on the value ofthe parameter of the project in the specified environment. | 
+**Operation** | Pointer to [**NullableOperationEnum**](OperationEnum.md) | The operation performed, if any.  When the operation is an update, there may be additional details in the success_detail field to describe the change.  When the project is filled in but the environment and parameterare not, the operation is on the project.  When the environmentis filled in but the project and parameter are not, the operationis on the environment.  When the project and parameter are filledin but the environment is not, the operation is on the parameter.When all three are filled in, the operation is on the value ofthe parameter of the project in the specified environment. | [optional] 
 **Success** | **bool** | Indicates if the operation was successful. | 
 **SuccessDetail** | Pointer to **NullableString** | Additional details about the successful operation, if any. | [optional] 
 **Fqn** | Pointer to **NullableString** | The fully-qualified name (FQN) this of the value that was changed. | [optional] 
@@ -21,16 +21,17 @@ Name | Type | Description | Notes
 **ParameterName** | Pointer to **NullableString** | The parameter name involved in the operation. | [optional] 
 **VenueId** | Pointer to **NullableString** | The integration-native id for the resource. | [optional] 
 **VenueName** | Pointer to **NullableString** | The name of the item or resource as known by the integration. | [optional] 
+**Summary** | Pointer to **NullableString** | The summary of this step (what it was trying to do). | [optional] 
 **ErrorCode** | Pointer to **NullableString** | An error code, if not successful. | [optional] 
 **ErrorDetail** | Pointer to **NullableString** | Details on the error that occurred during processing. | [optional] 
 **CreatedAt** | **time.Time** |  | [readonly] 
-**ModifiedAt** | **time.Time** |  | [readonly] 
+**ModifiedAt** | **NullableTime** |  | [readonly] 
 
 ## Methods
 
 ### NewAwsPushTaskStep
 
-`func NewAwsPushTaskStep(url string, id string, operation OperationEnum, success bool, environment NullableString, project NullableString, parameter NullableString, createdAt time.Time, modifiedAt time.Time, ) *AwsPushTaskStep`
+`func NewAwsPushTaskStep(url string, id string, success bool, environment NullableString, project NullableString, parameter NullableString, createdAt time.Time, modifiedAt NullableTime, ) *AwsPushTaskStep`
 
 NewAwsPushTaskStep instantiates a new AwsPushTaskStep object
 This constructor will assign default values to properties that have it defined,
@@ -104,7 +105,22 @@ and a boolean to check if the value has been set.
 
 SetOperation sets Operation field to given value.
 
+### HasOperation
 
+`func (o *AwsPushTaskStep) HasOperation() bool`
+
+HasOperation returns a boolean if a field has been set.
+
+### SetOperationNil
+
+`func (o *AwsPushTaskStep) SetOperationNil(b bool)`
+
+ SetOperationNil sets the value for Operation to be an explicit nil
+
+### UnsetOperation
+`func (o *AwsPushTaskStep) UnsetOperation()`
+
+UnsetOperation ensures that no value is present for Operation, not even an explicit nil
 ### GetSuccess
 
 `func (o *AwsPushTaskStep) GetSuccess() bool`
@@ -565,6 +581,41 @@ HasVenueName returns a boolean if a field has been set.
 `func (o *AwsPushTaskStep) UnsetVenueName()`
 
 UnsetVenueName ensures that no value is present for VenueName, not even an explicit nil
+### GetSummary
+
+`func (o *AwsPushTaskStep) GetSummary() string`
+
+GetSummary returns the Summary field if non-nil, zero value otherwise.
+
+### GetSummaryOk
+
+`func (o *AwsPushTaskStep) GetSummaryOk() (*string, bool)`
+
+GetSummaryOk returns a tuple with the Summary field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetSummary
+
+`func (o *AwsPushTaskStep) SetSummary(v string)`
+
+SetSummary sets Summary field to given value.
+
+### HasSummary
+
+`func (o *AwsPushTaskStep) HasSummary() bool`
+
+HasSummary returns a boolean if a field has been set.
+
+### SetSummaryNil
+
+`func (o *AwsPushTaskStep) SetSummaryNil(b bool)`
+
+ SetSummaryNil sets the value for Summary to be an explicit nil
+
+### UnsetSummary
+`func (o *AwsPushTaskStep) UnsetSummary()`
+
+UnsetSummary ensures that no value is present for Summary, not even an explicit nil
 ### GetErrorCode
 
 `func (o *AwsPushTaskStep) GetErrorCode() string`
@@ -675,6 +726,16 @@ and a boolean to check if the value has been set.
 SetModifiedAt sets ModifiedAt field to given value.
 
 
+### SetModifiedAtNil
+
+`func (o *AwsPushTaskStep) SetModifiedAtNil(b bool)`
+
+ SetModifiedAtNil sets the value for ModifiedAt to be an explicit nil
+
+### UnsetModifiedAt
+`func (o *AwsPushTaskStep) UnsetModifiedAt()`
+
+UnsetModifiedAt ensures that no value is present for ModifiedAt, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

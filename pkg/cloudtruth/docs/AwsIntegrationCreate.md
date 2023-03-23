@@ -9,7 +9,8 @@ Name | Type | Description | Notes
 **AwsAccountId** | **string** | The AWS Account ID. | 
 **AwsEnabledRegions** | [**[]AwsRegionEnum**](AwsRegionEnum.md) | The AWS regions to integrate with. | 
 **AwsEnabledServices** | [**[]AwsServiceEnum**](AwsServiceEnum.md) | The AWS services to integrate with. | 
-**AwsExternalId** | Pointer to **string** | This is a shared secret between the AWS Administrator who set up your IAM trust relationship and your CloudTruth AWS Integration.  If your AWS Administrator provided you with a value use it, otherwise we will generate a random value for you to give to your AWS Administrator. | [optional] 
+**AwsExternalId** | Pointer to **string** | This is a shared secret between the AWS Administrator who set up your IAM trust relationship and your CloudTruth AWS Integration.  CloudTruth will generate a random value for you to give to your AWS Administrator in order to create the necessary IAM role for proper access. | [optional] 
+**AwsKmsKeyId** | Pointer to **NullableString** | If present, this is the KMS Key Id that is used to push values.  This key must be accessible in the AWS account (it cannot be an ARN to a key in another AWS account).  | [optional] 
 **AwsRoleName** | **string** | The role that CloudTruth will assume when interacting with your AWS Account through this integration.  The role is configured by your AWS Account Administrator.  If your AWS Administrator provided you with a value use it, otherwise make your own role name and give it to your AWS Administrator. | 
 
 ## Methods
@@ -166,6 +167,41 @@ SetAwsExternalId sets AwsExternalId field to given value.
 
 HasAwsExternalId returns a boolean if a field has been set.
 
+### GetAwsKmsKeyId
+
+`func (o *AwsIntegrationCreate) GetAwsKmsKeyId() string`
+
+GetAwsKmsKeyId returns the AwsKmsKeyId field if non-nil, zero value otherwise.
+
+### GetAwsKmsKeyIdOk
+
+`func (o *AwsIntegrationCreate) GetAwsKmsKeyIdOk() (*string, bool)`
+
+GetAwsKmsKeyIdOk returns a tuple with the AwsKmsKeyId field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetAwsKmsKeyId
+
+`func (o *AwsIntegrationCreate) SetAwsKmsKeyId(v string)`
+
+SetAwsKmsKeyId sets AwsKmsKeyId field to given value.
+
+### HasAwsKmsKeyId
+
+`func (o *AwsIntegrationCreate) HasAwsKmsKeyId() bool`
+
+HasAwsKmsKeyId returns a boolean if a field has been set.
+
+### SetAwsKmsKeyIdNil
+
+`func (o *AwsIntegrationCreate) SetAwsKmsKeyIdNil(b bool)`
+
+ SetAwsKmsKeyIdNil sets the value for AwsKmsKeyId to be an explicit nil
+
+### UnsetAwsKmsKeyId
+`func (o *AwsIntegrationCreate) UnsetAwsKmsKeyId()`
+
+UnsetAwsKmsKeyId ensures that no value is present for AwsKmsKeyId, not even an explicit nil
 ### GetAwsRoleName
 
 `func (o *AwsIntegrationCreate) GetAwsRoleName() string`

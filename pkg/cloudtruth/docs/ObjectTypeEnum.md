@@ -9,6 +9,8 @@
 
 * `GIT_HUB_INTEGRATION` (value: `"GitHubIntegration"`)
 
+* `GRANT` (value: `"Grant"`)
+
 * `INVITATION` (value: `"Invitation"`)
 
 * `MEMBERSHIP` (value: `"Membership"`)
@@ -19,6 +21,10 @@
 
 * `PARAMETER_RULE` (value: `"ParameterRule"`)
 
+* `PARAMETER_TYPE` (value: `"ParameterType"`)
+
+* `PARAMETER_TYPE_RULE` (value: `"ParameterTypeRule"`)
+
 * `PROJECT` (value: `"Project"`)
 
 * `PULL` (value: `"Pull"`)
@@ -28,6 +34,8 @@
 * `SERVICE_ACCOUNT` (value: `"ServiceAccount"`)
 
 * `TAG` (value: `"Tag"`)
+
+* `TASK` (value: `"Task"`)
 
 * `TEMPLATE` (value: `"Template"`)
 

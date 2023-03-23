@@ -20,7 +20,7 @@ type PaginatedServiceAccountList struct {
 	Count *int32 `json:"count,omitempty"`
 	Next NullableString `json:"next,omitempty"`
 	Previous NullableString `json:"previous,omitempty"`
-	Results *[]ServiceAccount `json:"results,omitempty"`
+	Results []ServiceAccount `json:"results,omitempty"`
 }
 
 // NewPaginatedServiceAccountList instantiates a new PaginatedServiceAccountList object
@@ -85,7 +85,7 @@ func (o *PaginatedServiceAccountList) GetNext() string {
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *PaginatedServiceAccountList) GetNextOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return o.Next.Get(), o.Next.IsSet()
@@ -127,7 +127,7 @@ func (o *PaginatedServiceAccountList) GetPrevious() string {
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *PaginatedServiceAccountList) GetPreviousOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return o.Previous.Get(), o.Previous.IsSet()
@@ -162,12 +162,12 @@ func (o *PaginatedServiceAccountList) GetResults() []ServiceAccount {
 		var ret []ServiceAccount
 		return ret
 	}
-	return *o.Results
+	return o.Results
 }
 
 // GetResultsOk returns a tuple with the Results field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *PaginatedServiceAccountList) GetResultsOk() (*[]ServiceAccount, bool) {
+func (o *PaginatedServiceAccountList) GetResultsOk() ([]ServiceAccount, bool) {
 	if o == nil || o.Results == nil {
 		return nil, false
 	}
@@ -185,7 +185,7 @@ func (o *PaginatedServiceAccountList) HasResults() bool {
 
 // SetResults gets a reference to the given []ServiceAccount and assigns it to the Results field.
 func (o *PaginatedServiceAccountList) SetResults(v []ServiceAccount) {
-	o.Results = &v
+	o.Results = v
 }
 
 func (o PaginatedServiceAccountList) MarshalJSON() ([]byte, error) {

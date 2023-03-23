@@ -25,18 +25,25 @@ type PatchedAwsPull struct {
 	Name *string `json:"name,omitempty"`
 	// The optional description for the action.
 	Description *string `json:"description,omitempty"`
-	// The most recent task run for this action.
-	LatestTask NullableAwsPullTask `json:"latest_task,omitempty"`
+	LatestTask NullableAwsPullLatestTask `json:"latest_task,omitempty"`
 	CreatedAt *time.Time `json:"created_at,omitempty"`
-	ModifiedAt *time.Time `json:"modified_at,omitempty"`
+	ModifiedAt NullableTime `json:"modified_at,omitempty"`
+	// Allow the pull to create environments.  Any automatically created environments will be children of the `default` environment.  If an environment needs to be created but the action does not allow it, a task step will be added with a null operation, and success_detail will indicate the action did not allow it.
+	CreateEnvironments *bool `json:"create_environments,omitempty"`
+	// Allow the pull to create projects.  If a project needs to be created but the action does not allow it, a task step will be added with a null operation, and success_detail will indicate the action did not allow it.
+	CreateProjects *bool `json:"create_projects,omitempty"`
 	// When set to dry-run mode an action will report the changes that it would have made in task steps, however those changes are not actually performed.
 	DryRun *bool `json:"dry_run,omitempty"`
-	// The AWS region this pull uses.  This region must be enabled in the integration.
+	// Values being managed by a mapped pull.
+	MappedValues []ValueCreate `json:"mapped_values,omitempty"`
+	// The pull mode used.  A pattern pull uses a pattern-matching resource string with mustache-style markers to identify the project, parameter, and environment names, or with a Python regular expression that uses named capture groups that define the same three concepts.  A mapped pull uses a specific resource and JMESpath expression to deliver a value to a specific project, parameter, and environment.  This leverages external value linkages made in the value editor, and there is one mapped pull per integration provided by the system so that you can trigger external value pull synchronizations.
+	Mode *ModeEnum `json:"mode,omitempty"`
+	// The AWS region to use.  This region must be enabled in the integration.
 	Region *AwsRegionEnum `json:"region,omitempty"`
-	// The AWS service this pull uses.  This service must be enabled in the integration.
+	// The AWS service to use.  This service must be enabled in the integration.
 	Service *AwsServiceEnum `json:"service,omitempty"`
-	// Defines a path through the integration to the location where values will be pulled.  The following mustache-style substitutions must be used in the resource locator string:    - ``{{ environment }}`` to identify the environment name   - ``{{ parameter }}`` to identify the parameter name   - ``{{ project }}`` to identify the project name
-	Resource *string `json:"resource,omitempty"`
+	// Defines a pattern matching string that contains either mustache or regular expression syntax (with named capture groups) that locate the environment, project, and parameter name of the content you are looking for.  If you are using mustache pattern matching, use:    - ``{{ environment }}`` to identify the environment name   - ``{{ parameter }}`` to identify the parameter name   - ``{{ project }}`` to identify the project name  If you are using a regular expression, use Python syntax with named capture groups that locate the `environment`, `project`, and `parameter`.
+	Resource NullableString `json:"resource,omitempty"`
 }
 
 // NewPatchedAwsPull instantiates a new PatchedAwsPull object
@@ -185,9 +192,9 @@ func (o *PatchedAwsPull) SetDescription(v string) {
 }
 
 // GetLatestTask returns the LatestTask field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *PatchedAwsPull) GetLatestTask() AwsPullTask {
+func (o *PatchedAwsPull) GetLatestTask() AwsPullLatestTask {
 	if o == nil || o.LatestTask.Get() == nil {
-		var ret AwsPullTask
+		var ret AwsPullLatestTask
 		return ret
 	}
 	return *o.LatestTask.Get()
@@ -196,8 +203,8 @@ func (o *PatchedAwsPull) GetLatestTask() AwsPullTask {
 // GetLatestTaskOk returns a tuple with the LatestTask field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *PatchedAwsPull) GetLatestTaskOk() (*AwsPullTask, bool) {
-	if o == nil  {
+func (o *PatchedAwsPull) GetLatestTaskOk() (*AwsPullLatestTask, bool) {
+	if o == nil {
 		return nil, false
 	}
 	return o.LatestTask.Get(), o.LatestTask.IsSet()
@@ -212,8 +219,8 @@ func (o *PatchedAwsPull) HasLatestTask() bool {
 	return false
 }
 
-// SetLatestTask gets a reference to the given NullableAwsPullTask and assigns it to the LatestTask field.
-func (o *PatchedAwsPull) SetLatestTask(v AwsPullTask) {
+// SetLatestTask gets a reference to the given NullableAwsPullLatestTask and assigns it to the LatestTask field.
+func (o *PatchedAwsPull) SetLatestTask(v AwsPullLatestTask) {
 	o.LatestTask.Set(&v)
 }
 // SetLatestTaskNil sets the value for LatestTask to be an explicit nil
@@ -258,36 +265,110 @@ func (o *PatchedAwsPull) SetCreatedAt(v time.Time) {
 	o.CreatedAt = &v
 }
 
-// GetModifiedAt returns the ModifiedAt field value if set, zero value otherwise.
+// GetModifiedAt returns the ModifiedAt field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *PatchedAwsPull) GetModifiedAt() time.Time {
-	if o == nil || o.ModifiedAt == nil {
+	if o == nil || o.ModifiedAt.Get() == nil {
 		var ret time.Time
 		return ret
 	}
-	return *o.ModifiedAt
+	return *o.ModifiedAt.Get()
 }
 
 // GetModifiedAtOk returns a tuple with the ModifiedAt field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *PatchedAwsPull) GetModifiedAtOk() (*time.Time, bool) {
-	if o == nil || o.ModifiedAt == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.ModifiedAt, true
+	return o.ModifiedAt.Get(), o.ModifiedAt.IsSet()
 }
 
 // HasModifiedAt returns a boolean if a field has been set.
 func (o *PatchedAwsPull) HasModifiedAt() bool {
-	if o != nil && o.ModifiedAt != nil {
+	if o != nil && o.ModifiedAt.IsSet() {
 		return true
 	}
 
 	return false
 }
 
-// SetModifiedAt gets a reference to the given time.Time and assigns it to the ModifiedAt field.
+// SetModifiedAt gets a reference to the given NullableTime and assigns it to the ModifiedAt field.
 func (o *PatchedAwsPull) SetModifiedAt(v time.Time) {
-	o.ModifiedAt = &v
+	o.ModifiedAt.Set(&v)
+}
+// SetModifiedAtNil sets the value for ModifiedAt to be an explicit nil
+func (o *PatchedAwsPull) SetModifiedAtNil() {
+	o.ModifiedAt.Set(nil)
+}
+
+// UnsetModifiedAt ensures that no value is present for ModifiedAt, not even an explicit nil
+func (o *PatchedAwsPull) UnsetModifiedAt() {
+	o.ModifiedAt.Unset()
+}
+
+// GetCreateEnvironments returns the CreateEnvironments field value if set, zero value otherwise.
+func (o *PatchedAwsPull) GetCreateEnvironments() bool {
+	if o == nil || o.CreateEnvironments == nil {
+		var ret bool
+		return ret
+	}
+	return *o.CreateEnvironments
+}
+
+// GetCreateEnvironmentsOk returns a tuple with the CreateEnvironments field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *PatchedAwsPull) GetCreateEnvironmentsOk() (*bool, bool) {
+	if o == nil || o.CreateEnvironments == nil {
+		return nil, false
+	}
+	return o.CreateEnvironments, true
+}
+
+// HasCreateEnvironments returns a boolean if a field has been set.
+func (o *PatchedAwsPull) HasCreateEnvironments() bool {
+	if o != nil && o.CreateEnvironments != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetCreateEnvironments gets a reference to the given bool and assigns it to the CreateEnvironments field.
+func (o *PatchedAwsPull) SetCreateEnvironments(v bool) {
+	o.CreateEnvironments = &v
+}
+
+// GetCreateProjects returns the CreateProjects field value if set, zero value otherwise.
+func (o *PatchedAwsPull) GetCreateProjects() bool {
+	if o == nil || o.CreateProjects == nil {
+		var ret bool
+		return ret
+	}
+	return *o.CreateProjects
+}
+
+// GetCreateProjectsOk returns a tuple with the CreateProjects field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *PatchedAwsPull) GetCreateProjectsOk() (*bool, bool) {
+	if o == nil || o.CreateProjects == nil {
+		return nil, false
+	}
+	return o.CreateProjects, true
+}
+
+// HasCreateProjects returns a boolean if a field has been set.
+func (o *PatchedAwsPull) HasCreateProjects() bool {
+	if o != nil && o.CreateProjects != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetCreateProjects gets a reference to the given bool and assigns it to the CreateProjects field.
+func (o *PatchedAwsPull) SetCreateProjects(v bool) {
+	o.CreateProjects = &v
 }
 
 // GetDryRun returns the DryRun field value if set, zero value otherwise.
@@ -320,6 +401,70 @@ func (o *PatchedAwsPull) HasDryRun() bool {
 // SetDryRun gets a reference to the given bool and assigns it to the DryRun field.
 func (o *PatchedAwsPull) SetDryRun(v bool) {
 	o.DryRun = &v
+}
+
+// GetMappedValues returns the MappedValues field value if set, zero value otherwise.
+func (o *PatchedAwsPull) GetMappedValues() []ValueCreate {
+	if o == nil || o.MappedValues == nil {
+		var ret []ValueCreate
+		return ret
+	}
+	return o.MappedValues
+}
+
+// GetMappedValuesOk returns a tuple with the MappedValues field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *PatchedAwsPull) GetMappedValuesOk() ([]ValueCreate, bool) {
+	if o == nil || o.MappedValues == nil {
+		return nil, false
+	}
+	return o.MappedValues, true
+}
+
+// HasMappedValues returns a boolean if a field has been set.
+func (o *PatchedAwsPull) HasMappedValues() bool {
+	if o != nil && o.MappedValues != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetMappedValues gets a reference to the given []ValueCreate and assigns it to the MappedValues field.
+func (o *PatchedAwsPull) SetMappedValues(v []ValueCreate) {
+	o.MappedValues = v
+}
+
+// GetMode returns the Mode field value if set, zero value otherwise.
+func (o *PatchedAwsPull) GetMode() ModeEnum {
+	if o == nil || o.Mode == nil {
+		var ret ModeEnum
+		return ret
+	}
+	return *o.Mode
+}
+
+// GetModeOk returns a tuple with the Mode field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *PatchedAwsPull) GetModeOk() (*ModeEnum, bool) {
+	if o == nil || o.Mode == nil {
+		return nil, false
+	}
+	return o.Mode, true
+}
+
+// HasMode returns a boolean if a field has been set.
+func (o *PatchedAwsPull) HasMode() bool {
+	if o != nil && o.Mode != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetMode gets a reference to the given ModeEnum and assigns it to the Mode field.
+func (o *PatchedAwsPull) SetMode(v ModeEnum) {
+	o.Mode = &v
 }
 
 // GetRegion returns the Region field value if set, zero value otherwise.
@@ -386,36 +531,46 @@ func (o *PatchedAwsPull) SetService(v AwsServiceEnum) {
 	o.Service = &v
 }
 
-// GetResource returns the Resource field value if set, zero value otherwise.
+// GetResource returns the Resource field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *PatchedAwsPull) GetResource() string {
-	if o == nil || o.Resource == nil {
+	if o == nil || o.Resource.Get() == nil {
 		var ret string
 		return ret
 	}
-	return *o.Resource
+	return *o.Resource.Get()
 }
 
 // GetResourceOk returns a tuple with the Resource field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *PatchedAwsPull) GetResourceOk() (*string, bool) {
-	if o == nil || o.Resource == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.Resource, true
+	return o.Resource.Get(), o.Resource.IsSet()
 }
 
 // HasResource returns a boolean if a field has been set.
 func (o *PatchedAwsPull) HasResource() bool {
-	if o != nil && o.Resource != nil {
+	if o != nil && o.Resource.IsSet() {
 		return true
 	}
 
 	return false
 }
 
-// SetResource gets a reference to the given string and assigns it to the Resource field.
+// SetResource gets a reference to the given NullableString and assigns it to the Resource field.
 func (o *PatchedAwsPull) SetResource(v string) {
-	o.Resource = &v
+	o.Resource.Set(&v)
+}
+// SetResourceNil sets the value for Resource to be an explicit nil
+func (o *PatchedAwsPull) SetResourceNil() {
+	o.Resource.Set(nil)
+}
+
+// UnsetResource ensures that no value is present for Resource, not even an explicit nil
+func (o *PatchedAwsPull) UnsetResource() {
+	o.Resource.Unset()
 }
 
 func (o PatchedAwsPull) MarshalJSON() ([]byte, error) {
@@ -438,11 +593,23 @@ func (o PatchedAwsPull) MarshalJSON() ([]byte, error) {
 	if o.CreatedAt != nil {
 		toSerialize["created_at"] = o.CreatedAt
 	}
-	if o.ModifiedAt != nil {
-		toSerialize["modified_at"] = o.ModifiedAt
+	if o.ModifiedAt.IsSet() {
+		toSerialize["modified_at"] = o.ModifiedAt.Get()
+	}
+	if o.CreateEnvironments != nil {
+		toSerialize["create_environments"] = o.CreateEnvironments
+	}
+	if o.CreateProjects != nil {
+		toSerialize["create_projects"] = o.CreateProjects
 	}
 	if o.DryRun != nil {
 		toSerialize["dry_run"] = o.DryRun
+	}
+	if o.MappedValues != nil {
+		toSerialize["mapped_values"] = o.MappedValues
+	}
+	if o.Mode != nil {
+		toSerialize["mode"] = o.Mode
 	}
 	if o.Region != nil {
 		toSerialize["region"] = o.Region
@@ -450,8 +617,8 @@ func (o PatchedAwsPull) MarshalJSON() ([]byte, error) {
 	if o.Service != nil {
 		toSerialize["service"] = o.Service
 	}
-	if o.Resource != nil {
-		toSerialize["resource"] = o.Resource
+	if o.Resource.IsSet() {
+		toSerialize["resource"] = o.Resource.Get()
 	}
 	return json.Marshal(toSerialize)
 }

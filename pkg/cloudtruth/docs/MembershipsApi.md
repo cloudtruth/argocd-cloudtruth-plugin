@@ -35,8 +35,8 @@ func main() {
     membershipCreate := *openapiclient.NewMembershipCreate("User_example", openapiclient.RoleEnum("OWNER")) // MembershipCreate | 
 
     configuration := openapiclient.NewConfiguration()
-    api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.MembershipsApi.MembershipsCreate(context.Background()).MembershipCreate(membershipCreate).Execute()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.MembershipsApi.MembershipsCreate(context.Background()).MembershipCreate(membershipCreate).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `MembershipsApi.MembershipsCreate``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -65,7 +65,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth)
+[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth), [tokenAuth](../README.md#tokenAuth)
 
 ### HTTP request headers
 
@@ -96,11 +96,11 @@ import (
 )
 
 func main() {
-    id := TODO // string | 
+    id := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | 
 
     configuration := openapiclient.NewConfiguration()
-    api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.MembershipsApi.MembershipsDestroy(context.Background(), id).Execute()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.MembershipsApi.MembershipsDestroy(context.Background(), id).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `MembershipsApi.MembershipsDestroy``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -114,7 +114,7 @@ func main() {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**id** | [**string**](.md) |  | 
+**id** | **string** |  | 
 
 ### Other Parameters
 
@@ -131,7 +131,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth)
+[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth), [tokenAuth](../README.md#tokenAuth)
 
 ### HTTP request headers
 
@@ -169,8 +169,8 @@ func main() {
     user := "user_example" // string | The unique identifier of a user. (optional)
 
     configuration := openapiclient.NewConfiguration()
-    api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.MembershipsApi.MembershipsList(context.Background()).Ordering(ordering).Page(page).PageSize(pageSize).Role(role).User(user).Execute()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.MembershipsApi.MembershipsList(context.Background()).Ordering(ordering).Page(page).PageSize(pageSize).Role(role).User(user).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `MembershipsApi.MembershipsList``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -203,7 +203,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth)
+[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth), [tokenAuth](../README.md#tokenAuth)
 
 ### HTTP request headers
 
@@ -234,12 +234,12 @@ import (
 )
 
 func main() {
-    id := TODO // string | 
+    id := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | 
     patchedMembership := *openapiclient.NewPatchedMembership() // PatchedMembership |  (optional)
 
     configuration := openapiclient.NewConfiguration()
-    api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.MembershipsApi.MembershipsPartialUpdate(context.Background(), id).PatchedMembership(patchedMembership).Execute()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.MembershipsApi.MembershipsPartialUpdate(context.Background(), id).PatchedMembership(patchedMembership).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `MembershipsApi.MembershipsPartialUpdate``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -255,7 +255,7 @@ func main() {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**id** | [**string**](.md) |  | 
+**id** | **string** |  | 
 
 ### Other Parameters
 
@@ -273,7 +273,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth)
+[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth), [tokenAuth](../README.md#tokenAuth)
 
 ### HTTP request headers
 
@@ -304,11 +304,11 @@ import (
 )
 
 func main() {
-    id := TODO // string | 
+    id := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | 
 
     configuration := openapiclient.NewConfiguration()
-    api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.MembershipsApi.MembershipsRetrieve(context.Background(), id).Execute()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.MembershipsApi.MembershipsRetrieve(context.Background(), id).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `MembershipsApi.MembershipsRetrieve``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -324,7 +324,7 @@ func main() {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**id** | [**string**](.md) |  | 
+**id** | **string** |  | 
 
 ### Other Parameters
 
@@ -341,7 +341,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth)
+[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth), [tokenAuth](../README.md#tokenAuth)
 
 ### HTTP request headers
 
@@ -373,12 +373,12 @@ import (
 )
 
 func main() {
-    id := TODO // string | 
+    id := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | 
     membership := *openapiclient.NewMembership("Url_example", "Id_example", "User_example", "Organization_example", openapiclient.RoleEnum("OWNER"), time.Now(), time.Now()) // Membership | 
 
     configuration := openapiclient.NewConfiguration()
-    api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.MembershipsApi.MembershipsUpdate(context.Background(), id).Membership(membership).Execute()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.MembershipsApi.MembershipsUpdate(context.Background(), id).Membership(membership).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `MembershipsApi.MembershipsUpdate``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -394,7 +394,7 @@ func main() {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**id** | [**string**](.md) |  | 
+**id** | **string** |  | 
 
 ### Other Parameters
 
@@ -412,7 +412,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth)
+[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth), [tokenAuth](../README.md#tokenAuth)
 
 ### HTTP request headers
 

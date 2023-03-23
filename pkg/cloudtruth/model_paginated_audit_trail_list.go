@@ -20,7 +20,7 @@ type PaginatedAuditTrailList struct {
 	Count *int32 `json:"count,omitempty"`
 	Next NullableString `json:"next,omitempty"`
 	Previous NullableString `json:"previous,omitempty"`
-	Results *[]AuditTrail `json:"results,omitempty"`
+	Results []AuditTrail `json:"results,omitempty"`
 }
 
 // NewPaginatedAuditTrailList instantiates a new PaginatedAuditTrailList object
@@ -85,7 +85,7 @@ func (o *PaginatedAuditTrailList) GetNext() string {
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *PaginatedAuditTrailList) GetNextOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return o.Next.Get(), o.Next.IsSet()
@@ -127,7 +127,7 @@ func (o *PaginatedAuditTrailList) GetPrevious() string {
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *PaginatedAuditTrailList) GetPreviousOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return o.Previous.Get(), o.Previous.IsSet()
@@ -162,12 +162,12 @@ func (o *PaginatedAuditTrailList) GetResults() []AuditTrail {
 		var ret []AuditTrail
 		return ret
 	}
-	return *o.Results
+	return o.Results
 }
 
 // GetResultsOk returns a tuple with the Results field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *PaginatedAuditTrailList) GetResultsOk() (*[]AuditTrail, bool) {
+func (o *PaginatedAuditTrailList) GetResultsOk() ([]AuditTrail, bool) {
 	if o == nil || o.Results == nil {
 		return nil, false
 	}
@@ -185,7 +185,7 @@ func (o *PaginatedAuditTrailList) HasResults() bool {
 
 // SetResults gets a reference to the given []AuditTrail and assigns it to the Results field.
 func (o *PaginatedAuditTrailList) SetResults(v []AuditTrail) {
-	o.Results = &v
+	o.Results = v
 }
 
 func (o PaginatedAuditTrailList) MarshalJSON() ([]byte, error) {

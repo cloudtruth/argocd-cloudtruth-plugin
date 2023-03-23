@@ -20,7 +20,7 @@ type PaginatedAwsPushTaskStepList struct {
 	Count *int32 `json:"count,omitempty"`
 	Next NullableString `json:"next,omitempty"`
 	Previous NullableString `json:"previous,omitempty"`
-	Results *[]AwsPushTaskStep `json:"results,omitempty"`
+	Results []AwsPushTaskStep `json:"results,omitempty"`
 }
 
 // NewPaginatedAwsPushTaskStepList instantiates a new PaginatedAwsPushTaskStepList object
@@ -85,7 +85,7 @@ func (o *PaginatedAwsPushTaskStepList) GetNext() string {
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *PaginatedAwsPushTaskStepList) GetNextOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return o.Next.Get(), o.Next.IsSet()
@@ -127,7 +127,7 @@ func (o *PaginatedAwsPushTaskStepList) GetPrevious() string {
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *PaginatedAwsPushTaskStepList) GetPreviousOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return o.Previous.Get(), o.Previous.IsSet()
@@ -162,12 +162,12 @@ func (o *PaginatedAwsPushTaskStepList) GetResults() []AwsPushTaskStep {
 		var ret []AwsPushTaskStep
 		return ret
 	}
-	return *o.Results
+	return o.Results
 }
 
 // GetResultsOk returns a tuple with the Results field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *PaginatedAwsPushTaskStepList) GetResultsOk() (*[]AwsPushTaskStep, bool) {
+func (o *PaginatedAwsPushTaskStepList) GetResultsOk() ([]AwsPushTaskStep, bool) {
 	if o == nil || o.Results == nil {
 		return nil, false
 	}
@@ -185,7 +185,7 @@ func (o *PaginatedAwsPushTaskStepList) HasResults() bool {
 
 // SetResults gets a reference to the given []AwsPushTaskStep and assigns it to the Results field.
 func (o *PaginatedAwsPushTaskStepList) SetResults(v []AwsPushTaskStep) {
-	o.Results = &v
+	o.Results = v
 }
 
 func (o PaginatedAwsPushTaskStepList) MarshalJSON() ([]byte, error) {

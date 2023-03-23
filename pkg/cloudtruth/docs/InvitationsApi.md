@@ -36,11 +36,11 @@ import (
 )
 
 func main() {
-    id := TODO // string | The invitation ID.
+    id := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | The invitation ID.
 
     configuration := openapiclient.NewConfiguration()
-    api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.InvitationsApi.InvitationsAcceptCreate(context.Background(), id).Execute()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.InvitationsApi.InvitationsAcceptCreate(context.Background(), id).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `InvitationsApi.InvitationsAcceptCreate``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -56,7 +56,7 @@ func main() {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**id** | [**string**](.md) | The invitation ID. | 
+**id** | **string** | The invitation ID. | 
 
 ### Other Parameters
 
@@ -73,7 +73,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth)
+[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth), [tokenAuth](../README.md#tokenAuth)
 
 ### HTTP request headers
 
@@ -109,8 +109,8 @@ func main() {
     invitationCreate := *openapiclient.NewInvitationCreate("Email_example", openapiclient.RoleEnum("OWNER")) // InvitationCreate | 
 
     configuration := openapiclient.NewConfiguration()
-    api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.InvitationsApi.InvitationsCreate(context.Background()).InvitationCreate(invitationCreate).Execute()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.InvitationsApi.InvitationsCreate(context.Background()).InvitationCreate(invitationCreate).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `InvitationsApi.InvitationsCreate``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -139,7 +139,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth)
+[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth), [tokenAuth](../README.md#tokenAuth)
 
 ### HTTP request headers
 
@@ -170,11 +170,11 @@ import (
 )
 
 func main() {
-    id := TODO // string | 
+    id := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | 
 
     configuration := openapiclient.NewConfiguration()
-    api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.InvitationsApi.InvitationsDestroy(context.Background(), id).Execute()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.InvitationsApi.InvitationsDestroy(context.Background(), id).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `InvitationsApi.InvitationsDestroy``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -188,7 +188,7 @@ func main() {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**id** | [**string**](.md) |  | 
+**id** | **string** |  | 
 
 ### Other Parameters
 
@@ -205,7 +205,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth)
+[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth), [tokenAuth](../README.md#tokenAuth)
 
 ### HTTP request headers
 
@@ -244,8 +244,8 @@ func main() {
     state := "state_example" // string | The current state of the invitation. (optional)
 
     configuration := openapiclient.NewConfiguration()
-    api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.InvitationsApi.InvitationsList(context.Background()).Email(email).Ordering(ordering).Page(page).PageSize(pageSize).Role(role).State(state).Execute()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.InvitationsApi.InvitationsList(context.Background()).Email(email).Ordering(ordering).Page(page).PageSize(pageSize).Role(role).State(state).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `InvitationsApi.InvitationsList``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -279,7 +279,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth)
+[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth), [tokenAuth](../README.md#tokenAuth)
 
 ### HTTP request headers
 
@@ -310,12 +310,12 @@ import (
 )
 
 func main() {
-    id := TODO // string | 
+    id := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | 
     patchedInvitation := *openapiclient.NewPatchedInvitation() // PatchedInvitation |  (optional)
 
     configuration := openapiclient.NewConfiguration()
-    api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.InvitationsApi.InvitationsPartialUpdate(context.Background(), id).PatchedInvitation(patchedInvitation).Execute()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.InvitationsApi.InvitationsPartialUpdate(context.Background(), id).PatchedInvitation(patchedInvitation).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `InvitationsApi.InvitationsPartialUpdate``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -331,7 +331,7 @@ func main() {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**id** | [**string**](.md) |  | 
+**id** | **string** |  | 
 
 ### Other Parameters
 
@@ -349,7 +349,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth)
+[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth), [tokenAuth](../README.md#tokenAuth)
 
 ### HTTP request headers
 
@@ -382,11 +382,11 @@ import (
 )
 
 func main() {
-    id := TODO // string | The invitation ID.
+    id := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | The invitation ID.
 
     configuration := openapiclient.NewConfiguration()
-    api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.InvitationsApi.InvitationsResendCreate(context.Background(), id).Execute()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.InvitationsApi.InvitationsResendCreate(context.Background(), id).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `InvitationsApi.InvitationsResendCreate``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -402,7 +402,7 @@ func main() {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**id** | [**string**](.md) | The invitation ID. | 
+**id** | **string** | The invitation ID. | 
 
 ### Other Parameters
 
@@ -419,7 +419,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth)
+[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth), [tokenAuth](../README.md#tokenAuth)
 
 ### HTTP request headers
 
@@ -450,11 +450,11 @@ import (
 )
 
 func main() {
-    id := TODO // string | 
+    id := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | 
 
     configuration := openapiclient.NewConfiguration()
-    api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.InvitationsApi.InvitationsRetrieve(context.Background(), id).Execute()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.InvitationsApi.InvitationsRetrieve(context.Background(), id).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `InvitationsApi.InvitationsRetrieve``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -470,7 +470,7 @@ func main() {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**id** | [**string**](.md) |  | 
+**id** | **string** |  | 
 
 ### Other Parameters
 
@@ -487,7 +487,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth)
+[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth), [tokenAuth](../README.md#tokenAuth)
 
 ### HTTP request headers
 
@@ -518,12 +518,12 @@ import (
 )
 
 func main() {
-    id := TODO // string | 
-    invitation := *openapiclient.NewInvitation("Url_example", "Id_example", "Email_example", openapiclient.RoleEnum("OWNER"), "Inviter_example", "InviterName_example", "State_example", "StateDetail_example", "Membership_example") // Invitation | 
+    id := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | 
+    invitation := *openapiclient.NewInvitation("Url_example", "Id_example", "Email_example", openapiclient.RoleEnum("OWNER"), "Inviter_example", "InviterName_example", "State_example", "StateDetail_example", "Membership_example", "Organization_example") // Invitation | 
 
     configuration := openapiclient.NewConfiguration()
-    api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.InvitationsApi.InvitationsUpdate(context.Background(), id).Invitation(invitation).Execute()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.InvitationsApi.InvitationsUpdate(context.Background(), id).Invitation(invitation).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `InvitationsApi.InvitationsUpdate``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -539,7 +539,7 @@ func main() {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**id** | [**string**](.md) |  | 
+**id** | **string** |  | 
 
 ### Other Parameters
 
@@ -557,7 +557,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth)
+[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth), [tokenAuth](../README.md#tokenAuth)
 
 ### HTTP request headers
 

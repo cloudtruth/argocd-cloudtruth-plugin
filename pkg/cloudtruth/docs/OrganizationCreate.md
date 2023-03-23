@@ -5,6 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Name** | **string** | The organization name. | 
+**MfaEnabled** | Pointer to **bool** | Multi-factor authentication for the organization | [optional] 
 
 ## Methods
 
@@ -44,6 +45,31 @@ and a boolean to check if the value has been set.
 
 SetName sets Name field to given value.
 
+
+### GetMfaEnabled
+
+`func (o *OrganizationCreate) GetMfaEnabled() bool`
+
+GetMfaEnabled returns the MfaEnabled field if non-nil, zero value otherwise.
+
+### GetMfaEnabledOk
+
+`func (o *OrganizationCreate) GetMfaEnabledOk() (*bool, bool)`
+
+GetMfaEnabledOk returns a tuple with the MfaEnabled field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetMfaEnabled
+
+`func (o *OrganizationCreate) SetMfaEnabled(v bool)`
+
+SetMfaEnabled sets MfaEnabled field to given value.
+
+### HasMfaEnabled
+
+`func (o *OrganizationCreate) HasMfaEnabled() bool`
+
+HasMfaEnabled returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

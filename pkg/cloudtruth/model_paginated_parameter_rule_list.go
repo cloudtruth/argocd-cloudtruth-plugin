@@ -20,7 +20,7 @@ type PaginatedParameterRuleList struct {
 	Count *int32 `json:"count,omitempty"`
 	Next NullableString `json:"next,omitempty"`
 	Previous NullableString `json:"previous,omitempty"`
-	Results *[]ParameterRule `json:"results,omitempty"`
+	Results []ParameterRule `json:"results,omitempty"`
 }
 
 // NewPaginatedParameterRuleList instantiates a new PaginatedParameterRuleList object
@@ -85,7 +85,7 @@ func (o *PaginatedParameterRuleList) GetNext() string {
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *PaginatedParameterRuleList) GetNextOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return o.Next.Get(), o.Next.IsSet()
@@ -127,7 +127,7 @@ func (o *PaginatedParameterRuleList) GetPrevious() string {
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *PaginatedParameterRuleList) GetPreviousOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return o.Previous.Get(), o.Previous.IsSet()
@@ -162,12 +162,12 @@ func (o *PaginatedParameterRuleList) GetResults() []ParameterRule {
 		var ret []ParameterRule
 		return ret
 	}
-	return *o.Results
+	return o.Results
 }
 
 // GetResultsOk returns a tuple with the Results field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *PaginatedParameterRuleList) GetResultsOk() (*[]ParameterRule, bool) {
+func (o *PaginatedParameterRuleList) GetResultsOk() ([]ParameterRule, bool) {
 	if o == nil || o.Results == nil {
 		return nil, false
 	}
@@ -185,7 +185,7 @@ func (o *PaginatedParameterRuleList) HasResults() bool {
 
 // SetResults gets a reference to the given []ParameterRule and assigns it to the Results field.
 func (o *PaginatedParameterRuleList) SetResults(v []ParameterRule) {
-	o.Results = &v
+	o.Results = v
 }
 
 func (o PaginatedParameterRuleList) MarshalJSON() ([]byte, error) {

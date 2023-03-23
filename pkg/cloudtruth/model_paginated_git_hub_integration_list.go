@@ -20,7 +20,7 @@ type PaginatedGitHubIntegrationList struct {
 	Count *int32 `json:"count,omitempty"`
 	Next NullableString `json:"next,omitempty"`
 	Previous NullableString `json:"previous,omitempty"`
-	Results *[]GitHubIntegration `json:"results,omitempty"`
+	Results []GitHubIntegration `json:"results,omitempty"`
 }
 
 // NewPaginatedGitHubIntegrationList instantiates a new PaginatedGitHubIntegrationList object
@@ -85,7 +85,7 @@ func (o *PaginatedGitHubIntegrationList) GetNext() string {
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *PaginatedGitHubIntegrationList) GetNextOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return o.Next.Get(), o.Next.IsSet()
@@ -127,7 +127,7 @@ func (o *PaginatedGitHubIntegrationList) GetPrevious() string {
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *PaginatedGitHubIntegrationList) GetPreviousOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return o.Previous.Get(), o.Previous.IsSet()
@@ -162,12 +162,12 @@ func (o *PaginatedGitHubIntegrationList) GetResults() []GitHubIntegration {
 		var ret []GitHubIntegration
 		return ret
 	}
-	return *o.Results
+	return o.Results
 }
 
 // GetResultsOk returns a tuple with the Results field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *PaginatedGitHubIntegrationList) GetResultsOk() (*[]GitHubIntegration, bool) {
+func (o *PaginatedGitHubIntegrationList) GetResultsOk() ([]GitHubIntegration, bool) {
 	if o == nil || o.Results == nil {
 		return nil, false
 	}
@@ -185,7 +185,7 @@ func (o *PaginatedGitHubIntegrationList) HasResults() bool {
 
 // SetResults gets a reference to the given []GitHubIntegration and assigns it to the Results field.
 func (o *PaginatedGitHubIntegrationList) SetResults(v []GitHubIntegration) {
-	o.Results = &v
+	o.Results = v
 }
 
 func (o PaginatedGitHubIntegrationList) MarshalJSON() ([]byte, error) {

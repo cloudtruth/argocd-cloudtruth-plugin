@@ -25,10 +25,23 @@ type AwsPush struct {
 	Name string `json:"name"`
 	// The optional description for the action.
 	Description *string `json:"description,omitempty"`
-	// The most recent task run for this action.
-	LatestTask NullableAwsPushTask `json:"latest_task"`
+	LatestTask NullableAwsPushLatestTask `json:"latest_task"`
 	CreatedAt time.Time `json:"created_at"`
-	ModifiedAt time.Time `json:"modified_at"`
+	ModifiedAt NullableTime `json:"modified_at"`
+	// This setting allows parameters (non-secrets) to be pushed to a destination that only supports storing secrets.  This may increase your overall cost from the cloud provider as some cloud providers charge a premium for secrets-only storage.
+	CoerceParameters *bool `json:"coerce_parameters,omitempty"`
+	// Include parameters (non-secrets) in the values being pushed.  This setting requires the destination to support parameters or for the `coerce_parameters` flag to be enabled, otherwise the push will fail.
+	IncludeParameters *bool `json:"include_parameters,omitempty"`
+	// Include secrets in the values being pushed.  This setting requires the destination to support secrets, otherwise the push will fail.
+	IncludeSecrets *bool `json:"include_secrets,omitempty"`
+	// Include templates in the values being pushed.
+	IncludeTemplates *bool `json:"include_templates,omitempty"`
+	// When set to dry-run mode an action will report the changes that it would have made in task steps, however those changes are not actually performed.
+	DryRun *bool `json:"dry_run,omitempty"`
+	// Normally, push will check to see if it originated the values in the destination before making changes to them.  Forcing a push disables the ownership check.
+	Force *bool `json:"force,omitempty"`
+	// Normally, push will process all parameters including those that flow in from project dependencies.  Declaring a push as `local` will cause it to only process the parameters defined in the selected projects.
+	Local *bool `json:"local,omitempty"`
 	// Projects that are included in the push.
 	Projects []string `json:"projects"`
 	// Tags are used to select parameters by environment from the projects included in the push.  You cannot have two tags from the same environment in the same push.
@@ -38,14 +51,14 @@ type AwsPush struct {
 	// The AWS service this push targets.  This service must be enabled in the integration.
 	Service AwsServiceEnum `json:"service"`
 	// Defines a path through the integration to the location where values will be pushed.  The following mustache-style substitutions can be used in the string:    - ``{{ environment }}`` to insert the environment name   - ``{{ parameter }}`` to insert the parameter name   - ``{{ project }}`` to insert the project name   - ``{{ push }}`` to insert the push name   - ``{{ tag }}`` to insert the tag name  We recommend that you use project, environment, and parameter at a minimum to disambiguate your pushed resource identifiers.  If you include multiple projects in the push, the `project` substitution is required.  If you include multiple tags from different environments in the push, the `environment` substitution is required.  If you include multiple tags from the same environment in the push, the `tag` substitution is required.  In all cases, the `parameter` substitution is always required.
-	Resource string `json:"resource"`
+	Resource NullableString `json:"resource"`
 }
 
 // NewAwsPush instantiates a new AwsPush object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewAwsPush(url string, id string, name string, latestTask NullableAwsPushTask, createdAt time.Time, modifiedAt time.Time, projects []string, tags []string, region AwsRegionEnum, service AwsServiceEnum, resource string) *AwsPush {
+func NewAwsPush(url string, id string, name string, latestTask NullableAwsPushLatestTask, createdAt time.Time, modifiedAt NullableTime, projects []string, tags []string, region AwsRegionEnum, service AwsServiceEnum, resource NullableString) *AwsPush {
 	this := AwsPush{}
 	this.Url = url
 	this.Id = id
@@ -82,7 +95,7 @@ func (o *AwsPush) GetUrl() string {
 // GetUrlOk returns a tuple with the Url field value
 // and a boolean to check if the value has been set.
 func (o *AwsPush) GetUrlOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Url, true
@@ -106,7 +119,7 @@ func (o *AwsPush) GetId() string {
 // GetIdOk returns a tuple with the Id field value
 // and a boolean to check if the value has been set.
 func (o *AwsPush) GetIdOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Id, true
@@ -130,7 +143,7 @@ func (o *AwsPush) GetName() string {
 // GetNameOk returns a tuple with the Name field value
 // and a boolean to check if the value has been set.
 func (o *AwsPush) GetNameOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Name, true
@@ -174,10 +187,10 @@ func (o *AwsPush) SetDescription(v string) {
 }
 
 // GetLatestTask returns the LatestTask field value
-// If the value is explicit nil, the zero value for AwsPushTask will be returned
-func (o *AwsPush) GetLatestTask() AwsPushTask {
+// If the value is explicit nil, the zero value for AwsPushLatestTask will be returned
+func (o *AwsPush) GetLatestTask() AwsPushLatestTask {
 	if o == nil || o.LatestTask.Get() == nil {
-		var ret AwsPushTask
+		var ret AwsPushLatestTask
 		return ret
 	}
 
@@ -187,15 +200,15 @@ func (o *AwsPush) GetLatestTask() AwsPushTask {
 // GetLatestTaskOk returns a tuple with the LatestTask field value
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *AwsPush) GetLatestTaskOk() (*AwsPushTask, bool) {
-	if o == nil  {
+func (o *AwsPush) GetLatestTaskOk() (*AwsPushLatestTask, bool) {
+	if o == nil {
 		return nil, false
 	}
 	return o.LatestTask.Get(), o.LatestTask.IsSet()
 }
 
 // SetLatestTask sets field value
-func (o *AwsPush) SetLatestTask(v AwsPushTask) {
+func (o *AwsPush) SetLatestTask(v AwsPushLatestTask) {
 	o.LatestTask.Set(&v)
 }
 
@@ -212,7 +225,7 @@ func (o *AwsPush) GetCreatedAt() time.Time {
 // GetCreatedAtOk returns a tuple with the CreatedAt field value
 // and a boolean to check if the value has been set.
 func (o *AwsPush) GetCreatedAtOk() (*time.Time, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.CreatedAt, true
@@ -224,27 +237,253 @@ func (o *AwsPush) SetCreatedAt(v time.Time) {
 }
 
 // GetModifiedAt returns the ModifiedAt field value
+// If the value is explicit nil, the zero value for time.Time will be returned
 func (o *AwsPush) GetModifiedAt() time.Time {
-	if o == nil {
+	if o == nil || o.ModifiedAt.Get() == nil {
 		var ret time.Time
 		return ret
 	}
 
-	return o.ModifiedAt
+	return *o.ModifiedAt.Get()
 }
 
 // GetModifiedAtOk returns a tuple with the ModifiedAt field value
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *AwsPush) GetModifiedAtOk() (*time.Time, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
-	return &o.ModifiedAt, true
+	return o.ModifiedAt.Get(), o.ModifiedAt.IsSet()
 }
 
 // SetModifiedAt sets field value
 func (o *AwsPush) SetModifiedAt(v time.Time) {
-	o.ModifiedAt = v
+	o.ModifiedAt.Set(&v)
+}
+
+// GetCoerceParameters returns the CoerceParameters field value if set, zero value otherwise.
+func (o *AwsPush) GetCoerceParameters() bool {
+	if o == nil || o.CoerceParameters == nil {
+		var ret bool
+		return ret
+	}
+	return *o.CoerceParameters
+}
+
+// GetCoerceParametersOk returns a tuple with the CoerceParameters field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *AwsPush) GetCoerceParametersOk() (*bool, bool) {
+	if o == nil || o.CoerceParameters == nil {
+		return nil, false
+	}
+	return o.CoerceParameters, true
+}
+
+// HasCoerceParameters returns a boolean if a field has been set.
+func (o *AwsPush) HasCoerceParameters() bool {
+	if o != nil && o.CoerceParameters != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetCoerceParameters gets a reference to the given bool and assigns it to the CoerceParameters field.
+func (o *AwsPush) SetCoerceParameters(v bool) {
+	o.CoerceParameters = &v
+}
+
+// GetIncludeParameters returns the IncludeParameters field value if set, zero value otherwise.
+func (o *AwsPush) GetIncludeParameters() bool {
+	if o == nil || o.IncludeParameters == nil {
+		var ret bool
+		return ret
+	}
+	return *o.IncludeParameters
+}
+
+// GetIncludeParametersOk returns a tuple with the IncludeParameters field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *AwsPush) GetIncludeParametersOk() (*bool, bool) {
+	if o == nil || o.IncludeParameters == nil {
+		return nil, false
+	}
+	return o.IncludeParameters, true
+}
+
+// HasIncludeParameters returns a boolean if a field has been set.
+func (o *AwsPush) HasIncludeParameters() bool {
+	if o != nil && o.IncludeParameters != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetIncludeParameters gets a reference to the given bool and assigns it to the IncludeParameters field.
+func (o *AwsPush) SetIncludeParameters(v bool) {
+	o.IncludeParameters = &v
+}
+
+// GetIncludeSecrets returns the IncludeSecrets field value if set, zero value otherwise.
+func (o *AwsPush) GetIncludeSecrets() bool {
+	if o == nil || o.IncludeSecrets == nil {
+		var ret bool
+		return ret
+	}
+	return *o.IncludeSecrets
+}
+
+// GetIncludeSecretsOk returns a tuple with the IncludeSecrets field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *AwsPush) GetIncludeSecretsOk() (*bool, bool) {
+	if o == nil || o.IncludeSecrets == nil {
+		return nil, false
+	}
+	return o.IncludeSecrets, true
+}
+
+// HasIncludeSecrets returns a boolean if a field has been set.
+func (o *AwsPush) HasIncludeSecrets() bool {
+	if o != nil && o.IncludeSecrets != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetIncludeSecrets gets a reference to the given bool and assigns it to the IncludeSecrets field.
+func (o *AwsPush) SetIncludeSecrets(v bool) {
+	o.IncludeSecrets = &v
+}
+
+// GetIncludeTemplates returns the IncludeTemplates field value if set, zero value otherwise.
+func (o *AwsPush) GetIncludeTemplates() bool {
+	if o == nil || o.IncludeTemplates == nil {
+		var ret bool
+		return ret
+	}
+	return *o.IncludeTemplates
+}
+
+// GetIncludeTemplatesOk returns a tuple with the IncludeTemplates field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *AwsPush) GetIncludeTemplatesOk() (*bool, bool) {
+	if o == nil || o.IncludeTemplates == nil {
+		return nil, false
+	}
+	return o.IncludeTemplates, true
+}
+
+// HasIncludeTemplates returns a boolean if a field has been set.
+func (o *AwsPush) HasIncludeTemplates() bool {
+	if o != nil && o.IncludeTemplates != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetIncludeTemplates gets a reference to the given bool and assigns it to the IncludeTemplates field.
+func (o *AwsPush) SetIncludeTemplates(v bool) {
+	o.IncludeTemplates = &v
+}
+
+// GetDryRun returns the DryRun field value if set, zero value otherwise.
+func (o *AwsPush) GetDryRun() bool {
+	if o == nil || o.DryRun == nil {
+		var ret bool
+		return ret
+	}
+	return *o.DryRun
+}
+
+// GetDryRunOk returns a tuple with the DryRun field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *AwsPush) GetDryRunOk() (*bool, bool) {
+	if o == nil || o.DryRun == nil {
+		return nil, false
+	}
+	return o.DryRun, true
+}
+
+// HasDryRun returns a boolean if a field has been set.
+func (o *AwsPush) HasDryRun() bool {
+	if o != nil && o.DryRun != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetDryRun gets a reference to the given bool and assigns it to the DryRun field.
+func (o *AwsPush) SetDryRun(v bool) {
+	o.DryRun = &v
+}
+
+// GetForce returns the Force field value if set, zero value otherwise.
+func (o *AwsPush) GetForce() bool {
+	if o == nil || o.Force == nil {
+		var ret bool
+		return ret
+	}
+	return *o.Force
+}
+
+// GetForceOk returns a tuple with the Force field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *AwsPush) GetForceOk() (*bool, bool) {
+	if o == nil || o.Force == nil {
+		return nil, false
+	}
+	return o.Force, true
+}
+
+// HasForce returns a boolean if a field has been set.
+func (o *AwsPush) HasForce() bool {
+	if o != nil && o.Force != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetForce gets a reference to the given bool and assigns it to the Force field.
+func (o *AwsPush) SetForce(v bool) {
+	o.Force = &v
+}
+
+// GetLocal returns the Local field value if set, zero value otherwise.
+func (o *AwsPush) GetLocal() bool {
+	if o == nil || o.Local == nil {
+		var ret bool
+		return ret
+	}
+	return *o.Local
+}
+
+// GetLocalOk returns a tuple with the Local field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *AwsPush) GetLocalOk() (*bool, bool) {
+	if o == nil || o.Local == nil {
+		return nil, false
+	}
+	return o.Local, true
+}
+
+// HasLocal returns a boolean if a field has been set.
+func (o *AwsPush) HasLocal() bool {
+	if o != nil && o.Local != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetLocal gets a reference to the given bool and assigns it to the Local field.
+func (o *AwsPush) SetLocal(v bool) {
+	o.Local = &v
 }
 
 // GetProjects returns the Projects field value
@@ -259,11 +498,11 @@ func (o *AwsPush) GetProjects() []string {
 
 // GetProjectsOk returns a tuple with the Projects field value
 // and a boolean to check if the value has been set.
-func (o *AwsPush) GetProjectsOk() (*[]string, bool) {
-	if o == nil  {
+func (o *AwsPush) GetProjectsOk() ([]string, bool) {
+	if o == nil {
 		return nil, false
 	}
-	return &o.Projects, true
+	return o.Projects, true
 }
 
 // SetProjects sets field value
@@ -283,11 +522,11 @@ func (o *AwsPush) GetTags() []string {
 
 // GetTagsOk returns a tuple with the Tags field value
 // and a boolean to check if the value has been set.
-func (o *AwsPush) GetTagsOk() (*[]string, bool) {
-	if o == nil  {
+func (o *AwsPush) GetTagsOk() ([]string, bool) {
+	if o == nil {
 		return nil, false
 	}
-	return &o.Tags, true
+	return o.Tags, true
 }
 
 // SetTags sets field value
@@ -308,7 +547,7 @@ func (o *AwsPush) GetRegion() AwsRegionEnum {
 // GetRegionOk returns a tuple with the Region field value
 // and a boolean to check if the value has been set.
 func (o *AwsPush) GetRegionOk() (*AwsRegionEnum, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Region, true
@@ -332,7 +571,7 @@ func (o *AwsPush) GetService() AwsServiceEnum {
 // GetServiceOk returns a tuple with the Service field value
 // and a boolean to check if the value has been set.
 func (o *AwsPush) GetServiceOk() (*AwsServiceEnum, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Service, true
@@ -344,27 +583,29 @@ func (o *AwsPush) SetService(v AwsServiceEnum) {
 }
 
 // GetResource returns the Resource field value
+// If the value is explicit nil, the zero value for string will be returned
 func (o *AwsPush) GetResource() string {
-	if o == nil {
+	if o == nil || o.Resource.Get() == nil {
 		var ret string
 		return ret
 	}
 
-	return o.Resource
+	return *o.Resource.Get()
 }
 
 // GetResourceOk returns a tuple with the Resource field value
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *AwsPush) GetResourceOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
-	return &o.Resource, true
+	return o.Resource.Get(), o.Resource.IsSet()
 }
 
 // SetResource sets field value
 func (o *AwsPush) SetResource(v string) {
-	o.Resource = v
+	o.Resource.Set(&v)
 }
 
 func (o AwsPush) MarshalJSON() ([]byte, error) {
@@ -388,7 +629,28 @@ func (o AwsPush) MarshalJSON() ([]byte, error) {
 		toSerialize["created_at"] = o.CreatedAt
 	}
 	if true {
-		toSerialize["modified_at"] = o.ModifiedAt
+		toSerialize["modified_at"] = o.ModifiedAt.Get()
+	}
+	if o.CoerceParameters != nil {
+		toSerialize["coerce_parameters"] = o.CoerceParameters
+	}
+	if o.IncludeParameters != nil {
+		toSerialize["include_parameters"] = o.IncludeParameters
+	}
+	if o.IncludeSecrets != nil {
+		toSerialize["include_secrets"] = o.IncludeSecrets
+	}
+	if o.IncludeTemplates != nil {
+		toSerialize["include_templates"] = o.IncludeTemplates
+	}
+	if o.DryRun != nil {
+		toSerialize["dry_run"] = o.DryRun
+	}
+	if o.Force != nil {
+		toSerialize["force"] = o.Force
+	}
+	if o.Local != nil {
+		toSerialize["local"] = o.Local
 	}
 	if true {
 		toSerialize["projects"] = o.Projects
@@ -403,7 +665,7 @@ func (o AwsPush) MarshalJSON() ([]byte, error) {
 		toSerialize["service"] = o.Service
 	}
 	if true {
-		toSerialize["resource"] = o.Resource
+		toSerialize["resource"] = o.Resource.Get()
 	}
 	return json.Marshal(toSerialize)
 }

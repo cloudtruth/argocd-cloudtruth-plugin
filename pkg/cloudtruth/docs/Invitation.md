@@ -12,13 +12,14 @@ Name | Type | Description | Notes
 **InviterName** | **string** | The name of the user that created the invitation. | [readonly] 
 **State** | **string** | The current state of the invitation. | [readonly] 
 **StateDetail** | **string** | Additional details about the state of the invitation. | [readonly] 
-**Membership** | **string** | The resulting membership, should the user accept. | [readonly] 
+**Membership** | **NullableString** | The resulting membership, should the user accept. | [readonly] 
+**Organization** | **string** | The organization that the user will become a member of, should the user accept. | [readonly] 
 
 ## Methods
 
 ### NewInvitation
 
-`func NewInvitation(url string, id string, email string, role RoleEnum, inviter string, inviterName string, state string, stateDetail string, membership string, ) *Invitation`
+`func NewInvitation(url string, id string, email string, role RoleEnum, inviter string, inviterName string, state string, stateDetail string, membership NullableString, organization string, ) *Invitation`
 
 NewInvitation instantiates a new Invitation object
 This constructor will assign default values to properties that have it defined,
@@ -211,6 +212,36 @@ and a boolean to check if the value has been set.
 `func (o *Invitation) SetMembership(v string)`
 
 SetMembership sets Membership field to given value.
+
+
+### SetMembershipNil
+
+`func (o *Invitation) SetMembershipNil(b bool)`
+
+ SetMembershipNil sets the value for Membership to be an explicit nil
+
+### UnsetMembership
+`func (o *Invitation) UnsetMembership()`
+
+UnsetMembership ensures that no value is present for Membership, not even an explicit nil
+### GetOrganization
+
+`func (o *Invitation) GetOrganization() string`
+
+GetOrganization returns the Organization field if non-nil, zero value otherwise.
+
+### GetOrganizationOk
+
+`func (o *Invitation) GetOrganizationOk() (*string, bool)`
+
+GetOrganizationOk returns a tuple with the Organization field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetOrganization
+
+`func (o *Invitation) SetOrganization(v string)`
+
+SetOrganization sets Organization field to given value.
 
 
 

@@ -20,7 +20,7 @@ type PaginatedAwsPushTaskList struct {
 	Count *int32 `json:"count,omitempty"`
 	Next NullableString `json:"next,omitempty"`
 	Previous NullableString `json:"previous,omitempty"`
-	Results *[]AwsPushTask `json:"results,omitempty"`
+	Results []AwsPushTask `json:"results,omitempty"`
 }
 
 // NewPaginatedAwsPushTaskList instantiates a new PaginatedAwsPushTaskList object
@@ -85,7 +85,7 @@ func (o *PaginatedAwsPushTaskList) GetNext() string {
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *PaginatedAwsPushTaskList) GetNextOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return o.Next.Get(), o.Next.IsSet()
@@ -127,7 +127,7 @@ func (o *PaginatedAwsPushTaskList) GetPrevious() string {
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *PaginatedAwsPushTaskList) GetPreviousOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return o.Previous.Get(), o.Previous.IsSet()
@@ -162,12 +162,12 @@ func (o *PaginatedAwsPushTaskList) GetResults() []AwsPushTask {
 		var ret []AwsPushTask
 		return ret
 	}
-	return *o.Results
+	return o.Results
 }
 
 // GetResultsOk returns a tuple with the Results field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *PaginatedAwsPushTaskList) GetResultsOk() (*[]AwsPushTask, bool) {
+func (o *PaginatedAwsPushTaskList) GetResultsOk() ([]AwsPushTask, bool) {
 	if o == nil || o.Results == nil {
 		return nil, false
 	}
@@ -185,7 +185,7 @@ func (o *PaginatedAwsPushTaskList) HasResults() bool {
 
 // SetResults gets a reference to the given []AwsPushTask and assigns it to the Results field.
 func (o *PaginatedAwsPushTaskList) SetResults(v []AwsPushTask) {
-	o.Results = &v
+	o.Results = v
 }
 
 func (o PaginatedAwsPushTaskList) MarshalJSON() ([]byte, error) {

@@ -4,16 +4,17 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Id** | **string** | A unique identifier for the parameter. | [readonly] 
+**Id** | **string** |  | [readonly] 
+**LedgerId** | **string** |  | [readonly] 
 **Name** | **string** | The parameter name. | 
-**Description** | Pointer to **string** | A description of the parameter.  You may find it helpful to document how this parameter is used to assist others when they need to maintain software that uses this content. | [optional] 
+**Description** | Pointer to **string** |  | [optional] 
 **Body** | Pointer to **string** | The content of the template.  Use mustache-style templating delimiters of &#x60;{{&#x60; and &#x60;}}&#x60; to reference parameter values by name for substitution into the template result. | [optional] 
 
 ## Methods
 
 ### NewTemplateTimelineEntryTemplate
 
-`func NewTemplateTimelineEntryTemplate(id string, name string, ) *TemplateTimelineEntryTemplate`
+`func NewTemplateTimelineEntryTemplate(id string, ledgerId string, name string, ) *TemplateTimelineEntryTemplate`
 
 NewTemplateTimelineEntryTemplate instantiates a new TemplateTimelineEntryTemplate object
 This constructor will assign default values to properties that have it defined,
@@ -46,6 +47,26 @@ and a boolean to check if the value has been set.
 `func (o *TemplateTimelineEntryTemplate) SetId(v string)`
 
 SetId sets Id field to given value.
+
+
+### GetLedgerId
+
+`func (o *TemplateTimelineEntryTemplate) GetLedgerId() string`
+
+GetLedgerId returns the LedgerId field if non-nil, zero value otherwise.
+
+### GetLedgerIdOk
+
+`func (o *TemplateTimelineEntryTemplate) GetLedgerIdOk() (*string, bool)`
+
+GetLedgerIdOk returns a tuple with the LedgerId field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetLedgerId
+
+`func (o *TemplateTimelineEntryTemplate) SetLedgerId(v string)`
+
+SetLedgerId sets LedgerId field to given value.
 
 
 ### GetName

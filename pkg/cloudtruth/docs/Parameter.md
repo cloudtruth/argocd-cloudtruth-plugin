@@ -4,26 +4,29 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Url** | **string** |  | [readonly] 
-**Id** | **string** | A unique identifier for the parameter. | [readonly] 
+**Url** | **string** | The parameter url. | [readonly] 
+**Id** | **string** |  | [readonly] 
+**LedgerId** | **string** |  | [readonly] 
 **Name** | **string** | The parameter name. | 
-**Description** | Pointer to **string** | A description of the parameter.  You may find it helpful to document how this parameter is used to assist others when they need to maintain software that uses this content. | [optional] 
-**Secret** | Pointer to **bool** | Indicates if this content is secret or not.  When a parameter is considered to be a secret, any internal values are stored in a dedicated vault for your organization for maximum security.  External values are inspected on-demand to ensure they align with the parameter&#39;s secret setting and if they do not, those external values are not allowed to be used. | [optional] 
-**Type** | Pointer to [**ParameterTypeEnum**](ParameterTypeEnum.md) |  | [optional] 
+**Description** | Pointer to **string** |  | [optional] 
+**Secret** | Pointer to **bool** |  | [optional] 
+**Type** | Pointer to **string** | The type of this Parameter. | [optional] [default to "string"]
 **Rules** | [**[]ParameterRule**](ParameterRule.md) | Rules applied to this parameter. | [readonly] 
-**Project** | **string** | The project that the parameter is within. | [readonly] 
-**ProjectName** | **string** | The project name that the parameter is within | [readonly] 
-**ReferencingTemplates** | **[]string** | Templates that reference this Parameter. | [readonly] 
-**ReferencingValues** | **[]string** | Dynamic values that reference this Parameter. | [readonly] 
-**Values** | [**map[string]Value**](Value.md) |              Each parameter has an effective value in every environment based on             environment inheritance and which environments have had a value set.              Environments inherit from a single parent to form a tree, as a result             a single parameter may have different values present for each environment.             When a value is not explicitly set in an environment, the parent environment             is consulted to see if it has a value defined, and so on.              The dictionary of values has an environment url as the key, and the optional             Value record that it resolves to.  If the Value.environment matches the key,             then it is an explicit value set for that environment.  If they differ, the             value was obtained from a parent environment (directly or indirectly).  If the             value is None then no value has ever been set in any environment for this             parameter.              key: Environment url             value: optional Value record          | [readonly] 
+**Project** | **string** | The project url. | [readonly] 
+**ProjectName** | **string** | The project name that the parameter is within. | [readonly] 
+**ReferencingTemplates** | **[]string** | Templates that reference this Parameter.  This field is not valid for history requests. | [readonly] 
+**ReferencingValues** | **[]string** | Dynamic values that reference this Parameter.  This field is not valid for history requests. | [readonly] 
+**Values** | [**map[string]ParameterValuesValue**](ParameterValuesValue.md) |              This dictionary has keys that correspond to environment urls, and values             that correspond to the effective value for this parameter in that environment.             Each parameter has an effective value in every environment based on             project dependencies and environment inheritance.              The effective value is found by looking (within the keyed environment) up             the project dependencies by parameter name.  If a value is not found, the             parent environment is consulted with the same logic to locate a value.  It             is possible for there to be a &#x60;null&#x60; value record for an environment, which             means there is no value set; it is also possible for there to be a value record             with a &#x60;value&#x60; of &#x60;null&#x60;, which means the value was explicitly set to &#x60;null&#x60;.              If the value&#39;s parameter does not match the enclosing parameter (holding the             values array) then that value is flowing in through project dependencies.             Clients must recognize this in case the user asks to modify the value; in this             case the client must POST a new Value to the current parameter to override the             value coming in from the project dependency.              If the Value.environment matches the key, then it is an explicit value set for             that environment.  If they differ, the value was obtained from a parent             environment (directly or indirectly).  If the value is None then no value has             ever been set in any environment for this parameter within all the project             dependencies.          | [readonly] 
+**ValuesFlat** | [**[]Value**](Value.md) |          Identical to values, except the dictionary is flattened to a list.         Note that in this case, the environment in the Value is the environment         asked for, not the environment where it was obtained.          | [readonly] 
+**Overrides** | **NullableString** | If this parameter&#39;s project depends on another project which provides a parameter of the same name, this parameter overrides the one provided by the dependee.  You can use this field to determine if there will be side-effects the user should know about when deleting a parameter.  Deleting a parameter that overrides another one due to an identical name will uncover the one from the dependee project. | [readonly] 
 **CreatedAt** | **time.Time** |  | [readonly] 
-**ModifiedAt** | **time.Time** |  | [readonly] 
+**ModifiedAt** | **NullableTime** |  | [readonly] 
 
 ## Methods
 
 ### NewParameter
 
-`func NewParameter(url string, id string, name string, rules []ParameterRule, project string, projectName string, referencingTemplates []string, referencingValues []string, values map[string]Value, createdAt time.Time, modifiedAt time.Time, ) *Parameter`
+`func NewParameter(url string, id string, ledgerId string, name string, rules []ParameterRule, project string, projectName string, referencingTemplates []string, referencingValues []string, values map[string]ParameterValuesValue, valuesFlat []Value, overrides NullableString, createdAt time.Time, modifiedAt NullableTime, ) *Parameter`
 
 NewParameter instantiates a new Parameter object
 This constructor will assign default values to properties that have it defined,
@@ -76,6 +79,26 @@ and a boolean to check if the value has been set.
 `func (o *Parameter) SetId(v string)`
 
 SetId sets Id field to given value.
+
+
+### GetLedgerId
+
+`func (o *Parameter) GetLedgerId() string`
+
+GetLedgerId returns the LedgerId field if non-nil, zero value otherwise.
+
+### GetLedgerIdOk
+
+`func (o *Parameter) GetLedgerIdOk() (*string, bool)`
+
+GetLedgerIdOk returns a tuple with the LedgerId field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetLedgerId
+
+`func (o *Parameter) SetLedgerId(v string)`
+
+SetLedgerId sets LedgerId field to given value.
 
 
 ### GetName
@@ -150,20 +173,20 @@ HasSecret returns a boolean if a field has been set.
 
 ### GetType
 
-`func (o *Parameter) GetType() ParameterTypeEnum`
+`func (o *Parameter) GetType() string`
 
 GetType returns the Type field if non-nil, zero value otherwise.
 
 ### GetTypeOk
 
-`func (o *Parameter) GetTypeOk() (*ParameterTypeEnum, bool)`
+`func (o *Parameter) GetTypeOk() (*string, bool)`
 
 GetTypeOk returns a tuple with the Type field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetType
 
-`func (o *Parameter) SetType(v ParameterTypeEnum)`
+`func (o *Parameter) SetType(v string)`
 
 SetType sets Type field to given value.
 
@@ -275,24 +298,74 @@ SetReferencingValues sets ReferencingValues field to given value.
 
 ### GetValues
 
-`func (o *Parameter) GetValues() map[string]Value`
+`func (o *Parameter) GetValues() map[string]ParameterValuesValue`
 
 GetValues returns the Values field if non-nil, zero value otherwise.
 
 ### GetValuesOk
 
-`func (o *Parameter) GetValuesOk() (*map[string]Value, bool)`
+`func (o *Parameter) GetValuesOk() (*map[string]ParameterValuesValue, bool)`
 
 GetValuesOk returns a tuple with the Values field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetValues
 
-`func (o *Parameter) SetValues(v map[string]Value)`
+`func (o *Parameter) SetValues(v map[string]ParameterValuesValue)`
 
 SetValues sets Values field to given value.
 
 
+### GetValuesFlat
+
+`func (o *Parameter) GetValuesFlat() []Value`
+
+GetValuesFlat returns the ValuesFlat field if non-nil, zero value otherwise.
+
+### GetValuesFlatOk
+
+`func (o *Parameter) GetValuesFlatOk() (*[]Value, bool)`
+
+GetValuesFlatOk returns a tuple with the ValuesFlat field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetValuesFlat
+
+`func (o *Parameter) SetValuesFlat(v []Value)`
+
+SetValuesFlat sets ValuesFlat field to given value.
+
+
+### GetOverrides
+
+`func (o *Parameter) GetOverrides() string`
+
+GetOverrides returns the Overrides field if non-nil, zero value otherwise.
+
+### GetOverridesOk
+
+`func (o *Parameter) GetOverridesOk() (*string, bool)`
+
+GetOverridesOk returns a tuple with the Overrides field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetOverrides
+
+`func (o *Parameter) SetOverrides(v string)`
+
+SetOverrides sets Overrides field to given value.
+
+
+### SetOverridesNil
+
+`func (o *Parameter) SetOverridesNil(b bool)`
+
+ SetOverridesNil sets the value for Overrides to be an explicit nil
+
+### UnsetOverrides
+`func (o *Parameter) UnsetOverrides()`
+
+UnsetOverrides ensures that no value is present for Overrides, not even an explicit nil
 ### GetCreatedAt
 
 `func (o *Parameter) GetCreatedAt() time.Time`
@@ -333,6 +406,16 @@ and a boolean to check if the value has been set.
 SetModifiedAt sets ModifiedAt field to given value.
 
 
+### SetModifiedAtNil
+
+`func (o *Parameter) SetModifiedAtNil(b bool)`
+
+ SetModifiedAtNil sets the value for ModifiedAt to be an explicit nil
+
+### UnsetModifiedAt
+`func (o *Parameter) UnsetModifiedAt()`
+
+UnsetModifiedAt ensures that no value is present for ModifiedAt, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

@@ -27,8 +27,10 @@ type AwsIntegrationCreate struct {
 	AwsEnabledRegions []AwsRegionEnum `json:"aws_enabled_regions"`
 	// The AWS services to integrate with.
 	AwsEnabledServices []AwsServiceEnum `json:"aws_enabled_services"`
-	// This is a shared secret between the AWS Administrator who set up your IAM trust relationship and your CloudTruth AWS Integration.  If your AWS Administrator provided you with a value use it, otherwise we will generate a random value for you to give to your AWS Administrator.
+	// This is a shared secret between the AWS Administrator who set up your IAM trust relationship and your CloudTruth AWS Integration.  CloudTruth will generate a random value for you to give to your AWS Administrator in order to create the necessary IAM role for proper access.
 	AwsExternalId *string `json:"aws_external_id,omitempty"`
+	// If present, this is the KMS Key Id that is used to push values.  This key must be accessible in the AWS account (it cannot be an ARN to a key in another AWS account). 
+	AwsKmsKeyId NullableString `json:"aws_kms_key_id,omitempty"`
 	// The role that CloudTruth will assume when interacting with your AWS Account through this integration.  The role is configured by your AWS Account Administrator.  If your AWS Administrator provided you with a value use it, otherwise make your own role name and give it to your AWS Administrator.
 	AwsRoleName string `json:"aws_role_name"`
 }
@@ -131,7 +133,7 @@ func (o *AwsIntegrationCreate) GetAwsAccountId() string {
 // GetAwsAccountIdOk returns a tuple with the AwsAccountId field value
 // and a boolean to check if the value has been set.
 func (o *AwsIntegrationCreate) GetAwsAccountIdOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.AwsAccountId, true
@@ -154,11 +156,11 @@ func (o *AwsIntegrationCreate) GetAwsEnabledRegions() []AwsRegionEnum {
 
 // GetAwsEnabledRegionsOk returns a tuple with the AwsEnabledRegions field value
 // and a boolean to check if the value has been set.
-func (o *AwsIntegrationCreate) GetAwsEnabledRegionsOk() (*[]AwsRegionEnum, bool) {
-	if o == nil  {
+func (o *AwsIntegrationCreate) GetAwsEnabledRegionsOk() ([]AwsRegionEnum, bool) {
+	if o == nil {
 		return nil, false
 	}
-	return &o.AwsEnabledRegions, true
+	return o.AwsEnabledRegions, true
 }
 
 // SetAwsEnabledRegions sets field value
@@ -178,11 +180,11 @@ func (o *AwsIntegrationCreate) GetAwsEnabledServices() []AwsServiceEnum {
 
 // GetAwsEnabledServicesOk returns a tuple with the AwsEnabledServices field value
 // and a boolean to check if the value has been set.
-func (o *AwsIntegrationCreate) GetAwsEnabledServicesOk() (*[]AwsServiceEnum, bool) {
-	if o == nil  {
+func (o *AwsIntegrationCreate) GetAwsEnabledServicesOk() ([]AwsServiceEnum, bool) {
+	if o == nil {
 		return nil, false
 	}
-	return &o.AwsEnabledServices, true
+	return o.AwsEnabledServices, true
 }
 
 // SetAwsEnabledServices sets field value
@@ -222,6 +224,48 @@ func (o *AwsIntegrationCreate) SetAwsExternalId(v string) {
 	o.AwsExternalId = &v
 }
 
+// GetAwsKmsKeyId returns the AwsKmsKeyId field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *AwsIntegrationCreate) GetAwsKmsKeyId() string {
+	if o == nil || o.AwsKmsKeyId.Get() == nil {
+		var ret string
+		return ret
+	}
+	return *o.AwsKmsKeyId.Get()
+}
+
+// GetAwsKmsKeyIdOk returns a tuple with the AwsKmsKeyId field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *AwsIntegrationCreate) GetAwsKmsKeyIdOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.AwsKmsKeyId.Get(), o.AwsKmsKeyId.IsSet()
+}
+
+// HasAwsKmsKeyId returns a boolean if a field has been set.
+func (o *AwsIntegrationCreate) HasAwsKmsKeyId() bool {
+	if o != nil && o.AwsKmsKeyId.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetAwsKmsKeyId gets a reference to the given NullableString and assigns it to the AwsKmsKeyId field.
+func (o *AwsIntegrationCreate) SetAwsKmsKeyId(v string) {
+	o.AwsKmsKeyId.Set(&v)
+}
+// SetAwsKmsKeyIdNil sets the value for AwsKmsKeyId to be an explicit nil
+func (o *AwsIntegrationCreate) SetAwsKmsKeyIdNil() {
+	o.AwsKmsKeyId.Set(nil)
+}
+
+// UnsetAwsKmsKeyId ensures that no value is present for AwsKmsKeyId, not even an explicit nil
+func (o *AwsIntegrationCreate) UnsetAwsKmsKeyId() {
+	o.AwsKmsKeyId.Unset()
+}
+
 // GetAwsRoleName returns the AwsRoleName field value
 func (o *AwsIntegrationCreate) GetAwsRoleName() string {
 	if o == nil {
@@ -235,7 +279,7 @@ func (o *AwsIntegrationCreate) GetAwsRoleName() string {
 // GetAwsRoleNameOk returns a tuple with the AwsRoleName field value
 // and a boolean to check if the value has been set.
 func (o *AwsIntegrationCreate) GetAwsRoleNameOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.AwsRoleName, true
@@ -265,6 +309,9 @@ func (o AwsIntegrationCreate) MarshalJSON() ([]byte, error) {
 	}
 	if o.AwsExternalId != nil {
 		toSerialize["aws_external_id"] = o.AwsExternalId
+	}
+	if o.AwsKmsKeyId.IsSet() {
+		toSerialize["aws_kms_key_id"] = o.AwsKmsKeyId.Get()
 	}
 	if true {
 		toSerialize["aws_role_name"] = o.AwsRoleName

@@ -21,6 +21,8 @@ type ServiceAccountCreateRequest struct {
 	Name string `json:"name"`
 	// An optional description of the process or system using the service account.
 	Description *string `json:"description,omitempty"`
+	// The role for the service acount
+	Role *string `json:"role,omitempty"`
 }
 
 // NewServiceAccountCreateRequest instantiates a new ServiceAccountCreateRequest object
@@ -54,7 +56,7 @@ func (o *ServiceAccountCreateRequest) GetName() string {
 // GetNameOk returns a tuple with the Name field value
 // and a boolean to check if the value has been set.
 func (o *ServiceAccountCreateRequest) GetNameOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Name, true
@@ -97,6 +99,38 @@ func (o *ServiceAccountCreateRequest) SetDescription(v string) {
 	o.Description = &v
 }
 
+// GetRole returns the Role field value if set, zero value otherwise.
+func (o *ServiceAccountCreateRequest) GetRole() string {
+	if o == nil || o.Role == nil {
+		var ret string
+		return ret
+	}
+	return *o.Role
+}
+
+// GetRoleOk returns a tuple with the Role field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ServiceAccountCreateRequest) GetRoleOk() (*string, bool) {
+	if o == nil || o.Role == nil {
+		return nil, false
+	}
+	return o.Role, true
+}
+
+// HasRole returns a boolean if a field has been set.
+func (o *ServiceAccountCreateRequest) HasRole() bool {
+	if o != nil && o.Role != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetRole gets a reference to the given string and assigns it to the Role field.
+func (o *ServiceAccountCreateRequest) SetRole(v string) {
+	o.Role = &v
+}
+
 func (o ServiceAccountCreateRequest) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if true {
@@ -104,6 +138,9 @@ func (o ServiceAccountCreateRequest) MarshalJSON() ([]byte, error) {
 	}
 	if o.Description != nil {
 		toSerialize["description"] = o.Description
+	}
+	if o.Role != nil {
+		toSerialize["role"] = o.Role
 	}
 	return json.Marshal(toSerialize)
 }

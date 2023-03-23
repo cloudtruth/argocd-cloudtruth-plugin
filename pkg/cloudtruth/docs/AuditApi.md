@@ -12,7 +12,7 @@ Method | HTTP request | Description
 
 ## AuditList
 
-> PaginatedAuditTrailList AuditList(ctx).Action(action).Earliest(earliest).Latest(latest).ObjectId(objectId).ObjectType(objectType).Ordering(ordering).Page(page).PageSize(pageSize).UserId(userId).Execute()
+> PaginatedAuditTrailList AuditList(ctx).Action(action).Earliest(earliest).EnvironmentId(environmentId).Latest(latest).ObjectId(objectId).ObjectType(objectType).Ordering(ordering).Page(page).PageSize(pageSize).ParameterId(parameterId).ProjectId(projectId).UserId(userId).Execute()
 
 
 
@@ -34,17 +34,20 @@ import (
 func main() {
     action := "action_example" // string | The action that was taken. (optional)
     earliest := time.Now() // time.Time |  (optional)
+    environmentId := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | Returns records for the environment, associated tags, and values. (optional)
     latest := time.Now() // time.Time |  (optional)
     objectId := "objectId_example" // string |  (optional)
     objectType := "objectType_example" // string |  (optional)
     ordering := "ordering_example" // string | Which field to use when ordering the results. (optional)
     page := int32(56) // int32 | A page number within the paginated result set. (optional)
     pageSize := int32(56) // int32 | Number of results to return per page. (optional)
+    parameterId := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | Returns records for the parameter and associated values. (optional)
+    projectId := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | Returns records for the project, it's parameters, and associated values. (optional)
     userId := "userId_example" // string |  (optional)
 
     configuration := openapiclient.NewConfiguration()
-    api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.AuditApi.AuditList(context.Background()).Action(action).Earliest(earliest).Latest(latest).ObjectId(objectId).ObjectType(objectType).Ordering(ordering).Page(page).PageSize(pageSize).UserId(userId).Execute()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.AuditApi.AuditList(context.Background()).Action(action).Earliest(earliest).EnvironmentId(environmentId).Latest(latest).ObjectId(objectId).ObjectType(objectType).Ordering(ordering).Page(page).PageSize(pageSize).ParameterId(parameterId).ProjectId(projectId).UserId(userId).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `AuditApi.AuditList``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -67,12 +70,15 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **action** | **string** | The action that was taken. | 
  **earliest** | **time.Time** |  | 
+ **environmentId** | **string** | Returns records for the environment, associated tags, and values. | 
  **latest** | **time.Time** |  | 
  **objectId** | **string** |  | 
  **objectType** | **string** |  | 
  **ordering** | **string** | Which field to use when ordering the results. | 
  **page** | **int32** | A page number within the paginated result set. | 
  **pageSize** | **int32** | Number of results to return per page. | 
+ **parameterId** | **string** | Returns records for the parameter and associated values. | 
+ **projectId** | **string** | Returns records for the project, it&#39;s parameters, and associated values. | 
  **userId** | **string** |  | 
 
 ### Return type
@@ -81,7 +87,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth)
+[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth), [tokenAuth](../README.md#tokenAuth)
 
 ### HTTP request headers
 
@@ -114,11 +120,11 @@ import (
 )
 
 func main() {
-    id := TODO // string | 
+    id := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | 
 
     configuration := openapiclient.NewConfiguration()
-    api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.AuditApi.AuditRetrieve(context.Background(), id).Execute()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.AuditApi.AuditRetrieve(context.Background(), id).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `AuditApi.AuditRetrieve``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -134,7 +140,7 @@ func main() {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**id** | [**string**](.md) |  | 
+**id** | **string** |  | 
 
 ### Other Parameters
 
@@ -151,7 +157,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth)
+[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth), [tokenAuth](../README.md#tokenAuth)
 
 ### HTTP request headers
 
@@ -186,8 +192,8 @@ import (
 func main() {
 
     configuration := openapiclient.NewConfiguration()
-    api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.AuditApi.AuditSummaryRetrieve(context.Background()).Execute()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.AuditApi.AuditSummaryRetrieve(context.Background()).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `AuditApi.AuditSummaryRetrieve``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -212,7 +218,7 @@ Other parameters are passed through a pointer to a apiAuditSummaryRetrieveReques
 
 ### Authorization
 
-[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth)
+[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth), [tokenAuth](../README.md#tokenAuth)
 
 ### HTTP request headers
 

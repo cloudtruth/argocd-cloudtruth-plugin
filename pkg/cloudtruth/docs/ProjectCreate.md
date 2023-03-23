@@ -6,6 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Name** | **string** | The project name. | 
 **Description** | Pointer to **string** | A description of the project.  You may find it helpful to document how this project is used to assist others when they need to maintain software that uses this content. | [optional] 
+**ParameterNamePattern** | Pointer to **string** | A regular expression parameter names must match | [optional] 
 **DependsOn** | Pointer to **NullableString** | Project dependencies allow projects to be used for shared configuration, for example a database used by many applications needs to advertise its port number.  Projects can depend on another project which will add the parameters from the parent project into the current project.  All of the parameter names between the two projects must be unique.  When retrieving values or rendering templates, all of the parameters from the parent project will also be available in the current project. | [optional] 
 
 ## Methods
@@ -71,6 +72,31 @@ SetDescription sets Description field to given value.
 `func (o *ProjectCreate) HasDescription() bool`
 
 HasDescription returns a boolean if a field has been set.
+
+### GetParameterNamePattern
+
+`func (o *ProjectCreate) GetParameterNamePattern() string`
+
+GetParameterNamePattern returns the ParameterNamePattern field if non-nil, zero value otherwise.
+
+### GetParameterNamePatternOk
+
+`func (o *ProjectCreate) GetParameterNamePatternOk() (*string, bool)`
+
+GetParameterNamePatternOk returns a tuple with the ParameterNamePattern field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetParameterNamePattern
+
+`func (o *ProjectCreate) SetParameterNamePattern(v string)`
+
+SetParameterNamePattern sets ParameterNamePattern field to given value.
+
+### HasParameterNamePattern
+
+`func (o *ProjectCreate) HasParameterNamePattern() bool`
+
+HasParameterNamePattern returns a boolean if a field has been set.
 
 ### GetDependsOn
 

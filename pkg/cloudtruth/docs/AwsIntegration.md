@@ -10,23 +10,24 @@ Name | Type | Description | Notes
 **Description** | Pointer to **string** | An optional description for the integration. | [optional] 
 **Status** | [**StatusEnum**](StatusEnum.md) | The status of the integration connection with the third-party provider as of the &#x60;status_last_checked_at&#x60; field.  The status is updated automatically by the server when the integration is modified. | [readonly] 
 **StatusDetail** | **string** | If an error occurs, more details will be available in this field. | [readonly] 
-**StatusLastCheckedAt** | **time.Time** | The last time the status was evaluated. | [readonly] 
+**StatusLastCheckedAt** | **NullableTime** | The last time the status was evaluated. | [readonly] 
 **CreatedAt** | **time.Time** |  | [readonly] 
-**ModifiedAt** | **time.Time** |  | [readonly] 
+**ModifiedAt** | **NullableTime** |  | [readonly] 
 **Fqn** | **string** |  | [readonly] 
 **Type** | **string** | The type of integration. | [readonly] 
 **Writable** | Pointer to **bool** | Allow actions to write to the integration. | [optional] 
 **AwsAccountId** | **string** | The AWS Account ID. | 
 **AwsEnabledRegions** | [**[]AwsRegionEnum**](AwsRegionEnum.md) | The AWS regions to integrate with. | 
 **AwsEnabledServices** | [**[]AwsServiceEnum**](AwsServiceEnum.md) | The AWS services to integrate with. | 
-**AwsExternalId** | **string** | This is a shared secret between the AWS Administrator who set up your IAM trust relationship and your CloudTruth AWS Integration.  If your AWS Administrator provided you with a value use it, otherwise we will generate a random value for you to give to your AWS Administrator. | [readonly] 
+**AwsExternalId** | **string** | This is a shared secret between the AWS Administrator who set up your IAM trust relationship and your CloudTruth AWS Integration.  CloudTruth will generate a random value for you to give to your AWS Administrator in order to create the necessary IAM role for proper access. | [readonly] 
+**AwsKmsKeyId** | Pointer to **NullableString** | If present, this is the KMS Key Id that is used to push values.  This key must be accessible in the AWS account (it cannot be an ARN to a key in another AWS account).  | [optional] 
 **AwsRoleName** | **string** | The role that CloudTruth will assume when interacting with your AWS Account through this integration.  The role is configured by your AWS Account Administrator.  If your AWS Administrator provided you with a value use it, otherwise make your own role name and give it to your AWS Administrator. | 
 
 ## Methods
 
 ### NewAwsIntegration
 
-`func NewAwsIntegration(url string, id string, name string, status StatusEnum, statusDetail string, statusLastCheckedAt time.Time, createdAt time.Time, modifiedAt time.Time, fqn string, type_ string, awsAccountId string, awsEnabledRegions []AwsRegionEnum, awsEnabledServices []AwsServiceEnum, awsExternalId string, awsRoleName string, ) *AwsIntegration`
+`func NewAwsIntegration(url string, id string, name string, status StatusEnum, statusDetail string, statusLastCheckedAt NullableTime, createdAt time.Time, modifiedAt NullableTime, fqn string, type_ string, awsAccountId string, awsEnabledRegions []AwsRegionEnum, awsEnabledServices []AwsServiceEnum, awsExternalId string, awsRoleName string, ) *AwsIntegration`
 
 NewAwsIntegration instantiates a new AwsIntegration object
 This constructor will assign default values to properties that have it defined,
@@ -186,6 +187,16 @@ and a boolean to check if the value has been set.
 SetStatusLastCheckedAt sets StatusLastCheckedAt field to given value.
 
 
+### SetStatusLastCheckedAtNil
+
+`func (o *AwsIntegration) SetStatusLastCheckedAtNil(b bool)`
+
+ SetStatusLastCheckedAtNil sets the value for StatusLastCheckedAt to be an explicit nil
+
+### UnsetStatusLastCheckedAt
+`func (o *AwsIntegration) UnsetStatusLastCheckedAt()`
+
+UnsetStatusLastCheckedAt ensures that no value is present for StatusLastCheckedAt, not even an explicit nil
 ### GetCreatedAt
 
 `func (o *AwsIntegration) GetCreatedAt() time.Time`
@@ -226,6 +237,16 @@ and a boolean to check if the value has been set.
 SetModifiedAt sets ModifiedAt field to given value.
 
 
+### SetModifiedAtNil
+
+`func (o *AwsIntegration) SetModifiedAtNil(b bool)`
+
+ SetModifiedAtNil sets the value for ModifiedAt to be an explicit nil
+
+### UnsetModifiedAt
+`func (o *AwsIntegration) UnsetModifiedAt()`
+
+UnsetModifiedAt ensures that no value is present for ModifiedAt, not even an explicit nil
 ### GetFqn
 
 `func (o *AwsIntegration) GetFqn() string`
@@ -371,6 +392,41 @@ and a boolean to check if the value has been set.
 SetAwsExternalId sets AwsExternalId field to given value.
 
 
+### GetAwsKmsKeyId
+
+`func (o *AwsIntegration) GetAwsKmsKeyId() string`
+
+GetAwsKmsKeyId returns the AwsKmsKeyId field if non-nil, zero value otherwise.
+
+### GetAwsKmsKeyIdOk
+
+`func (o *AwsIntegration) GetAwsKmsKeyIdOk() (*string, bool)`
+
+GetAwsKmsKeyIdOk returns a tuple with the AwsKmsKeyId field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetAwsKmsKeyId
+
+`func (o *AwsIntegration) SetAwsKmsKeyId(v string)`
+
+SetAwsKmsKeyId sets AwsKmsKeyId field to given value.
+
+### HasAwsKmsKeyId
+
+`func (o *AwsIntegration) HasAwsKmsKeyId() bool`
+
+HasAwsKmsKeyId returns a boolean if a field has been set.
+
+### SetAwsKmsKeyIdNil
+
+`func (o *AwsIntegration) SetAwsKmsKeyIdNil(b bool)`
+
+ SetAwsKmsKeyIdNil sets the value for AwsKmsKeyId to be an explicit nil
+
+### UnsetAwsKmsKeyId
+`func (o *AwsIntegration) UnsetAwsKmsKeyId()`
+
+UnsetAwsKmsKeyId ensures that no value is present for AwsKmsKeyId, not even an explicit nil
 ### GetAwsRoleName
 
 `func (o *AwsIntegration) GetAwsRoleName() string`

@@ -8,13 +8,17 @@ Name | Type | Description | Notes
 **Id** | Pointer to **string** | Unique identifier for the action. | [optional] [readonly] 
 **Name** | Pointer to **string** | The action name. | [optional] 
 **Description** | Pointer to **string** | The optional description for the action. | [optional] 
-**LatestTask** | Pointer to [**NullableAwsPullTask**](AwsPullTask.md) | The most recent task run for this action. | [optional] [readonly] 
+**LatestTask** | Pointer to [**NullableAwsPullLatestTask**](AwsPullLatestTask.md) |  | [optional] 
 **CreatedAt** | Pointer to **time.Time** |  | [optional] [readonly] 
-**ModifiedAt** | Pointer to **time.Time** |  | [optional] [readonly] 
+**ModifiedAt** | Pointer to **NullableTime** |  | [optional] [readonly] 
+**CreateEnvironments** | Pointer to **bool** | Allow the pull to create environments.  Any automatically created environments will be children of the &#x60;default&#x60; environment.  If an environment needs to be created but the action does not allow it, a task step will be added with a null operation, and success_detail will indicate the action did not allow it. | [optional] 
+**CreateProjects** | Pointer to **bool** | Allow the pull to create projects.  If a project needs to be created but the action does not allow it, a task step will be added with a null operation, and success_detail will indicate the action did not allow it. | [optional] 
 **DryRun** | Pointer to **bool** | When set to dry-run mode an action will report the changes that it would have made in task steps, however those changes are not actually performed. | [optional] 
-**Region** | Pointer to [**AwsRegionEnum**](AwsRegionEnum.md) | The AWS region this pull uses.  This region must be enabled in the integration. | [optional] 
-**Service** | Pointer to [**AwsServiceEnum**](AwsServiceEnum.md) | The AWS service this pull uses.  This service must be enabled in the integration. | [optional] 
-**Resource** | Pointer to **string** | Defines a path through the integration to the location where values will be pulled.  The following mustache-style substitutions must be used in the resource locator string:    - &#x60;&#x60;{{ environment }}&#x60;&#x60; to identify the environment name   - &#x60;&#x60;{{ parameter }}&#x60;&#x60; to identify the parameter name   - &#x60;&#x60;{{ project }}&#x60;&#x60; to identify the project name | [optional] 
+**MappedValues** | Pointer to [**[]ValueCreate**](ValueCreate.md) | Values being managed by a mapped pull. | [optional] [readonly] 
+**Mode** | Pointer to [**ModeEnum**](ModeEnum.md) | The pull mode used.  A pattern pull uses a pattern-matching resource string with mustache-style markers to identify the project, parameter, and environment names, or with a Python regular expression that uses named capture groups that define the same three concepts.  A mapped pull uses a specific resource and JMESpath expression to deliver a value to a specific project, parameter, and environment.  This leverages external value linkages made in the value editor, and there is one mapped pull per integration provided by the system so that you can trigger external value pull synchronizations. | [optional] [readonly] 
+**Region** | Pointer to [**AwsRegionEnum**](AwsRegionEnum.md) | The AWS region to use.  This region must be enabled in the integration. | [optional] 
+**Service** | Pointer to [**AwsServiceEnum**](AwsServiceEnum.md) | The AWS service to use.  This service must be enabled in the integration. | [optional] 
+**Resource** | Pointer to **NullableString** | Defines a pattern matching string that contains either mustache or regular expression syntax (with named capture groups) that locate the environment, project, and parameter name of the content you are looking for.  If you are using mustache pattern matching, use:    - &#x60;&#x60;{{ environment }}&#x60;&#x60; to identify the environment name   - &#x60;&#x60;{{ parameter }}&#x60;&#x60; to identify the parameter name   - &#x60;&#x60;{{ project }}&#x60;&#x60; to identify the project name  If you are using a regular expression, use Python syntax with named capture groups that locate the &#x60;environment&#x60;, &#x60;project&#x60;, and &#x60;parameter&#x60;. | [optional] 
 
 ## Methods
 
@@ -137,20 +141,20 @@ HasDescription returns a boolean if a field has been set.
 
 ### GetLatestTask
 
-`func (o *PatchedAwsPull) GetLatestTask() AwsPullTask`
+`func (o *PatchedAwsPull) GetLatestTask() AwsPullLatestTask`
 
 GetLatestTask returns the LatestTask field if non-nil, zero value otherwise.
 
 ### GetLatestTaskOk
 
-`func (o *PatchedAwsPull) GetLatestTaskOk() (*AwsPullTask, bool)`
+`func (o *PatchedAwsPull) GetLatestTaskOk() (*AwsPullLatestTask, bool)`
 
 GetLatestTaskOk returns a tuple with the LatestTask field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetLatestTask
 
-`func (o *PatchedAwsPull) SetLatestTask(v AwsPullTask)`
+`func (o *PatchedAwsPull) SetLatestTask(v AwsPullLatestTask)`
 
 SetLatestTask sets LatestTask field to given value.
 
@@ -220,6 +224,66 @@ SetModifiedAt sets ModifiedAt field to given value.
 
 HasModifiedAt returns a boolean if a field has been set.
 
+### SetModifiedAtNil
+
+`func (o *PatchedAwsPull) SetModifiedAtNil(b bool)`
+
+ SetModifiedAtNil sets the value for ModifiedAt to be an explicit nil
+
+### UnsetModifiedAt
+`func (o *PatchedAwsPull) UnsetModifiedAt()`
+
+UnsetModifiedAt ensures that no value is present for ModifiedAt, not even an explicit nil
+### GetCreateEnvironments
+
+`func (o *PatchedAwsPull) GetCreateEnvironments() bool`
+
+GetCreateEnvironments returns the CreateEnvironments field if non-nil, zero value otherwise.
+
+### GetCreateEnvironmentsOk
+
+`func (o *PatchedAwsPull) GetCreateEnvironmentsOk() (*bool, bool)`
+
+GetCreateEnvironmentsOk returns a tuple with the CreateEnvironments field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetCreateEnvironments
+
+`func (o *PatchedAwsPull) SetCreateEnvironments(v bool)`
+
+SetCreateEnvironments sets CreateEnvironments field to given value.
+
+### HasCreateEnvironments
+
+`func (o *PatchedAwsPull) HasCreateEnvironments() bool`
+
+HasCreateEnvironments returns a boolean if a field has been set.
+
+### GetCreateProjects
+
+`func (o *PatchedAwsPull) GetCreateProjects() bool`
+
+GetCreateProjects returns the CreateProjects field if non-nil, zero value otherwise.
+
+### GetCreateProjectsOk
+
+`func (o *PatchedAwsPull) GetCreateProjectsOk() (*bool, bool)`
+
+GetCreateProjectsOk returns a tuple with the CreateProjects field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetCreateProjects
+
+`func (o *PatchedAwsPull) SetCreateProjects(v bool)`
+
+SetCreateProjects sets CreateProjects field to given value.
+
+### HasCreateProjects
+
+`func (o *PatchedAwsPull) HasCreateProjects() bool`
+
+HasCreateProjects returns a boolean if a field has been set.
+
 ### GetDryRun
 
 `func (o *PatchedAwsPull) GetDryRun() bool`
@@ -244,6 +308,56 @@ SetDryRun sets DryRun field to given value.
 `func (o *PatchedAwsPull) HasDryRun() bool`
 
 HasDryRun returns a boolean if a field has been set.
+
+### GetMappedValues
+
+`func (o *PatchedAwsPull) GetMappedValues() []ValueCreate`
+
+GetMappedValues returns the MappedValues field if non-nil, zero value otherwise.
+
+### GetMappedValuesOk
+
+`func (o *PatchedAwsPull) GetMappedValuesOk() (*[]ValueCreate, bool)`
+
+GetMappedValuesOk returns a tuple with the MappedValues field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetMappedValues
+
+`func (o *PatchedAwsPull) SetMappedValues(v []ValueCreate)`
+
+SetMappedValues sets MappedValues field to given value.
+
+### HasMappedValues
+
+`func (o *PatchedAwsPull) HasMappedValues() bool`
+
+HasMappedValues returns a boolean if a field has been set.
+
+### GetMode
+
+`func (o *PatchedAwsPull) GetMode() ModeEnum`
+
+GetMode returns the Mode field if non-nil, zero value otherwise.
+
+### GetModeOk
+
+`func (o *PatchedAwsPull) GetModeOk() (*ModeEnum, bool)`
+
+GetModeOk returns a tuple with the Mode field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetMode
+
+`func (o *PatchedAwsPull) SetMode(v ModeEnum)`
+
+SetMode sets Mode field to given value.
+
+### HasMode
+
+`func (o *PatchedAwsPull) HasMode() bool`
+
+HasMode returns a boolean if a field has been set.
 
 ### GetRegion
 
@@ -320,6 +434,16 @@ SetResource sets Resource field to given value.
 
 HasResource returns a boolean if a field has been set.
 
+### SetResourceNil
+
+`func (o *PatchedAwsPull) SetResourceNil(b bool)`
+
+ SetResourceNil sets the value for Resource to be an explicit nil
+
+### UnsetResource
+`func (o *PatchedAwsPull) UnsetResource()`
+
+UnsetResource ensures that no value is present for Resource, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

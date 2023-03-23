@@ -11,13 +11,13 @@ Name | Type | Description | Notes
 **ObjectName** | **string** | The name of the object associated with the action, if applicable. | [readonly] 
 **ObjectType** | [**ObjectTypeEnum**](ObjectTypeEnum.md) | The type of object associated with the action. | [readonly] 
 **Timestamp** | **time.Time** | The timestamp of the activity that was audited. | [readonly] 
-**User** | [**User**](User.md) | Details of the user associated with this change. | [readonly] 
+**User** | [**AuditTrailUser**](AuditTrailUser.md) |  | 
 
 ## Methods
 
 ### NewAuditTrail
 
-`func NewAuditTrail(url string, id string, action string, objectId string, objectName string, objectType ObjectTypeEnum, timestamp time.Time, user User, ) *AuditTrail`
+`func NewAuditTrail(url string, id string, action string, objectId string, objectName string, objectType ObjectTypeEnum, timestamp time.Time, user AuditTrailUser, ) *AuditTrail`
 
 NewAuditTrail instantiates a new AuditTrail object
 This constructor will assign default values to properties that have it defined,
@@ -174,20 +174,20 @@ SetTimestamp sets Timestamp field to given value.
 
 ### GetUser
 
-`func (o *AuditTrail) GetUser() User`
+`func (o *AuditTrail) GetUser() AuditTrailUser`
 
 GetUser returns the User field if non-nil, zero value otherwise.
 
 ### GetUserOk
 
-`func (o *AuditTrail) GetUserOk() (*User, bool)`
+`func (o *AuditTrail) GetUserOk() (*AuditTrailUser, bool)`
 
 GetUserOk returns a tuple with the User field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetUser
 
-`func (o *AuditTrail) SetUser(v User)`
+`func (o *AuditTrail) SetUser(v AuditTrailUser)`
 
 SetUser sets User field to given value.
 

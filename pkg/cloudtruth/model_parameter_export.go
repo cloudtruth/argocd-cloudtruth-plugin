@@ -17,16 +17,20 @@ import (
 
 // ParameterExport struct for ParameterExport
 type ParameterExport struct {
+	// The exported parameter body.
 	Body string `json:"body"`
+	// If True, the exported parameters include one or more secrets.
+	HasSecret bool `json:"has_secret"`
 }
 
 // NewParameterExport instantiates a new ParameterExport object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewParameterExport(body string) *ParameterExport {
+func NewParameterExport(body string, hasSecret bool) *ParameterExport {
 	this := ParameterExport{}
 	this.Body = body
+	this.HasSecret = hasSecret
 	return &this
 }
 
@@ -51,7 +55,7 @@ func (o *ParameterExport) GetBody() string {
 // GetBodyOk returns a tuple with the Body field value
 // and a boolean to check if the value has been set.
 func (o *ParameterExport) GetBodyOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Body, true
@@ -62,10 +66,37 @@ func (o *ParameterExport) SetBody(v string) {
 	o.Body = v
 }
 
+// GetHasSecret returns the HasSecret field value
+func (o *ParameterExport) GetHasSecret() bool {
+	if o == nil {
+		var ret bool
+		return ret
+	}
+
+	return o.HasSecret
+}
+
+// GetHasSecretOk returns a tuple with the HasSecret field value
+// and a boolean to check if the value has been set.
+func (o *ParameterExport) GetHasSecretOk() (*bool, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.HasSecret, true
+}
+
+// SetHasSecret sets field value
+func (o *ParameterExport) SetHasSecret(v bool) {
+	o.HasSecret = v
+}
+
 func (o ParameterExport) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if true {
 		toSerialize["body"] = o.Body
+	}
+	if true {
+		toSerialize["has_secret"] = o.HasSecret
 	}
 	return json.Marshal(toSerialize)
 }

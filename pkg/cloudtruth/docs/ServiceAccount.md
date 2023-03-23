@@ -9,14 +9,14 @@ Name | Type | Description | Notes
 **User** | [**User**](User.md) |  | [readonly] 
 **Description** | Pointer to **string** | An optional description of the process or system using the service account. | [optional] 
 **CreatedAt** | **time.Time** |  | [readonly] 
-**ModifiedAt** | **time.Time** |  | [readonly] 
-**LastUsedAt** | **time.Time** | The most recent date and time the service account was used. | [readonly] 
+**ModifiedAt** | **NullableTime** |  | [readonly] 
+**LastUsedAt** | **NullableTime** | The most recent date and time the service account was used.  It will be null if the service account has not been used. | [readonly] 
 
 ## Methods
 
 ### NewServiceAccount
 
-`func NewServiceAccount(url string, id string, user User, createdAt time.Time, modifiedAt time.Time, lastUsedAt time.Time, ) *ServiceAccount`
+`func NewServiceAccount(url string, id string, user User, createdAt time.Time, modifiedAt NullableTime, lastUsedAt NullableTime, ) *ServiceAccount`
 
 NewServiceAccount instantiates a new ServiceAccount object
 This constructor will assign default values to properties that have it defined,
@@ -156,6 +156,16 @@ and a boolean to check if the value has been set.
 SetModifiedAt sets ModifiedAt field to given value.
 
 
+### SetModifiedAtNil
+
+`func (o *ServiceAccount) SetModifiedAtNil(b bool)`
+
+ SetModifiedAtNil sets the value for ModifiedAt to be an explicit nil
+
+### UnsetModifiedAt
+`func (o *ServiceAccount) UnsetModifiedAt()`
+
+UnsetModifiedAt ensures that no value is present for ModifiedAt, not even an explicit nil
 ### GetLastUsedAt
 
 `func (o *ServiceAccount) GetLastUsedAt() time.Time`
@@ -176,6 +186,16 @@ and a boolean to check if the value has been set.
 SetLastUsedAt sets LastUsedAt field to given value.
 
 
+### SetLastUsedAtNil
+
+`func (o *ServiceAccount) SetLastUsedAtNil(b bool)`
+
+ SetLastUsedAtNil sets the value for LastUsedAt to be an explicit nil
+
+### UnsetLastUsedAt
+`func (o *ServiceAccount) UnsetLastUsedAt()`
+
+UnsetLastUsedAt ensures that no value is present for LastUsedAt, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

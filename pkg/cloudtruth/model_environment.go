@@ -18,9 +18,10 @@ import (
 
 // Environment struct for Environment
 type Environment struct {
+	// The URL for the environment.
 	Url string `json:"url"`
-	// A unique identifier for the environment.
 	Id string `json:"id"`
+	LedgerId string `json:"ledger_id"`
 	// The environment name.
 	Name string `json:"name"`
 	// A description of the environment.  You may find it helpful to document how this environment is used to assist others when they need to maintain software that uses this content.
@@ -29,20 +30,26 @@ type Environment struct {
 	Parent NullableString `json:"parent,omitempty"`
 	// This is the opposite of `parent`, see that field for more details.
 	Children []string `json:"children"`
+	// Indicates if access control is being enforced through grants.
+	AccessControlled *bool `json:"access_controlled,omitempty"`
+	// Your role in the environment, if the environment is access-controlled.
+	Role NullableRoleEnum `json:"role"`
 	CreatedAt time.Time `json:"created_at"`
-	ModifiedAt time.Time `json:"modified_at"`
+	ModifiedAt NullableTime `json:"modified_at"`
 }
 
 // NewEnvironment instantiates a new Environment object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewEnvironment(url string, id string, name string, children []string, createdAt time.Time, modifiedAt time.Time) *Environment {
+func NewEnvironment(url string, id string, ledgerId string, name string, children []string, role NullableRoleEnum, createdAt time.Time, modifiedAt NullableTime) *Environment {
 	this := Environment{}
 	this.Url = url
 	this.Id = id
+	this.LedgerId = ledgerId
 	this.Name = name
 	this.Children = children
+	this.Role = role
 	this.CreatedAt = createdAt
 	this.ModifiedAt = modifiedAt
 	return &this
@@ -69,7 +76,7 @@ func (o *Environment) GetUrl() string {
 // GetUrlOk returns a tuple with the Url field value
 // and a boolean to check if the value has been set.
 func (o *Environment) GetUrlOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Url, true
@@ -93,7 +100,7 @@ func (o *Environment) GetId() string {
 // GetIdOk returns a tuple with the Id field value
 // and a boolean to check if the value has been set.
 func (o *Environment) GetIdOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Id, true
@@ -102,6 +109,30 @@ func (o *Environment) GetIdOk() (*string, bool) {
 // SetId sets field value
 func (o *Environment) SetId(v string) {
 	o.Id = v
+}
+
+// GetLedgerId returns the LedgerId field value
+func (o *Environment) GetLedgerId() string {
+	if o == nil {
+		var ret string
+		return ret
+	}
+
+	return o.LedgerId
+}
+
+// GetLedgerIdOk returns a tuple with the LedgerId field value
+// and a boolean to check if the value has been set.
+func (o *Environment) GetLedgerIdOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.LedgerId, true
+}
+
+// SetLedgerId sets field value
+func (o *Environment) SetLedgerId(v string) {
+	o.LedgerId = v
 }
 
 // GetName returns the Name field value
@@ -117,7 +148,7 @@ func (o *Environment) GetName() string {
 // GetNameOk returns a tuple with the Name field value
 // and a boolean to check if the value has been set.
 func (o *Environment) GetNameOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Name, true
@@ -173,7 +204,7 @@ func (o *Environment) GetParent() string {
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *Environment) GetParentOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return o.Parent.Get(), o.Parent.IsSet()
@@ -214,16 +245,74 @@ func (o *Environment) GetChildren() []string {
 
 // GetChildrenOk returns a tuple with the Children field value
 // and a boolean to check if the value has been set.
-func (o *Environment) GetChildrenOk() (*[]string, bool) {
-	if o == nil  {
+func (o *Environment) GetChildrenOk() ([]string, bool) {
+	if o == nil {
 		return nil, false
 	}
-	return &o.Children, true
+	return o.Children, true
 }
 
 // SetChildren sets field value
 func (o *Environment) SetChildren(v []string) {
 	o.Children = v
+}
+
+// GetAccessControlled returns the AccessControlled field value if set, zero value otherwise.
+func (o *Environment) GetAccessControlled() bool {
+	if o == nil || o.AccessControlled == nil {
+		var ret bool
+		return ret
+	}
+	return *o.AccessControlled
+}
+
+// GetAccessControlledOk returns a tuple with the AccessControlled field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Environment) GetAccessControlledOk() (*bool, bool) {
+	if o == nil || o.AccessControlled == nil {
+		return nil, false
+	}
+	return o.AccessControlled, true
+}
+
+// HasAccessControlled returns a boolean if a field has been set.
+func (o *Environment) HasAccessControlled() bool {
+	if o != nil && o.AccessControlled != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetAccessControlled gets a reference to the given bool and assigns it to the AccessControlled field.
+func (o *Environment) SetAccessControlled(v bool) {
+	o.AccessControlled = &v
+}
+
+// GetRole returns the Role field value
+// If the value is explicit nil, the zero value for RoleEnum will be returned
+func (o *Environment) GetRole() RoleEnum {
+	if o == nil || o.Role.Get() == nil {
+		var ret RoleEnum
+		return ret
+	}
+
+	return *o.Role.Get()
+}
+
+// GetRoleOk returns a tuple with the Role field value
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *Environment) GetRoleOk() (*RoleEnum, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.Role.Get(), o.Role.IsSet()
+}
+
+// SetRole sets field value
+func (o *Environment) SetRole(v RoleEnum) {
+	o.Role.Set(&v)
 }
 
 // GetCreatedAt returns the CreatedAt field value
@@ -239,7 +328,7 @@ func (o *Environment) GetCreatedAt() time.Time {
 // GetCreatedAtOk returns a tuple with the CreatedAt field value
 // and a boolean to check if the value has been set.
 func (o *Environment) GetCreatedAtOk() (*time.Time, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.CreatedAt, true
@@ -251,27 +340,29 @@ func (o *Environment) SetCreatedAt(v time.Time) {
 }
 
 // GetModifiedAt returns the ModifiedAt field value
+// If the value is explicit nil, the zero value for time.Time will be returned
 func (o *Environment) GetModifiedAt() time.Time {
-	if o == nil {
+	if o == nil || o.ModifiedAt.Get() == nil {
 		var ret time.Time
 		return ret
 	}
 
-	return o.ModifiedAt
+	return *o.ModifiedAt.Get()
 }
 
 // GetModifiedAtOk returns a tuple with the ModifiedAt field value
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *Environment) GetModifiedAtOk() (*time.Time, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
-	return &o.ModifiedAt, true
+	return o.ModifiedAt.Get(), o.ModifiedAt.IsSet()
 }
 
 // SetModifiedAt sets field value
 func (o *Environment) SetModifiedAt(v time.Time) {
-	o.ModifiedAt = v
+	o.ModifiedAt.Set(&v)
 }
 
 func (o Environment) MarshalJSON() ([]byte, error) {
@@ -281,6 +372,9 @@ func (o Environment) MarshalJSON() ([]byte, error) {
 	}
 	if true {
 		toSerialize["id"] = o.Id
+	}
+	if true {
+		toSerialize["ledger_id"] = o.LedgerId
 	}
 	if true {
 		toSerialize["name"] = o.Name
@@ -294,11 +388,17 @@ func (o Environment) MarshalJSON() ([]byte, error) {
 	if true {
 		toSerialize["children"] = o.Children
 	}
+	if o.AccessControlled != nil {
+		toSerialize["access_controlled"] = o.AccessControlled
+	}
+	if true {
+		toSerialize["role"] = o.Role.Get()
+	}
 	if true {
 		toSerialize["created_at"] = o.CreatedAt
 	}
 	if true {
-		toSerialize["modified_at"] = o.ModifiedAt
+		toSerialize["modified_at"] = o.ModifiedAt.Get()
 	}
 	return json.Marshal(toSerialize)
 }

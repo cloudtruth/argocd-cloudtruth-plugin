@@ -4,16 +4,16 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**HistoryDate** | **time.Time** |  | 
 **HistoryType** | [**HistoryTypeEnum**](HistoryTypeEnum.md) |  | [readonly] 
-**HistoryUser** | Pointer to **NullableString** | The unique identifier of a user. | [optional] 
-**HistoryTemplate** | [**TemplateTimelineEntryTemplate**](TemplateTimelineEntryTemplate.md) | The template record as it was when archived for history. | [readonly] 
+**ModifiedAt** | **NullableTime** |  | [readonly] 
+**ModifiedBy** | Pointer to **string** |  | [optional] 
+**HistoryTemplate** | [**TemplateTimelineEntryHistoryTemplate**](TemplateTimelineEntryHistoryTemplate.md) |  | 
 
 ## Methods
 
 ### NewTemplateTimelineEntry
 
-`func NewTemplateTimelineEntry(historyDate time.Time, historyType HistoryTypeEnum, historyTemplate TemplateTimelineEntryTemplate, ) *TemplateTimelineEntry`
+`func NewTemplateTimelineEntry(historyType HistoryTypeEnum, modifiedAt NullableTime, historyTemplate TemplateTimelineEntryHistoryTemplate, ) *TemplateTimelineEntry`
 
 NewTemplateTimelineEntry instantiates a new TemplateTimelineEntry object
 This constructor will assign default values to properties that have it defined,
@@ -27,26 +27,6 @@ will change when the set of required properties is changed
 NewTemplateTimelineEntryWithDefaults instantiates a new TemplateTimelineEntry object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
-
-### GetHistoryDate
-
-`func (o *TemplateTimelineEntry) GetHistoryDate() time.Time`
-
-GetHistoryDate returns the HistoryDate field if non-nil, zero value otherwise.
-
-### GetHistoryDateOk
-
-`func (o *TemplateTimelineEntry) GetHistoryDateOk() (*time.Time, bool)`
-
-GetHistoryDateOk returns a tuple with the HistoryDate field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetHistoryDate
-
-`func (o *TemplateTimelineEntry) SetHistoryDate(v time.Time)`
-
-SetHistoryDate sets HistoryDate field to given value.
-
 
 ### GetHistoryType
 
@@ -68,57 +48,77 @@ and a boolean to check if the value has been set.
 SetHistoryType sets HistoryType field to given value.
 
 
-### GetHistoryUser
+### GetModifiedAt
 
-`func (o *TemplateTimelineEntry) GetHistoryUser() string`
+`func (o *TemplateTimelineEntry) GetModifiedAt() time.Time`
 
-GetHistoryUser returns the HistoryUser field if non-nil, zero value otherwise.
+GetModifiedAt returns the ModifiedAt field if non-nil, zero value otherwise.
 
-### GetHistoryUserOk
+### GetModifiedAtOk
 
-`func (o *TemplateTimelineEntry) GetHistoryUserOk() (*string, bool)`
+`func (o *TemplateTimelineEntry) GetModifiedAtOk() (*time.Time, bool)`
 
-GetHistoryUserOk returns a tuple with the HistoryUser field if it's non-nil, zero value otherwise
+GetModifiedAtOk returns a tuple with the ModifiedAt field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetHistoryUser
+### SetModifiedAt
 
-`func (o *TemplateTimelineEntry) SetHistoryUser(v string)`
+`func (o *TemplateTimelineEntry) SetModifiedAt(v time.Time)`
 
-SetHistoryUser sets HistoryUser field to given value.
+SetModifiedAt sets ModifiedAt field to given value.
 
-### HasHistoryUser
 
-`func (o *TemplateTimelineEntry) HasHistoryUser() bool`
+### SetModifiedAtNil
 
-HasHistoryUser returns a boolean if a field has been set.
+`func (o *TemplateTimelineEntry) SetModifiedAtNil(b bool)`
 
-### SetHistoryUserNil
+ SetModifiedAtNil sets the value for ModifiedAt to be an explicit nil
 
-`func (o *TemplateTimelineEntry) SetHistoryUserNil(b bool)`
+### UnsetModifiedAt
+`func (o *TemplateTimelineEntry) UnsetModifiedAt()`
 
- SetHistoryUserNil sets the value for HistoryUser to be an explicit nil
+UnsetModifiedAt ensures that no value is present for ModifiedAt, not even an explicit nil
+### GetModifiedBy
 
-### UnsetHistoryUser
-`func (o *TemplateTimelineEntry) UnsetHistoryUser()`
+`func (o *TemplateTimelineEntry) GetModifiedBy() string`
 
-UnsetHistoryUser ensures that no value is present for HistoryUser, not even an explicit nil
+GetModifiedBy returns the ModifiedBy field if non-nil, zero value otherwise.
+
+### GetModifiedByOk
+
+`func (o *TemplateTimelineEntry) GetModifiedByOk() (*string, bool)`
+
+GetModifiedByOk returns a tuple with the ModifiedBy field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetModifiedBy
+
+`func (o *TemplateTimelineEntry) SetModifiedBy(v string)`
+
+SetModifiedBy sets ModifiedBy field to given value.
+
+### HasModifiedBy
+
+`func (o *TemplateTimelineEntry) HasModifiedBy() bool`
+
+HasModifiedBy returns a boolean if a field has been set.
+
 ### GetHistoryTemplate
 
-`func (o *TemplateTimelineEntry) GetHistoryTemplate() TemplateTimelineEntryTemplate`
+`func (o *TemplateTimelineEntry) GetHistoryTemplate() TemplateTimelineEntryHistoryTemplate`
 
 GetHistoryTemplate returns the HistoryTemplate field if non-nil, zero value otherwise.
 
 ### GetHistoryTemplateOk
 
-`func (o *TemplateTimelineEntry) GetHistoryTemplateOk() (*TemplateTimelineEntryTemplate, bool)`
+`func (o *TemplateTimelineEntry) GetHistoryTemplateOk() (*TemplateTimelineEntryHistoryTemplate, bool)`
 
 GetHistoryTemplateOk returns a tuple with the HistoryTemplate field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetHistoryTemplate
 
-`func (o *TemplateTimelineEntry) SetHistoryTemplate(v TemplateTimelineEntryTemplate)`
+`func (o *TemplateTimelineEntry) SetHistoryTemplate(v TemplateTimelineEntryHistoryTemplate)`
 
 SetHistoryTemplate sets HistoryTemplate field to given value.
 

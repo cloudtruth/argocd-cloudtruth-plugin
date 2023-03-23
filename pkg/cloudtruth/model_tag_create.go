@@ -57,7 +57,7 @@ func (o *TagCreate) GetName() string {
 // GetNameOk returns a tuple with the Name field value
 // and a boolean to check if the value has been set.
 func (o *TagCreate) GetNameOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Name, true
@@ -113,7 +113,7 @@ func (o *TagCreate) GetTimestamp() time.Time {
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *TagCreate) GetTimestampOk() (*time.Time, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return o.Timestamp.Get(), o.Timestamp.IsSet()

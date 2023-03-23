@@ -33,7 +33,9 @@ type PatchedInvitation struct {
 	// Additional details about the state of the invitation.
 	StateDetail *string `json:"state_detail,omitempty"`
 	// The resulting membership, should the user accept.
-	Membership *string `json:"membership,omitempty"`
+	Membership NullableString `json:"membership,omitempty"`
+	// The organization that the user will become a member of, should the user accept.
+	Organization *string `json:"organization,omitempty"`
 }
 
 // NewPatchedInvitation instantiates a new PatchedInvitation object
@@ -309,36 +311,78 @@ func (o *PatchedInvitation) SetStateDetail(v string) {
 	o.StateDetail = &v
 }
 
-// GetMembership returns the Membership field value if set, zero value otherwise.
+// GetMembership returns the Membership field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *PatchedInvitation) GetMembership() string {
-	if o == nil || o.Membership == nil {
+	if o == nil || o.Membership.Get() == nil {
 		var ret string
 		return ret
 	}
-	return *o.Membership
+	return *o.Membership.Get()
 }
 
 // GetMembershipOk returns a tuple with the Membership field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *PatchedInvitation) GetMembershipOk() (*string, bool) {
-	if o == nil || o.Membership == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.Membership, true
+	return o.Membership.Get(), o.Membership.IsSet()
 }
 
 // HasMembership returns a boolean if a field has been set.
 func (o *PatchedInvitation) HasMembership() bool {
-	if o != nil && o.Membership != nil {
+	if o != nil && o.Membership.IsSet() {
 		return true
 	}
 
 	return false
 }
 
-// SetMembership gets a reference to the given string and assigns it to the Membership field.
+// SetMembership gets a reference to the given NullableString and assigns it to the Membership field.
 func (o *PatchedInvitation) SetMembership(v string) {
-	o.Membership = &v
+	o.Membership.Set(&v)
+}
+// SetMembershipNil sets the value for Membership to be an explicit nil
+func (o *PatchedInvitation) SetMembershipNil() {
+	o.Membership.Set(nil)
+}
+
+// UnsetMembership ensures that no value is present for Membership, not even an explicit nil
+func (o *PatchedInvitation) UnsetMembership() {
+	o.Membership.Unset()
+}
+
+// GetOrganization returns the Organization field value if set, zero value otherwise.
+func (o *PatchedInvitation) GetOrganization() string {
+	if o == nil || o.Organization == nil {
+		var ret string
+		return ret
+	}
+	return *o.Organization
+}
+
+// GetOrganizationOk returns a tuple with the Organization field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *PatchedInvitation) GetOrganizationOk() (*string, bool) {
+	if o == nil || o.Organization == nil {
+		return nil, false
+	}
+	return o.Organization, true
+}
+
+// HasOrganization returns a boolean if a field has been set.
+func (o *PatchedInvitation) HasOrganization() bool {
+	if o != nil && o.Organization != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetOrganization gets a reference to the given string and assigns it to the Organization field.
+func (o *PatchedInvitation) SetOrganization(v string) {
+	o.Organization = &v
 }
 
 func (o PatchedInvitation) MarshalJSON() ([]byte, error) {
@@ -367,8 +411,11 @@ func (o PatchedInvitation) MarshalJSON() ([]byte, error) {
 	if o.StateDetail != nil {
 		toSerialize["state_detail"] = o.StateDetail
 	}
-	if o.Membership != nil {
-		toSerialize["membership"] = o.Membership
+	if o.Membership.IsSet() {
+		toSerialize["membership"] = o.Membership.Get()
+	}
+	if o.Organization != nil {
+		toSerialize["organization"] = o.Organization
 	}
 	return json.Marshal(toSerialize)
 }

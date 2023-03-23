@@ -10,7 +10,7 @@ Name | Type | Description | Notes
 **Organization** | Pointer to **string** | The organization that the user is a member of. | [optional] 
 **Role** | Pointer to [**RoleEnum**](RoleEnum.md) | The role that the user has in the organization. | [optional] 
 **CreatedAt** | Pointer to **time.Time** |  | [optional] [readonly] 
-**ModifiedAt** | Pointer to **time.Time** |  | [optional] [readonly] 
+**ModifiedAt** | Pointer to **NullableTime** |  | [optional] [readonly] 
 
 ## Methods
 
@@ -206,6 +206,16 @@ SetModifiedAt sets ModifiedAt field to given value.
 
 HasModifiedAt returns a boolean if a field has been set.
 
+### SetModifiedAtNil
+
+`func (o *PatchedMembership) SetModifiedAtNil(b bool)`
+
+ SetModifiedAtNil sets the value for ModifiedAt to be an explicit nil
+
+### UnsetModifiedAt
+`func (o *PatchedMembership) UnsetModifiedAt()`
+
+UnsetModifiedAt ensures that no value is present for ModifiedAt, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

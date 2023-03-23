@@ -4,13 +4,14 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Body** | **string** |  | 
+**Body** | **string** | The template body to instantiate on request, instantiated on response. | 
+**HasSecret** | **bool** | If True, the instantiated template contains secrets. | [readonly] 
 
 ## Methods
 
 ### NewTemplatePreview
 
-`func NewTemplatePreview(body string, ) *TemplatePreview`
+`func NewTemplatePreview(body string, hasSecret bool, ) *TemplatePreview`
 
 NewTemplatePreview instantiates a new TemplatePreview object
 This constructor will assign default values to properties that have it defined,
@@ -43,6 +44,26 @@ and a boolean to check if the value has been set.
 `func (o *TemplatePreview) SetBody(v string)`
 
 SetBody sets Body field to given value.
+
+
+### GetHasSecret
+
+`func (o *TemplatePreview) GetHasSecret() bool`
+
+GetHasSecret returns the HasSecret field if non-nil, zero value otherwise.
+
+### GetHasSecretOk
+
+`func (o *TemplatePreview) GetHasSecretOk() (*bool, bool)`
+
+GetHasSecretOk returns a tuple with the HasSecret field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetHasSecret
+
+`func (o *TemplatePreview) SetHasSecret(v bool)`
+
+SetHasSecret sets HasSecret field to given value.
 
 
 

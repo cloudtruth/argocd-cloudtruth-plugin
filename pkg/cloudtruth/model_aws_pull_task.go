@@ -19,7 +19,7 @@ import (
 // AwsPullTask Pull task for an AWS integration.
 type AwsPullTask struct {
 	Url string `json:"url"`
-	// The unique identifier for the push action task.
+	// The unique identifier for the task.
 	Id string `json:"id"`
 	// The reason why this task was triggered.
 	Reason NullableString `json:"reason,omitempty"`
@@ -32,14 +32,14 @@ type AwsPullTask struct {
 	// If an error occurs early during processing, before attempting to process values, this detail may be helpful in determining the problem.
 	ErrorDetail NullableString `json:"error_detail,omitempty"`
 	CreatedAt time.Time `json:"created_at"`
-	ModifiedAt time.Time `json:"modified_at"`
+	ModifiedAt NullableTime `json:"modified_at"`
 }
 
 // NewAwsPullTask instantiates a new AwsPullTask object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewAwsPullTask(url string, id string, createdAt time.Time, modifiedAt time.Time) *AwsPullTask {
+func NewAwsPullTask(url string, id string, createdAt time.Time, modifiedAt NullableTime) *AwsPullTask {
 	this := AwsPullTask{}
 	this.Url = url
 	this.Id = id
@@ -69,7 +69,7 @@ func (o *AwsPullTask) GetUrl() string {
 // GetUrlOk returns a tuple with the Url field value
 // and a boolean to check if the value has been set.
 func (o *AwsPullTask) GetUrlOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Url, true
@@ -93,7 +93,7 @@ func (o *AwsPullTask) GetId() string {
 // GetIdOk returns a tuple with the Id field value
 // and a boolean to check if the value has been set.
 func (o *AwsPullTask) GetIdOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Id, true
@@ -117,7 +117,7 @@ func (o *AwsPullTask) GetReason() string {
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *AwsPullTask) GetReasonOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return o.Reason.Get(), o.Reason.IsSet()
@@ -223,7 +223,7 @@ func (o *AwsPullTask) GetErrorCode() string {
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *AwsPullTask) GetErrorCodeOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return o.ErrorCode.Get(), o.ErrorCode.IsSet()
@@ -265,7 +265,7 @@ func (o *AwsPullTask) GetErrorDetail() string {
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *AwsPullTask) GetErrorDetailOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return o.ErrorDetail.Get(), o.ErrorDetail.IsSet()
@@ -307,7 +307,7 @@ func (o *AwsPullTask) GetCreatedAt() time.Time {
 // GetCreatedAtOk returns a tuple with the CreatedAt field value
 // and a boolean to check if the value has been set.
 func (o *AwsPullTask) GetCreatedAtOk() (*time.Time, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.CreatedAt, true
@@ -319,27 +319,29 @@ func (o *AwsPullTask) SetCreatedAt(v time.Time) {
 }
 
 // GetModifiedAt returns the ModifiedAt field value
+// If the value is explicit nil, the zero value for time.Time will be returned
 func (o *AwsPullTask) GetModifiedAt() time.Time {
-	if o == nil {
+	if o == nil || o.ModifiedAt.Get() == nil {
 		var ret time.Time
 		return ret
 	}
 
-	return o.ModifiedAt
+	return *o.ModifiedAt.Get()
 }
 
 // GetModifiedAtOk returns a tuple with the ModifiedAt field value
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *AwsPullTask) GetModifiedAtOk() (*time.Time, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
-	return &o.ModifiedAt, true
+	return o.ModifiedAt.Get(), o.ModifiedAt.IsSet()
 }
 
 // SetModifiedAt sets field value
 func (o *AwsPullTask) SetModifiedAt(v time.Time) {
-	o.ModifiedAt = v
+	o.ModifiedAt.Set(&v)
 }
 
 func (o AwsPullTask) MarshalJSON() ([]byte, error) {
@@ -369,7 +371,7 @@ func (o AwsPullTask) MarshalJSON() ([]byte, error) {
 		toSerialize["created_at"] = o.CreatedAt
 	}
 	if true {
-		toSerialize["modified_at"] = o.ModifiedAt
+		toSerialize["modified_at"] = o.ModifiedAt.Get()
 	}
 	return json.Marshal(toSerialize)
 }

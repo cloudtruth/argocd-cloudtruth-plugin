@@ -5,24 +5,26 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Url** | **string** | The templates this value references, if interpolated. | [readonly] 
-**Id** | **string** | A unique identifier for the template. | [readonly] 
+**Id** | **string** |  | [readonly] 
+**LedgerId** | **string** |  | [readonly] 
 **Name** | **string** | The template name. | 
 **Description** | Pointer to **string** | (&#39;A description of the template.  You may find it helpful to document how this template is used to assist others when they need to maintain software that uses this content.&#39;,) | [optional] 
 **Evaluated** | **bool** | If true, the &#x60;body&#x60; field has undergone evaluation. | [readonly] 
 **Body** | Pointer to **string** | The content of the template.  Use mustache-style templating delimiters of &#x60;{{&#x60; and &#x60;}}&#x60; to reference parameter values by name for substitution into the template result. | [optional] 
-**ReferencedParameters** | **[]string** | Parameters that this template references. | [readonly] 
-**ReferencedTemplates** | **[]string** | Other templates that this template references. | [readonly] 
-**ReferencingTemplates** | **[]string** | Other templates that reference this template. | [readonly] 
-**ReferencingValues** | **[]string** | The dynamic values that reference this template. | [readonly] 
-**HasSecret** | **bool** | If True, this template contains secrets. | [readonly] 
+**ReferencedProjects** | **[]string** | Projects (other than this template&#39;s project) that this template references.  This field is not valid for history requests. | [readonly] 
+**ReferencedParameters** | **[]string** | Parameters that this template references.  This field is not valid for history requests. | [readonly] 
+**ReferencedTemplates** | **[]string** | Other templates that this template references.  This field is not valid for history requests. | [readonly] 
+**ReferencingTemplates** | **[]string** | Other templates that reference this template.  This field is not valid for history requests. | [readonly] 
+**ReferencingValues** | **[]string** | The dynamic values that reference this template.  This field is not valid for history requests. | [readonly] 
+**HasSecret** | **bool** | If True, this template contains secrets. | [readonly] [default to false]
 **CreatedAt** | **time.Time** |  | [readonly] 
-**ModifiedAt** | **time.Time** |  | [readonly] 
+**ModifiedAt** | **NullableTime** |  | [readonly] 
 
 ## Methods
 
 ### NewTemplate
 
-`func NewTemplate(url string, id string, name string, evaluated bool, referencedParameters []string, referencedTemplates []string, referencingTemplates []string, referencingValues []string, hasSecret bool, createdAt time.Time, modifiedAt time.Time, ) *Template`
+`func NewTemplate(url string, id string, ledgerId string, name string, evaluated bool, referencedProjects []string, referencedParameters []string, referencedTemplates []string, referencingTemplates []string, referencingValues []string, hasSecret bool, createdAt time.Time, modifiedAt NullableTime, ) *Template`
 
 NewTemplate instantiates a new Template object
 This constructor will assign default values to properties that have it defined,
@@ -75,6 +77,26 @@ and a boolean to check if the value has been set.
 `func (o *Template) SetId(v string)`
 
 SetId sets Id field to given value.
+
+
+### GetLedgerId
+
+`func (o *Template) GetLedgerId() string`
+
+GetLedgerId returns the LedgerId field if non-nil, zero value otherwise.
+
+### GetLedgerIdOk
+
+`func (o *Template) GetLedgerIdOk() (*string, bool)`
+
+GetLedgerIdOk returns a tuple with the LedgerId field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetLedgerId
+
+`func (o *Template) SetLedgerId(v string)`
+
+SetLedgerId sets LedgerId field to given value.
 
 
 ### GetName
@@ -166,6 +188,26 @@ SetBody sets Body field to given value.
 `func (o *Template) HasBody() bool`
 
 HasBody returns a boolean if a field has been set.
+
+### GetReferencedProjects
+
+`func (o *Template) GetReferencedProjects() []string`
+
+GetReferencedProjects returns the ReferencedProjects field if non-nil, zero value otherwise.
+
+### GetReferencedProjectsOk
+
+`func (o *Template) GetReferencedProjectsOk() (*[]string, bool)`
+
+GetReferencedProjectsOk returns a tuple with the ReferencedProjects field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetReferencedProjects
+
+`func (o *Template) SetReferencedProjects(v []string)`
+
+SetReferencedProjects sets ReferencedProjects field to given value.
+
 
 ### GetReferencedParameters
 
@@ -307,6 +349,16 @@ and a boolean to check if the value has been set.
 SetModifiedAt sets ModifiedAt field to given value.
 
 
+### SetModifiedAtNil
+
+`func (o *Template) SetModifiedAtNil(b bool)`
+
+ SetModifiedAtNil sets the value for ModifiedAt to be an explicit nil
+
+### UnsetModifiedAt
+`func (o *Template) UnsetModifiedAt()`
+
+UnsetModifiedAt ensures that no value is present for ModifiedAt, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

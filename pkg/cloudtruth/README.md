@@ -22,7 +22,7 @@ go get golang.org/x/net/context
 Put the package under your project folder and add the following in import:
 
 ```golang
-import sw "./cloudtruth"
+import cloudtruth "github.com/GIT_USER_ID/GIT_REPO_ID/cloudtruth"
 ```
 
 To use a proxy, set the environment variable `HTTP_PROXY`:
@@ -40,7 +40,7 @@ Default configuration comes with `Servers` field that contains server objects as
 For using other server than the one defined on index 0 set context value `sw.ContextServerIndex` of type `int`.
 
 ```golang
-ctx := context.WithValue(context.Background(), sw.ContextServerIndex, 1)
+ctx := context.WithValue(context.Background(), cloudtruth.ContextServerIndex, 1)
 ```
 
 ### Templated Server URL
@@ -48,7 +48,7 @@ ctx := context.WithValue(context.Background(), sw.ContextServerIndex, 1)
 Templated server URL is formatted using default variables from configuration or from context value `sw.ContextServerVariables` of type `map[string]string`.
 
 ```golang
-ctx := context.WithValue(context.Background(), sw.ContextServerVariables, map[string]string{
+ctx := context.WithValue(context.Background(), cloudtruth.ContextServerVariables, map[string]string{
 	"basePath": "v2",
 })
 ```
@@ -61,11 +61,11 @@ Each operation can use different server URL defined using `OperationServers` map
 An operation is uniquely identified by `"{classname}Service.{nickname}"` string.
 Similar rules for overriding default operation server index and variables applies by using `sw.ContextOperationServerIndices` and `sw.ContextOperationServerVariables` context maps.
 
-```
-ctx := context.WithValue(context.Background(), sw.ContextOperationServerIndices, map[string]int{
+```golang
+ctx := context.WithValue(context.Background(), cloudtruth.ContextOperationServerIndices, map[string]int{
 	"{classname}Service.{nickname}": 2,
 })
-ctx = context.WithValue(context.Background(), sw.ContextOperationServerVariables, map[string]map[string]string{
+ctx = context.WithValue(context.Background(), cloudtruth.ContextOperationServerVariables, map[string]map[string]string{
 	"{classname}Service.{nickname}": {
 		"port": "8443",
 	},
@@ -82,6 +82,7 @@ Class | Method | HTTP request | Description
 *AuditApi* | [**AuditList**](docs/AuditApi.md#auditlist) | **Get** /api/v1/audit/ | 
 *AuditApi* | [**AuditRetrieve**](docs/AuditApi.md#auditretrieve) | **Get** /api/v1/audit/{id}/ | 
 *AuditApi* | [**AuditSummaryRetrieve**](docs/AuditApi.md#auditsummaryretrieve) | **Get** /api/v1/audit/summary/ | 
+*BackupApi* | [**BackupSnapshotCreate**](docs/BackupApi.md#backupsnapshotcreate) | **Post** /api/v1/backup/snapshot/ | Get a snapshot of all Projects with parameters
 *EnvironmentsApi* | [**EnvironmentsCreate**](docs/EnvironmentsApi.md#environmentscreate) | **Post** /api/v1/environments/ | 
 *EnvironmentsApi* | [**EnvironmentsDestroy**](docs/EnvironmentsApi.md#environmentsdestroy) | **Delete** /api/v1/environments/{id}/ | 
 *EnvironmentsApi* | [**EnvironmentsList**](docs/EnvironmentsApi.md#environmentslist) | **Get** /api/v1/environments/ | 
@@ -95,6 +96,23 @@ Class | Method | HTTP request | Description
 *EnvironmentsApi* | [**EnvironmentsTagsRetrieve**](docs/EnvironmentsApi.md#environmentstagsretrieve) | **Get** /api/v1/environments/{environment_pk}/tags/{id}/ | 
 *EnvironmentsApi* | [**EnvironmentsTagsUpdate**](docs/EnvironmentsApi.md#environmentstagsupdate) | **Put** /api/v1/environments/{environment_pk}/tags/{id}/ | 
 *EnvironmentsApi* | [**EnvironmentsUpdate**](docs/EnvironmentsApi.md#environmentsupdate) | **Put** /api/v1/environments/{id}/ | 
+*FeaturesApi* | [**FeaturesRetrieve**](docs/FeaturesApi.md#featuresretrieve) | **Get** /api/v1/features/ | 
+*GrantsApi* | [**GrantsCreate**](docs/GrantsApi.md#grantscreate) | **Post** /api/v1/grants/ | 
+*GrantsApi* | [**GrantsDestroy**](docs/GrantsApi.md#grantsdestroy) | **Delete** /api/v1/grants/{id}/ | 
+*GrantsApi* | [**GrantsList**](docs/GrantsApi.md#grantslist) | **Get** /api/v1/grants/ | 
+*GrantsApi* | [**GrantsMultiDestroy**](docs/GrantsApi.md#grantsmultidestroy) | **Delete** /api/v1/grants/multi/ | 
+*GrantsApi* | [**GrantsPartialUpdate**](docs/GrantsApi.md#grantspartialupdate) | **Patch** /api/v1/grants/{id}/ | 
+*GrantsApi* | [**GrantsRetrieve**](docs/GrantsApi.md#grantsretrieve) | **Get** /api/v1/grants/{id}/ | 
+*GrantsApi* | [**GrantsUpdate**](docs/GrantsApi.md#grantsupdate) | **Put** /api/v1/grants/{id}/ | 
+*GroupsApi* | [**GroupsAddCreate**](docs/GroupsApi.md#groupsaddcreate) | **Post** /api/v1/groups/{id}/add/ | 
+*GroupsApi* | [**GroupsCreate**](docs/GroupsApi.md#groupscreate) | **Post** /api/v1/groups/ | 
+*GroupsApi* | [**GroupsDestroy**](docs/GroupsApi.md#groupsdestroy) | **Delete** /api/v1/groups/{id}/ | 
+*GroupsApi* | [**GroupsList**](docs/GroupsApi.md#groupslist) | **Get** /api/v1/groups/ | 
+*GroupsApi* | [**GroupsPartialUpdate**](docs/GroupsApi.md#groupspartialupdate) | **Patch** /api/v1/groups/{id}/ | 
+*GroupsApi* | [**GroupsRemoveCreate**](docs/GroupsApi.md#groupsremovecreate) | **Post** /api/v1/groups/{id}/remove/ | 
+*GroupsApi* | [**GroupsRetrieve**](docs/GroupsApi.md#groupsretrieve) | **Get** /api/v1/groups/{id}/ | 
+*GroupsApi* | [**GroupsUpdate**](docs/GroupsApi.md#groupsupdate) | **Put** /api/v1/groups/{id}/ | 
+*ImportApi* | [**ImportCreate**](docs/ImportApi.md#importcreate) | **Post** /api/v1/import/ | 
 *IntegrationsApi* | [**IntegrationsAwsCreate**](docs/IntegrationsApi.md#integrationsawscreate) | **Post** /api/v1/integrations/aws/ | Establishes an AWS Integration.
 *IntegrationsApi* | [**IntegrationsAwsDestroy**](docs/IntegrationsApi.md#integrationsawsdestroy) | **Delete** /api/v1/integrations/aws/{id}/ | Delete an AWS integration.
 *IntegrationsApi* | [**IntegrationsAwsList**](docs/IntegrationsApi.md#integrationsawslist) | **Get** /api/v1/integrations/aws/ | 
@@ -122,11 +140,50 @@ Class | Method | HTTP request | Description
 *IntegrationsApi* | [**IntegrationsAwsPushesTasksStepsRetrieve**](docs/IntegrationsApi.md#integrationsawspushestasksstepsretrieve) | **Get** /api/v1/integrations/aws/{awsintegration_pk}/pushes/{awspush_pk}/tasks/{awspushtask_pk}/steps/{id}/ | 
 *IntegrationsApi* | [**IntegrationsAwsPushesUpdate**](docs/IntegrationsApi.md#integrationsawspushesupdate) | **Put** /api/v1/integrations/aws/{awsintegration_pk}/pushes/{id}/ | 
 *IntegrationsApi* | [**IntegrationsAwsRetrieve**](docs/IntegrationsApi.md#integrationsawsretrieve) | **Get** /api/v1/integrations/aws/{id}/ | Get details of an AWS Integration.
+*IntegrationsApi* | [**IntegrationsAwsScanCreate**](docs/IntegrationsApi.md#integrationsawsscancreate) | **Post** /api/v1/integrations/aws/{id}/scan/ | Evaluate a potential pull pattern and understand what it will match.
 *IntegrationsApi* | [**IntegrationsAwsUpdate**](docs/IntegrationsApi.md#integrationsawsupdate) | **Put** /api/v1/integrations/aws/{id}/ | 
+*IntegrationsApi* | [**IntegrationsAzureKeyVaultCreate**](docs/IntegrationsApi.md#integrationsazurekeyvaultcreate) | **Post** /api/v1/integrations/azure/key_vault/ | Establishes an Azure Key Vault Integration.
+*IntegrationsApi* | [**IntegrationsAzureKeyVaultDestroy**](docs/IntegrationsApi.md#integrationsazurekeyvaultdestroy) | **Delete** /api/v1/integrations/azure/key_vault/{id}/ | Delete an AWS integration.
+*IntegrationsApi* | [**IntegrationsAzureKeyVaultList**](docs/IntegrationsApi.md#integrationsazurekeyvaultlist) | **Get** /api/v1/integrations/azure/key_vault/ | 
+*IntegrationsApi* | [**IntegrationsAzureKeyVaultPartialUpdate**](docs/IntegrationsApi.md#integrationsazurekeyvaultpartialupdate) | **Patch** /api/v1/integrations/azure/key_vault/{id}/ | 
+*IntegrationsApi* | [**IntegrationsAzureKeyVaultPullsCreate**](docs/IntegrationsApi.md#integrationsazurekeyvaultpullscreate) | **Post** /api/v1/integrations/azure/key_vault/{akvintegration_pk}/pulls/ | 
+*IntegrationsApi* | [**IntegrationsAzureKeyVaultPullsDestroy**](docs/IntegrationsApi.md#integrationsazurekeyvaultpullsdestroy) | **Delete** /api/v1/integrations/azure/key_vault/{akvintegration_pk}/pulls/{id}/ | 
+*IntegrationsApi* | [**IntegrationsAzureKeyVaultPullsList**](docs/IntegrationsApi.md#integrationsazurekeyvaultpullslist) | **Get** /api/v1/integrations/azure/key_vault/{akvintegration_pk}/pulls/ | 
+*IntegrationsApi* | [**IntegrationsAzureKeyVaultPullsPartialUpdate**](docs/IntegrationsApi.md#integrationsazurekeyvaultpullspartialupdate) | **Patch** /api/v1/integrations/azure/key_vault/{akvintegration_pk}/pulls/{id}/ | 
+*IntegrationsApi* | [**IntegrationsAzureKeyVaultPullsRetrieve**](docs/IntegrationsApi.md#integrationsazurekeyvaultpullsretrieve) | **Get** /api/v1/integrations/azure/key_vault/{akvintegration_pk}/pulls/{id}/ | 
+*IntegrationsApi* | [**IntegrationsAzureKeyVaultPullsSyncCreate**](docs/IntegrationsApi.md#integrationsazurekeyvaultpullssynccreate) | **Post** /api/v1/integrations/azure/key_vault/{akvintegration_pk}/pulls/{id}/sync/ | 
+*IntegrationsApi* | [**IntegrationsAzureKeyVaultPullsTasksList**](docs/IntegrationsApi.md#integrationsazurekeyvaultpullstaskslist) | **Get** /api/v1/integrations/azure/key_vault/{akvintegration_pk}/pulls/{akvpull_pk}/tasks/ | 
+*IntegrationsApi* | [**IntegrationsAzureKeyVaultPullsTasksRetrieve**](docs/IntegrationsApi.md#integrationsazurekeyvaultpullstasksretrieve) | **Get** /api/v1/integrations/azure/key_vault/{akvintegration_pk}/pulls/{akvpull_pk}/tasks/{id}/ | 
+*IntegrationsApi* | [**IntegrationsAzureKeyVaultPullsTasksStepsList**](docs/IntegrationsApi.md#integrationsazurekeyvaultpullstasksstepslist) | **Get** /api/v1/integrations/azure/key_vault/{akvintegration_pk}/pulls/{akvpull_pk}/tasks/{akvpulltask_pk}/steps/ | 
+*IntegrationsApi* | [**IntegrationsAzureKeyVaultPullsTasksStepsRetrieve**](docs/IntegrationsApi.md#integrationsazurekeyvaultpullstasksstepsretrieve) | **Get** /api/v1/integrations/azure/key_vault/{akvintegration_pk}/pulls/{akvpull_pk}/tasks/{akvpulltask_pk}/steps/{id}/ | 
+*IntegrationsApi* | [**IntegrationsAzureKeyVaultPullsUpdate**](docs/IntegrationsApi.md#integrationsazurekeyvaultpullsupdate) | **Put** /api/v1/integrations/azure/key_vault/{akvintegration_pk}/pulls/{id}/ | 
+*IntegrationsApi* | [**IntegrationsAzureKeyVaultPushesCreate**](docs/IntegrationsApi.md#integrationsazurekeyvaultpushescreate) | **Post** /api/v1/integrations/azure/key_vault/{akvintegration_pk}/pushes/ | 
+*IntegrationsApi* | [**IntegrationsAzureKeyVaultPushesDestroy**](docs/IntegrationsApi.md#integrationsazurekeyvaultpushesdestroy) | **Delete** /api/v1/integrations/azure/key_vault/{akvintegration_pk}/pushes/{id}/ | 
+*IntegrationsApi* | [**IntegrationsAzureKeyVaultPushesList**](docs/IntegrationsApi.md#integrationsazurekeyvaultpusheslist) | **Get** /api/v1/integrations/azure/key_vault/{akvintegration_pk}/pushes/ | 
+*IntegrationsApi* | [**IntegrationsAzureKeyVaultPushesPartialUpdate**](docs/IntegrationsApi.md#integrationsazurekeyvaultpushespartialupdate) | **Patch** /api/v1/integrations/azure/key_vault/{akvintegration_pk}/pushes/{id}/ | 
+*IntegrationsApi* | [**IntegrationsAzureKeyVaultPushesRetrieve**](docs/IntegrationsApi.md#integrationsazurekeyvaultpushesretrieve) | **Get** /api/v1/integrations/azure/key_vault/{akvintegration_pk}/pushes/{id}/ | 
+*IntegrationsApi* | [**IntegrationsAzureKeyVaultPushesSyncCreate**](docs/IntegrationsApi.md#integrationsazurekeyvaultpushessynccreate) | **Post** /api/v1/integrations/azure/key_vault/{akvintegration_pk}/pushes/{id}/sync/ | 
+*IntegrationsApi* | [**IntegrationsAzureKeyVaultPushesTasksList**](docs/IntegrationsApi.md#integrationsazurekeyvaultpushestaskslist) | **Get** /api/v1/integrations/azure/key_vault/{akvintegration_pk}/pushes/{akvpush_pk}/tasks/ | 
+*IntegrationsApi* | [**IntegrationsAzureKeyVaultPushesTasksRetrieve**](docs/IntegrationsApi.md#integrationsazurekeyvaultpushestasksretrieve) | **Get** /api/v1/integrations/azure/key_vault/{akvintegration_pk}/pushes/{akvpush_pk}/tasks/{id}/ | 
+*IntegrationsApi* | [**IntegrationsAzureKeyVaultPushesTasksStepsList**](docs/IntegrationsApi.md#integrationsazurekeyvaultpushestasksstepslist) | **Get** /api/v1/integrations/azure/key_vault/{akvintegration_pk}/pushes/{akvpush_pk}/tasks/{akvpushtask_pk}/steps/ | 
+*IntegrationsApi* | [**IntegrationsAzureKeyVaultPushesTasksStepsRetrieve**](docs/IntegrationsApi.md#integrationsazurekeyvaultpushestasksstepsretrieve) | **Get** /api/v1/integrations/azure/key_vault/{akvintegration_pk}/pushes/{akvpush_pk}/tasks/{akvpushtask_pk}/steps/{id}/ | 
+*IntegrationsApi* | [**IntegrationsAzureKeyVaultPushesUpdate**](docs/IntegrationsApi.md#integrationsazurekeyvaultpushesupdate) | **Put** /api/v1/integrations/azure/key_vault/{akvintegration_pk}/pushes/{id}/ | 
+*IntegrationsApi* | [**IntegrationsAzureKeyVaultRetrieve**](docs/IntegrationsApi.md#integrationsazurekeyvaultretrieve) | **Get** /api/v1/integrations/azure/key_vault/{id}/ | Get details of an Azure Key Vault Integration.
+*IntegrationsApi* | [**IntegrationsAzureKeyVaultScanCreate**](docs/IntegrationsApi.md#integrationsazurekeyvaultscancreate) | **Post** /api/v1/integrations/azure/key_vault/{id}/scan/ | Evaluate a potential pull pattern and understand what it will match.
+*IntegrationsApi* | [**IntegrationsAzureKeyVaultUpdate**](docs/IntegrationsApi.md#integrationsazurekeyvaultupdate) | **Put** /api/v1/integrations/azure/key_vault/{id}/ | 
 *IntegrationsApi* | [**IntegrationsExploreList**](docs/IntegrationsApi.md#integrationsexplorelist) | **Get** /api/v1/integrations/explore/ | Retrieve third-party integration data for the specified FQN.
 *IntegrationsApi* | [**IntegrationsGithubCreate**](docs/IntegrationsApi.md#integrationsgithubcreate) | **Post** /api/v1/integrations/github/ | Establishes a GitHub Integration.
 *IntegrationsApi* | [**IntegrationsGithubDestroy**](docs/IntegrationsApi.md#integrationsgithubdestroy) | **Delete** /api/v1/integrations/github/{id}/ | Delete a GitHub integration.
 *IntegrationsApi* | [**IntegrationsGithubList**](docs/IntegrationsApi.md#integrationsgithublist) | **Get** /api/v1/integrations/github/ | 
+*IntegrationsApi* | [**IntegrationsGithubPullsList**](docs/IntegrationsApi.md#integrationsgithubpullslist) | **Get** /api/v1/integrations/github/{githubintegration_pk}/pulls/ | 
+*IntegrationsApi* | [**IntegrationsGithubPullsPartialUpdate**](docs/IntegrationsApi.md#integrationsgithubpullspartialupdate) | **Patch** /api/v1/integrations/github/{githubintegration_pk}/pulls/{id}/ | 
+*IntegrationsApi* | [**IntegrationsGithubPullsRetrieve**](docs/IntegrationsApi.md#integrationsgithubpullsretrieve) | **Get** /api/v1/integrations/github/{githubintegration_pk}/pulls/{id}/ | 
+*IntegrationsApi* | [**IntegrationsGithubPullsSyncCreate**](docs/IntegrationsApi.md#integrationsgithubpullssynccreate) | **Post** /api/v1/integrations/github/{githubintegration_pk}/pulls/{id}/sync/ | 
+*IntegrationsApi* | [**IntegrationsGithubPullsTasksList**](docs/IntegrationsApi.md#integrationsgithubpullstaskslist) | **Get** /api/v1/integrations/github/{githubintegration_pk}/pulls/{githubpull_pk}/tasks/ | 
+*IntegrationsApi* | [**IntegrationsGithubPullsTasksRetrieve**](docs/IntegrationsApi.md#integrationsgithubpullstasksretrieve) | **Get** /api/v1/integrations/github/{githubintegration_pk}/pulls/{githubpull_pk}/tasks/{id}/ | 
+*IntegrationsApi* | [**IntegrationsGithubPullsTasksStepsList**](docs/IntegrationsApi.md#integrationsgithubpullstasksstepslist) | **Get** /api/v1/integrations/github/{githubintegration_pk}/pulls/{githubpull_pk}/tasks/{githubpulltask_pk}/steps/ | 
+*IntegrationsApi* | [**IntegrationsGithubPullsTasksStepsRetrieve**](docs/IntegrationsApi.md#integrationsgithubpullstasksstepsretrieve) | **Get** /api/v1/integrations/github/{githubintegration_pk}/pulls/{githubpull_pk}/tasks/{githubpulltask_pk}/steps/{id}/ | 
+*IntegrationsApi* | [**IntegrationsGithubPullsUpdate**](docs/IntegrationsApi.md#integrationsgithubpullsupdate) | **Put** /api/v1/integrations/github/{githubintegration_pk}/pulls/{id}/ | 
 *IntegrationsApi* | [**IntegrationsGithubRetrieve**](docs/IntegrationsApi.md#integrationsgithubretrieve) | **Get** /api/v1/integrations/github/{id}/ | Get details of a GitHub Integration.
 *InvitationsApi* | [**InvitationsAcceptCreate**](docs/InvitationsApi.md#invitationsacceptcreate) | **Post** /api/v1/invitations/{id}/accept/ | Accept an invitation.
 *InvitationsApi* | [**InvitationsCreate**](docs/InvitationsApi.md#invitationscreate) | **Post** /api/v1/invitations/ | Create an invitation.
@@ -148,12 +205,14 @@ Class | Method | HTTP request | Description
 *OrganizationsApi* | [**OrganizationsPartialUpdate**](docs/OrganizationsApi.md#organizationspartialupdate) | **Patch** /api/v1/organizations/{id}/ | 
 *OrganizationsApi* | [**OrganizationsRetrieve**](docs/OrganizationsApi.md#organizationsretrieve) | **Get** /api/v1/organizations/{id}/ | 
 *OrganizationsApi* | [**OrganizationsUpdate**](docs/OrganizationsApi.md#organizationsupdate) | **Put** /api/v1/organizations/{id}/ | 
+*ProjectsApi* | [**ProjectsCopyCreate**](docs/ProjectsApi.md#projectscopycreate) | **Post** /api/v1/projects/{id}/copy/ | 
 *ProjectsApi* | [**ProjectsCreate**](docs/ProjectsApi.md#projectscreate) | **Post** /api/v1/projects/ | 
 *ProjectsApi* | [**ProjectsDestroy**](docs/ProjectsApi.md#projectsdestroy) | **Delete** /api/v1/projects/{id}/ | 
 *ProjectsApi* | [**ProjectsList**](docs/ProjectsApi.md#projectslist) | **Get** /api/v1/projects/ | 
 *ProjectsApi* | [**ProjectsParameterExportList**](docs/ProjectsApi.md#projectsparameterexportlist) | **Get** /api/v1/projects/{project_pk}/parameter-export/ | 
 *ProjectsApi* | [**ProjectsParametersCreate**](docs/ProjectsApi.md#projectsparameterscreate) | **Post** /api/v1/projects/{project_pk}/parameters/ | 
 *ProjectsApi* | [**ProjectsParametersDestroy**](docs/ProjectsApi.md#projectsparametersdestroy) | **Delete** /api/v1/projects/{project_pk}/parameters/{id}/ | 
+*ProjectsApi* | [**ProjectsParametersDualityList**](docs/ProjectsApi.md#projectsparametersdualitylist) | **Get** /api/v1/projects/{project_pk}/parameters/duality/ | 
 *ProjectsApi* | [**ProjectsParametersList**](docs/ProjectsApi.md#projectsparameterslist) | **Get** /api/v1/projects/{project_pk}/parameters/ | 
 *ProjectsApi* | [**ProjectsParametersPartialUpdate**](docs/ProjectsApi.md#projectsparameterspartialupdate) | **Patch** /api/v1/projects/{project_pk}/parameters/{id}/ | 
 *ProjectsApi* | [**ProjectsParametersPushesList**](docs/ProjectsApi.md#projectsparameterspusheslist) | **Get** /api/v1/projects/{project_pk}/parameters/{parameter_pk}/pushes/ | List push operations.
@@ -191,37 +250,95 @@ Class | Method | HTTP request | Description
 *ServiceaccountsApi* | [**ServiceaccountsPartialUpdate**](docs/ServiceaccountsApi.md#serviceaccountspartialupdate) | **Patch** /api/v1/serviceaccounts/{id}/ | 
 *ServiceaccountsApi* | [**ServiceaccountsRetrieve**](docs/ServiceaccountsApi.md#serviceaccountsretrieve) | **Get** /api/v1/serviceaccounts/{id}/ | 
 *ServiceaccountsApi* | [**ServiceaccountsUpdate**](docs/ServiceaccountsApi.md#serviceaccountsupdate) | **Put** /api/v1/serviceaccounts/{id}/ | 
+*TypesApi* | [**TypesCreate**](docs/TypesApi.md#typescreate) | **Post** /api/v1/types/ | 
+*TypesApi* | [**TypesDestroy**](docs/TypesApi.md#typesdestroy) | **Delete** /api/v1/types/{id}/ | 
+*TypesApi* | [**TypesList**](docs/TypesApi.md#typeslist) | **Get** /api/v1/types/ | 
+*TypesApi* | [**TypesPartialUpdate**](docs/TypesApi.md#typespartialupdate) | **Patch** /api/v1/types/{id}/ | 
+*TypesApi* | [**TypesRetrieve**](docs/TypesApi.md#typesretrieve) | **Get** /api/v1/types/{id}/ | 
+*TypesApi* | [**TypesRulesCreate**](docs/TypesApi.md#typesrulescreate) | **Post** /api/v1/types/{parametertype_pk}/rules/ | 
+*TypesApi* | [**TypesRulesDestroy**](docs/TypesApi.md#typesrulesdestroy) | **Delete** /api/v1/types/{parametertype_pk}/rules/{id}/ | 
+*TypesApi* | [**TypesRulesList**](docs/TypesApi.md#typesruleslist) | **Get** /api/v1/types/{parametertype_pk}/rules/ | 
+*TypesApi* | [**TypesRulesPartialUpdate**](docs/TypesApi.md#typesrulespartialupdate) | **Patch** /api/v1/types/{parametertype_pk}/rules/{id}/ | 
+*TypesApi* | [**TypesRulesRetrieve**](docs/TypesApi.md#typesrulesretrieve) | **Get** /api/v1/types/{parametertype_pk}/rules/{id}/ | 
+*TypesApi* | [**TypesRulesUpdate**](docs/TypesApi.md#typesrulesupdate) | **Put** /api/v1/types/{parametertype_pk}/rules/{id}/ | 
+*TypesApi* | [**TypesUpdate**](docs/TypesApi.md#typesupdate) | **Put** /api/v1/types/{id}/ | 
 *UsersApi* | [**UsersCurrentRetrieve**](docs/UsersApi.md#userscurrentretrieve) | **Get** /api/v1/users/current/ | Current user information
 *UsersApi* | [**UsersDestroy**](docs/UsersApi.md#usersdestroy) | **Delete** /api/v1/users/{id}/ | Delete the specified user.
 *UsersApi* | [**UsersList**](docs/UsersApi.md#userslist) | **Get** /api/v1/users/ | 
 *UsersApi* | [**UsersRetrieve**](docs/UsersApi.md#usersretrieve) | **Get** /api/v1/users/{id}/ | 
+*UtilsApi* | [**UtilsGeneratePasswordCreate**](docs/UtilsApi.md#utilsgeneratepasswordcreate) | **Post** /api/v1/utils/generate_password/ | Get a randomly generated password using AWS Secrets Manager, with fallback to /dev/urandom.
 
 
 ## Documentation For Models
 
  - [AuditTrail](docs/AuditTrail.md)
  - [AuditTrailSummary](docs/AuditTrailSummary.md)
+ - [AuditTrailUser](docs/AuditTrailUser.md)
  - [AwsIntegration](docs/AwsIntegration.md)
  - [AwsIntegrationCreate](docs/AwsIntegrationCreate.md)
+ - [AwsIntegrationScan](docs/AwsIntegrationScan.md)
  - [AwsPull](docs/AwsPull.md)
+ - [AwsPullLatestTask](docs/AwsPullLatestTask.md)
+ - [AwsPullSyncActionRequest](docs/AwsPullSyncActionRequest.md)
  - [AwsPullTask](docs/AwsPullTask.md)
+ - [AwsPullTaskStep](docs/AwsPullTaskStep.md)
  - [AwsPush](docs/AwsPush.md)
+ - [AwsPushLatestTask](docs/AwsPushLatestTask.md)
  - [AwsPushTask](docs/AwsPushTask.md)
  - [AwsPushTaskStep](docs/AwsPushTaskStep.md)
  - [AwsPushUpdate](docs/AwsPushUpdate.md)
  - [AwsRegionEnum](docs/AwsRegionEnum.md)
  - [AwsServiceEnum](docs/AwsServiceEnum.md)
+ - [AzureKeyVaultIntegration](docs/AzureKeyVaultIntegration.md)
+ - [AzureKeyVaultIntegrationCreate](docs/AzureKeyVaultIntegrationCreate.md)
+ - [AzureKeyVaultIntegrationScan](docs/AzureKeyVaultIntegrationScan.md)
+ - [AzureKeyVaultPull](docs/AzureKeyVaultPull.md)
+ - [AzureKeyVaultPullLatestTask](docs/AzureKeyVaultPullLatestTask.md)
+ - [AzureKeyVaultPullSyncActionRequest](docs/AzureKeyVaultPullSyncActionRequest.md)
+ - [AzureKeyVaultPullTask](docs/AzureKeyVaultPullTask.md)
+ - [AzureKeyVaultPullTaskStep](docs/AzureKeyVaultPullTaskStep.md)
+ - [AzureKeyVaultPush](docs/AzureKeyVaultPush.md)
+ - [AzureKeyVaultPushLatestTask](docs/AzureKeyVaultPushLatestTask.md)
+ - [AzureKeyVaultPushTask](docs/AzureKeyVaultPushTask.md)
+ - [AzureKeyVaultPushTaskStep](docs/AzureKeyVaultPushTaskStep.md)
+ - [AzureKeyVaultPushUpdate](docs/AzureKeyVaultPushUpdate.md)
+ - [BackupDataSnapshot](docs/BackupDataSnapshot.md)
+ - [BackupEnvironment](docs/BackupEnvironment.md)
+ - [BackupExternalReference](docs/BackupExternalReference.md)
+ - [BackupParameter](docs/BackupParameter.md)
+ - [BackupParameterRule](docs/BackupParameterRule.md)
+ - [BackupParameterType](docs/BackupParameterType.md)
+ - [BackupParameterValue](docs/BackupParameterValue.md)
+ - [BackupParameterValueExternal](docs/BackupParameterValueExternal.md)
+ - [BackupParameterValuesValue](docs/BackupParameterValuesValue.md)
+ - [BackupProject](docs/BackupProject.md)
+ - [BackupTemplate](docs/BackupTemplate.md)
+ - [DiscoveredContent](docs/DiscoveredContent.md)
+ - [DiscoveryResult](docs/DiscoveryResult.md)
  - [Environment](docs/Environment.md)
  - [EnvironmentCreate](docs/EnvironmentCreate.md)
+ - [EnvironmentUpdate](docs/EnvironmentUpdate.md)
+ - [FeaturesResponse](docs/FeaturesResponse.md)
+ - [GeneratedPasswordResponse](docs/GeneratedPasswordResponse.md)
  - [GitHubIntegration](docs/GitHubIntegration.md)
  - [GitHubIntegrationCreate](docs/GitHubIntegrationCreate.md)
+ - [GitHubPull](docs/GitHubPull.md)
+ - [GitHubPullLatestTask](docs/GitHubPullLatestTask.md)
+ - [GitHubPullTask](docs/GitHubPullTask.md)
+ - [GitHubPullTaskStep](docs/GitHubPullTaskStep.md)
+ - [Grant](docs/Grant.md)
+ - [Group](docs/Group.md)
  - [HistoryModelEnum](docs/HistoryModelEnum.md)
  - [HistoryTypeEnum](docs/HistoryTypeEnum.md)
- - [IntegrationExplorer](docs/IntegrationExplorer.md)
+ - [ImportCreateRequest](docs/ImportCreateRequest.md)
+ - [ImportCreateResponse](docs/ImportCreateResponse.md)
+ - [ImportParameter](docs/ImportParameter.md)
+ - [IntegrationNode](docs/IntegrationNode.md)
  - [Invitation](docs/Invitation.md)
  - [InvitationCreate](docs/InvitationCreate.md)
  - [Membership](docs/Membership.md)
  - [MembershipCreate](docs/MembershipCreate.md)
+ - [ModeEnum](docs/ModeEnum.md)
  - [NodeTypeEnum](docs/NodeTypeEnum.md)
  - [ObjectTypeEnum](docs/ObjectTypeEnum.md)
  - [OperationEnum](docs/OperationEnum.md)
@@ -230,71 +347,117 @@ Class | Method | HTTP request | Description
  - [PaginatedAuditTrailList](docs/PaginatedAuditTrailList.md)
  - [PaginatedAwsIntegrationList](docs/PaginatedAwsIntegrationList.md)
  - [PaginatedAwsPullList](docs/PaginatedAwsPullList.md)
+ - [PaginatedAwsPullTaskList](docs/PaginatedAwsPullTaskList.md)
+ - [PaginatedAwsPullTaskStepList](docs/PaginatedAwsPullTaskStepList.md)
  - [PaginatedAwsPushList](docs/PaginatedAwsPushList.md)
  - [PaginatedAwsPushTaskList](docs/PaginatedAwsPushTaskList.md)
  - [PaginatedAwsPushTaskStepList](docs/PaginatedAwsPushTaskStepList.md)
+ - [PaginatedAzureKeyVaultIntegrationList](docs/PaginatedAzureKeyVaultIntegrationList.md)
+ - [PaginatedAzureKeyVaultPullList](docs/PaginatedAzureKeyVaultPullList.md)
+ - [PaginatedAzureKeyVaultPullTaskList](docs/PaginatedAzureKeyVaultPullTaskList.md)
+ - [PaginatedAzureKeyVaultPullTaskStepList](docs/PaginatedAzureKeyVaultPullTaskStepList.md)
+ - [PaginatedAzureKeyVaultPushList](docs/PaginatedAzureKeyVaultPushList.md)
+ - [PaginatedAzureKeyVaultPushTaskList](docs/PaginatedAzureKeyVaultPushTaskList.md)
+ - [PaginatedAzureKeyVaultPushTaskStepList](docs/PaginatedAzureKeyVaultPushTaskStepList.md)
  - [PaginatedEnvironmentList](docs/PaginatedEnvironmentList.md)
  - [PaginatedGitHubIntegrationList](docs/PaginatedGitHubIntegrationList.md)
- - [PaginatedIntegrationExplorerList](docs/PaginatedIntegrationExplorerList.md)
+ - [PaginatedGitHubPullList](docs/PaginatedGitHubPullList.md)
+ - [PaginatedGitHubPullTaskList](docs/PaginatedGitHubPullTaskList.md)
+ - [PaginatedGitHubPullTaskStepList](docs/PaginatedGitHubPullTaskStepList.md)
+ - [PaginatedGrantList](docs/PaginatedGrantList.md)
+ - [PaginatedGroupList](docs/PaginatedGroupList.md)
+ - [PaginatedIntegrationNodeList](docs/PaginatedIntegrationNodeList.md)
  - [PaginatedInvitationList](docs/PaginatedInvitationList.md)
  - [PaginatedMembershipList](docs/PaginatedMembershipList.md)
  - [PaginatedOrganizationList](docs/PaginatedOrganizationList.md)
+ - [PaginatedParameterDualityList](docs/PaginatedParameterDualityList.md)
  - [PaginatedParameterList](docs/PaginatedParameterList.md)
  - [PaginatedParameterRuleList](docs/PaginatedParameterRuleList.md)
+ - [PaginatedParameterTypeList](docs/PaginatedParameterTypeList.md)
+ - [PaginatedParameterTypeRuleList](docs/PaginatedParameterTypeRuleList.md)
  - [PaginatedProjectList](docs/PaginatedProjectList.md)
  - [PaginatedServiceAccountList](docs/PaginatedServiceAccountList.md)
  - [PaginatedTagList](docs/PaginatedTagList.md)
+ - [PaginatedTaskStepList](docs/PaginatedTaskStepList.md)
  - [PaginatedTemplateList](docs/PaginatedTemplateList.md)
  - [PaginatedUserList](docs/PaginatedUserList.md)
  - [PaginatedValueList](docs/PaginatedValueList.md)
  - [Parameter](docs/Parameter.md)
  - [ParameterCreate](docs/ParameterCreate.md)
+ - [ParameterDuality](docs/ParameterDuality.md)
+ - [ParameterDualityT1](docs/ParameterDualityT1.md)
  - [ParameterExport](docs/ParameterExport.md)
  - [ParameterRule](docs/ParameterRule.md)
  - [ParameterRuleCreate](docs/ParameterRuleCreate.md)
  - [ParameterRuleTypeEnum](docs/ParameterRuleTypeEnum.md)
+ - [ParameterRuleUpdate](docs/ParameterRuleUpdate.md)
  - [ParameterTimeline](docs/ParameterTimeline.md)
  - [ParameterTimelineEntry](docs/ParameterTimelineEntry.md)
  - [ParameterTimelineEntryEnvironment](docs/ParameterTimelineEntryEnvironment.md)
+ - [ParameterTimelineEntryHistoryParameter](docs/ParameterTimelineEntryHistoryParameter.md)
  - [ParameterTimelineEntryParameter](docs/ParameterTimelineEntryParameter.md)
- - [ParameterTypeEnum](docs/ParameterTypeEnum.md)
+ - [ParameterType](docs/ParameterType.md)
+ - [ParameterTypeCreate](docs/ParameterTypeCreate.md)
+ - [ParameterTypeRule](docs/ParameterTypeRule.md)
+ - [ParameterTypeRuleCreate](docs/ParameterTypeRuleCreate.md)
+ - [ParameterTypeRuleUpdate](docs/ParameterTypeRuleUpdate.md)
+ - [ParameterTypeUpdate](docs/ParameterTypeUpdate.md)
+ - [ParameterUpdate](docs/ParameterUpdate.md)
+ - [ParameterValuesValue](docs/ParameterValuesValue.md)
  - [PatchedAwsIntegration](docs/PatchedAwsIntegration.md)
  - [PatchedAwsPull](docs/PatchedAwsPull.md)
  - [PatchedAwsPushUpdate](docs/PatchedAwsPushUpdate.md)
- - [PatchedEnvironment](docs/PatchedEnvironment.md)
+ - [PatchedAzureKeyVaultIntegration](docs/PatchedAzureKeyVaultIntegration.md)
+ - [PatchedAzureKeyVaultPull](docs/PatchedAzureKeyVaultPull.md)
+ - [PatchedAzureKeyVaultPushUpdate](docs/PatchedAzureKeyVaultPushUpdate.md)
+ - [PatchedEnvironmentUpdate](docs/PatchedEnvironmentUpdate.md)
+ - [PatchedGitHubPull](docs/PatchedGitHubPull.md)
+ - [PatchedGrant](docs/PatchedGrant.md)
+ - [PatchedGroup](docs/PatchedGroup.md)
  - [PatchedInvitation](docs/PatchedInvitation.md)
  - [PatchedMembership](docs/PatchedMembership.md)
  - [PatchedOrganization](docs/PatchedOrganization.md)
- - [PatchedParameter](docs/PatchedParameter.md)
- - [PatchedParameterRule](docs/PatchedParameterRule.md)
- - [PatchedProject](docs/PatchedProject.md)
+ - [PatchedParameterRuleUpdate](docs/PatchedParameterRuleUpdate.md)
+ - [PatchedParameterTypeRuleUpdate](docs/PatchedParameterTypeRuleUpdate.md)
+ - [PatchedParameterTypeUpdate](docs/PatchedParameterTypeUpdate.md)
+ - [PatchedParameterUpdate](docs/PatchedParameterUpdate.md)
+ - [PatchedProjectUpdate](docs/PatchedProjectUpdate.md)
  - [PatchedServiceAccount](docs/PatchedServiceAccount.md)
  - [PatchedTagUpdate](docs/PatchedTagUpdate.md)
- - [PatchedTemplate](docs/PatchedTemplate.md)
- - [PatchedValue](docs/PatchedValue.md)
+ - [PatchedTemplateUpdate](docs/PatchedTemplateUpdate.md)
+ - [PatchedValueUpdate](docs/PatchedValueUpdate.md)
  - [Project](docs/Project.md)
  - [ProjectCreate](docs/ProjectCreate.md)
+ - [ProjectUpdate](docs/ProjectUpdate.md)
  - [RoleEnum](docs/RoleEnum.md)
  - [ServiceAccount](docs/ServiceAccount.md)
  - [ServiceAccountCreateRequest](docs/ServiceAccountCreateRequest.md)
  - [ServiceAccountCreateResponse](docs/ServiceAccountCreateResponse.md)
+ - [ServiceAccountUpdateRequest](docs/ServiceAccountUpdateRequest.md)
  - [StateEnum](docs/StateEnum.md)
  - [StatusEnum](docs/StatusEnum.md)
  - [Tag](docs/Tag.md)
  - [TagCreate](docs/TagCreate.md)
  - [TagReadUsage](docs/TagReadUsage.md)
  - [TagUpdate](docs/TagUpdate.md)
+ - [TaskStep](docs/TaskStep.md)
  - [Template](docs/Template.md)
  - [TemplateCreate](docs/TemplateCreate.md)
  - [TemplateLookupError](docs/TemplateLookupError.md)
  - [TemplateLookupErrorEntry](docs/TemplateLookupErrorEntry.md)
  - [TemplatePreview](docs/TemplatePreview.md)
+ - [TemplatePreviewCreateRequest](docs/TemplatePreviewCreateRequest.md)
  - [TemplateTimeline](docs/TemplateTimeline.md)
  - [TemplateTimelineEntry](docs/TemplateTimelineEntry.md)
+ - [TemplateTimelineEntryHistoryTemplate](docs/TemplateTimelineEntryHistoryTemplate.md)
  - [TemplateTimelineEntryTemplate](docs/TemplateTimelineEntryTemplate.md)
+ - [TemplateUpdate](docs/TemplateUpdate.md)
  - [User](docs/User.md)
  - [Value](docs/Value.md)
  - [ValueCreate](docs/ValueCreate.md)
+ - [ValueExternalStatus](docs/ValueExternalStatus.md)
+ - [ValueUpdate](docs/ValueUpdate.md)
+ - [VersionEnum](docs/VersionEnum.md)
 
 
 ## Documentation For Authorization
@@ -317,6 +480,18 @@ Note, each API key must be added to a map of `map[string]APIKey` where the key i
 - **Location**: HTTP header
 
 Note, each API key must be added to a map of `map[string]APIKey` where the key is: Authorization and passed in as the auth context for each request.
+
+
+### tokenAuth
+
+- **Type**: HTTP Bearer token authentication
+
+Example
+
+```golang
+auth := context.WithValue(context.Background(), sw.ContextAccessToken, "BEARER_TOKEN_STRING")
+r, err := client.Service.Operation(auth, args)
+```
 
 
 ## Documentation for Utility Methods

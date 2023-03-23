@@ -28,7 +28,7 @@ type PatchedMembership struct {
 	// The role that the user has in the organization.
 	Role *RoleEnum `json:"role,omitempty"`
 	CreatedAt *time.Time `json:"created_at,omitempty"`
-	ModifiedAt *time.Time `json:"modified_at,omitempty"`
+	ModifiedAt NullableTime `json:"modified_at,omitempty"`
 }
 
 // NewPatchedMembership instantiates a new PatchedMembership object
@@ -240,36 +240,46 @@ func (o *PatchedMembership) SetCreatedAt(v time.Time) {
 	o.CreatedAt = &v
 }
 
-// GetModifiedAt returns the ModifiedAt field value if set, zero value otherwise.
+// GetModifiedAt returns the ModifiedAt field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *PatchedMembership) GetModifiedAt() time.Time {
-	if o == nil || o.ModifiedAt == nil {
+	if o == nil || o.ModifiedAt.Get() == nil {
 		var ret time.Time
 		return ret
 	}
-	return *o.ModifiedAt
+	return *o.ModifiedAt.Get()
 }
 
 // GetModifiedAtOk returns a tuple with the ModifiedAt field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *PatchedMembership) GetModifiedAtOk() (*time.Time, bool) {
-	if o == nil || o.ModifiedAt == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.ModifiedAt, true
+	return o.ModifiedAt.Get(), o.ModifiedAt.IsSet()
 }
 
 // HasModifiedAt returns a boolean if a field has been set.
 func (o *PatchedMembership) HasModifiedAt() bool {
-	if o != nil && o.ModifiedAt != nil {
+	if o != nil && o.ModifiedAt.IsSet() {
 		return true
 	}
 
 	return false
 }
 
-// SetModifiedAt gets a reference to the given time.Time and assigns it to the ModifiedAt field.
+// SetModifiedAt gets a reference to the given NullableTime and assigns it to the ModifiedAt field.
 func (o *PatchedMembership) SetModifiedAt(v time.Time) {
-	o.ModifiedAt = &v
+	o.ModifiedAt.Set(&v)
+}
+// SetModifiedAtNil sets the value for ModifiedAt to be an explicit nil
+func (o *PatchedMembership) SetModifiedAtNil() {
+	o.ModifiedAt.Set(nil)
+}
+
+// UnsetModifiedAt ensures that no value is present for ModifiedAt, not even an explicit nil
+func (o *PatchedMembership) UnsetModifiedAt() {
+	o.ModifiedAt.Unset()
 }
 
 func (o PatchedMembership) MarshalJSON() ([]byte, error) {
@@ -292,8 +302,8 @@ func (o PatchedMembership) MarshalJSON() ([]byte, error) {
 	if o.CreatedAt != nil {
 		toSerialize["created_at"] = o.CreatedAt
 	}
-	if o.ModifiedAt != nil {
-		toSerialize["modified_at"] = o.ModifiedAt
+	if o.ModifiedAt.IsSet() {
+		toSerialize["modified_at"] = o.ModifiedAt.Get()
 	}
 	return json.Marshal(toSerialize)
 }

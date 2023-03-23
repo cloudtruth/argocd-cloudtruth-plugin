@@ -4,19 +4,20 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Url** | **string** |  | [readonly] 
+**Url** | **string** | The URL for the parameter rule. | [readonly] 
 **Id** | **string** |  | [readonly] 
+**LedgerId** | **string** |  | [readonly] 
 **Parameter** | **string** | The parameter this rule is for. | [readonly] 
 **Type** | [**ParameterRuleTypeEnum**](ParameterRuleTypeEnum.md) |  | 
 **Constraint** | **string** |  | 
 **CreatedAt** | **time.Time** |  | [readonly] 
-**ModifiedAt** | **time.Time** |  | [readonly] 
+**ModifiedAt** | **NullableTime** |  | [readonly] 
 
 ## Methods
 
 ### NewParameterRule
 
-`func NewParameterRule(url string, id string, parameter string, type_ ParameterRuleTypeEnum, constraint string, createdAt time.Time, modifiedAt time.Time, ) *ParameterRule`
+`func NewParameterRule(url string, id string, ledgerId string, parameter string, type_ ParameterRuleTypeEnum, constraint string, createdAt time.Time, modifiedAt NullableTime, ) *ParameterRule`
 
 NewParameterRule instantiates a new ParameterRule object
 This constructor will assign default values to properties that have it defined,
@@ -69,6 +70,26 @@ and a boolean to check if the value has been set.
 `func (o *ParameterRule) SetId(v string)`
 
 SetId sets Id field to given value.
+
+
+### GetLedgerId
+
+`func (o *ParameterRule) GetLedgerId() string`
+
+GetLedgerId returns the LedgerId field if non-nil, zero value otherwise.
+
+### GetLedgerIdOk
+
+`func (o *ParameterRule) GetLedgerIdOk() (*string, bool)`
+
+GetLedgerIdOk returns a tuple with the LedgerId field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetLedgerId
+
+`func (o *ParameterRule) SetLedgerId(v string)`
+
+SetLedgerId sets LedgerId field to given value.
 
 
 ### GetParameter
@@ -171,6 +192,16 @@ and a boolean to check if the value has been set.
 SetModifiedAt sets ModifiedAt field to given value.
 
 
+### SetModifiedAtNil
+
+`func (o *ParameterRule) SetModifiedAtNil(b bool)`
+
+ SetModifiedAtNil sets the value for ModifiedAt to be an explicit nil
+
+### UnsetModifiedAt
+`func (o *ParameterRule) UnsetModifiedAt()`
+
+UnsetModifiedAt ensures that no value is present for ModifiedAt, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

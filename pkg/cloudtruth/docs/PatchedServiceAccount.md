@@ -9,8 +9,8 @@ Name | Type | Description | Notes
 **User** | Pointer to [**User**](User.md) |  | [optional] [readonly] 
 **Description** | Pointer to **string** | An optional description of the process or system using the service account. | [optional] 
 **CreatedAt** | Pointer to **time.Time** |  | [optional] [readonly] 
-**ModifiedAt** | Pointer to **time.Time** |  | [optional] [readonly] 
-**LastUsedAt** | Pointer to **time.Time** | The most recent date and time the service account was used. | [optional] [readonly] 
+**ModifiedAt** | Pointer to **NullableTime** |  | [optional] [readonly] 
+**LastUsedAt** | Pointer to **NullableTime** | The most recent date and time the service account was used.  It will be null if the service account has not been used. | [optional] [readonly] 
 
 ## Methods
 
@@ -181,6 +181,16 @@ SetModifiedAt sets ModifiedAt field to given value.
 
 HasModifiedAt returns a boolean if a field has been set.
 
+### SetModifiedAtNil
+
+`func (o *PatchedServiceAccount) SetModifiedAtNil(b bool)`
+
+ SetModifiedAtNil sets the value for ModifiedAt to be an explicit nil
+
+### UnsetModifiedAt
+`func (o *PatchedServiceAccount) UnsetModifiedAt()`
+
+UnsetModifiedAt ensures that no value is present for ModifiedAt, not even an explicit nil
 ### GetLastUsedAt
 
 `func (o *PatchedServiceAccount) GetLastUsedAt() time.Time`
@@ -206,6 +216,16 @@ SetLastUsedAt sets LastUsedAt field to given value.
 
 HasLastUsedAt returns a boolean if a field has been set.
 
+### SetLastUsedAtNil
+
+`func (o *PatchedServiceAccount) SetLastUsedAtNil(b bool)`
+
+ SetLastUsedAtNil sets the value for LastUsedAt to be an explicit nil
+
+### UnsetLastUsedAt
+`func (o *PatchedServiceAccount) UnsetLastUsedAt()`
+
+UnsetLastUsedAt ensures that no value is present for LastUsedAt, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

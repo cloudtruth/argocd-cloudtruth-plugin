@@ -119,7 +119,7 @@ func (o *GitHubIntegrationCreate) GetGhInstallationId() int32 {
 // GetGhInstallationIdOk returns a tuple with the GhInstallationId field value
 // and a boolean to check if the value has been set.
 func (o *GitHubIntegrationCreate) GetGhInstallationIdOk() (*int32, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.GhInstallationId, true

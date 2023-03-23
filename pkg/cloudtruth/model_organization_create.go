@@ -19,6 +19,8 @@ import (
 type OrganizationCreate struct {
 	// The organization name.
 	Name string `json:"name"`
+	// Multi-factor authentication for the organization
+	MfaEnabled *bool `json:"mfa_enabled,omitempty"`
 }
 
 // NewOrganizationCreate instantiates a new OrganizationCreate object
@@ -52,7 +54,7 @@ func (o *OrganizationCreate) GetName() string {
 // GetNameOk returns a tuple with the Name field value
 // and a boolean to check if the value has been set.
 func (o *OrganizationCreate) GetNameOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Name, true
@@ -63,10 +65,45 @@ func (o *OrganizationCreate) SetName(v string) {
 	o.Name = v
 }
 
+// GetMfaEnabled returns the MfaEnabled field value if set, zero value otherwise.
+func (o *OrganizationCreate) GetMfaEnabled() bool {
+	if o == nil || o.MfaEnabled == nil {
+		var ret bool
+		return ret
+	}
+	return *o.MfaEnabled
+}
+
+// GetMfaEnabledOk returns a tuple with the MfaEnabled field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *OrganizationCreate) GetMfaEnabledOk() (*bool, bool) {
+	if o == nil || o.MfaEnabled == nil {
+		return nil, false
+	}
+	return o.MfaEnabled, true
+}
+
+// HasMfaEnabled returns a boolean if a field has been set.
+func (o *OrganizationCreate) HasMfaEnabled() bool {
+	if o != nil && o.MfaEnabled != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetMfaEnabled gets a reference to the given bool and assigns it to the MfaEnabled field.
+func (o *OrganizationCreate) SetMfaEnabled(v bool) {
+	o.MfaEnabled = &v
+}
+
 func (o OrganizationCreate) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if true {
 		toSerialize["name"] = o.Name
+	}
+	if o.MfaEnabled != nil {
+		toSerialize["mfa_enabled"] = o.MfaEnabled
 	}
 	return json.Marshal(toSerialize)
 }

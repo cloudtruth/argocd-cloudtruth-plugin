@@ -4,21 +4,26 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Url** | **string** |  | [readonly] 
-**Id** | **string** | A unique identifier for the project. | [readonly] 
+**Url** | **string** | The URL for the project. | [readonly] 
+**Id** | **string** |  | [readonly] 
+**LedgerId** | **string** |  | [readonly] 
 **Name** | **string** | The project name. | 
+**ParameterNamePattern** | Pointer to **string** | A regular expression parameter names must match | [optional] 
 **Description** | Pointer to **string** | A description of the project.  You may find it helpful to document how this project is used to assist others when they need to maintain software that uses this content. | [optional] 
 **Dependents** | **[]string** | This is the opposite of &#x60;depends_on&#x60;, see that field for more details. | [readonly] 
 **DependsOn** | Pointer to **NullableString** | Project dependencies allow projects to be used for shared configuration, for example a database used by many applications needs to advertise its port number.  Projects can depend on another project which will add the parameters from the parent project into the current project.  All of the parameter names between the two projects must be unique.  When retrieving values or rendering templates, all of the parameters from the parent project will also be available in the current project. | [optional] 
-**Pushes** | [**[]AwsPush**](AwsPush.md) |  | [readonly] 
+**AccessControlled** | Pointer to **bool** | Indicates if access control is being enforced through grants. | [optional] 
+**Role** | [**NullableRoleEnum**](RoleEnum.md) | Your role in the project, if the project is access-controlled. | [readonly] 
+**Pushes** | [**[]AwsPush**](AwsPush.md) | Deprecated. Only shows pushes for aws integrations in /api/v1/. | [readonly] 
+**PushUrls** | **[]string** | Push actions associated with the project. | [readonly] 
 **CreatedAt** | **time.Time** |  | [readonly] 
-**ModifiedAt** | **time.Time** |  | [readonly] 
+**ModifiedAt** | **NullableTime** |  | [readonly] 
 
 ## Methods
 
 ### NewProject
 
-`func NewProject(url string, id string, name string, dependents []string, pushes []AwsPush, createdAt time.Time, modifiedAt time.Time, ) *Project`
+`func NewProject(url string, id string, ledgerId string, name string, dependents []string, role NullableRoleEnum, pushes []AwsPush, pushUrls []string, createdAt time.Time, modifiedAt NullableTime, ) *Project`
 
 NewProject instantiates a new Project object
 This constructor will assign default values to properties that have it defined,
@@ -73,6 +78,26 @@ and a boolean to check if the value has been set.
 SetId sets Id field to given value.
 
 
+### GetLedgerId
+
+`func (o *Project) GetLedgerId() string`
+
+GetLedgerId returns the LedgerId field if non-nil, zero value otherwise.
+
+### GetLedgerIdOk
+
+`func (o *Project) GetLedgerIdOk() (*string, bool)`
+
+GetLedgerIdOk returns a tuple with the LedgerId field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetLedgerId
+
+`func (o *Project) SetLedgerId(v string)`
+
+SetLedgerId sets LedgerId field to given value.
+
+
 ### GetName
 
 `func (o *Project) GetName() string`
@@ -92,6 +117,31 @@ and a boolean to check if the value has been set.
 
 SetName sets Name field to given value.
 
+
+### GetParameterNamePattern
+
+`func (o *Project) GetParameterNamePattern() string`
+
+GetParameterNamePattern returns the ParameterNamePattern field if non-nil, zero value otherwise.
+
+### GetParameterNamePatternOk
+
+`func (o *Project) GetParameterNamePatternOk() (*string, bool)`
+
+GetParameterNamePatternOk returns a tuple with the ParameterNamePattern field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetParameterNamePattern
+
+`func (o *Project) SetParameterNamePattern(v string)`
+
+SetParameterNamePattern sets ParameterNamePattern field to given value.
+
+### HasParameterNamePattern
+
+`func (o *Project) HasParameterNamePattern() bool`
+
+HasParameterNamePattern returns a boolean if a field has been set.
 
 ### GetDescription
 
@@ -173,6 +223,61 @@ HasDependsOn returns a boolean if a field has been set.
 `func (o *Project) UnsetDependsOn()`
 
 UnsetDependsOn ensures that no value is present for DependsOn, not even an explicit nil
+### GetAccessControlled
+
+`func (o *Project) GetAccessControlled() bool`
+
+GetAccessControlled returns the AccessControlled field if non-nil, zero value otherwise.
+
+### GetAccessControlledOk
+
+`func (o *Project) GetAccessControlledOk() (*bool, bool)`
+
+GetAccessControlledOk returns a tuple with the AccessControlled field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetAccessControlled
+
+`func (o *Project) SetAccessControlled(v bool)`
+
+SetAccessControlled sets AccessControlled field to given value.
+
+### HasAccessControlled
+
+`func (o *Project) HasAccessControlled() bool`
+
+HasAccessControlled returns a boolean if a field has been set.
+
+### GetRole
+
+`func (o *Project) GetRole() RoleEnum`
+
+GetRole returns the Role field if non-nil, zero value otherwise.
+
+### GetRoleOk
+
+`func (o *Project) GetRoleOk() (*RoleEnum, bool)`
+
+GetRoleOk returns a tuple with the Role field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetRole
+
+`func (o *Project) SetRole(v RoleEnum)`
+
+SetRole sets Role field to given value.
+
+
+### SetRoleNil
+
+`func (o *Project) SetRoleNil(b bool)`
+
+ SetRoleNil sets the value for Role to be an explicit nil
+
+### UnsetRole
+`func (o *Project) UnsetRole()`
+
+UnsetRole ensures that no value is present for Role, not even an explicit nil
 ### GetPushes
 
 `func (o *Project) GetPushes() []AwsPush`
@@ -191,6 +296,26 @@ and a boolean to check if the value has been set.
 `func (o *Project) SetPushes(v []AwsPush)`
 
 SetPushes sets Pushes field to given value.
+
+
+### GetPushUrls
+
+`func (o *Project) GetPushUrls() []string`
+
+GetPushUrls returns the PushUrls field if non-nil, zero value otherwise.
+
+### GetPushUrlsOk
+
+`func (o *Project) GetPushUrlsOk() (*[]string, bool)`
+
+GetPushUrlsOk returns a tuple with the PushUrls field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetPushUrls
+
+`func (o *Project) SetPushUrls(v []string)`
+
+SetPushUrls sets PushUrls field to given value.
 
 
 ### GetCreatedAt
@@ -233,6 +358,16 @@ and a boolean to check if the value has been set.
 SetModifiedAt sets ModifiedAt field to given value.
 
 
+### SetModifiedAtNil
+
+`func (o *Project) SetModifiedAtNil(b bool)`
+
+ SetModifiedAtNil sets the value for ModifiedAt to be an explicit nil
+
+### UnsetModifiedAt
+`func (o *Project) UnsetModifiedAt()`
+
+UnsetModifiedAt ensures that no value is present for ModifiedAt, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

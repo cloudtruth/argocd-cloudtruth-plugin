@@ -4,14 +4,14 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Id** | **string** | A unique identifier for the parameter. | [readonly] 
+**ParameterId** | **NullableString** | A unique identifier for the parameter. | [readonly] 
 **Name** | **string** | The parameter name. | 
 
 ## Methods
 
 ### NewParameterTimelineEntryParameter
 
-`func NewParameterTimelineEntryParameter(id string, name string, ) *ParameterTimelineEntryParameter`
+`func NewParameterTimelineEntryParameter(parameterId NullableString, name string, ) *ParameterTimelineEntryParameter`
 
 NewParameterTimelineEntryParameter instantiates a new ParameterTimelineEntryParameter object
 This constructor will assign default values to properties that have it defined,
@@ -26,26 +26,36 @@ NewParameterTimelineEntryParameterWithDefaults instantiates a new ParameterTimel
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
-### GetId
+### GetParameterId
 
-`func (o *ParameterTimelineEntryParameter) GetId() string`
+`func (o *ParameterTimelineEntryParameter) GetParameterId() string`
 
-GetId returns the Id field if non-nil, zero value otherwise.
+GetParameterId returns the ParameterId field if non-nil, zero value otherwise.
 
-### GetIdOk
+### GetParameterIdOk
 
-`func (o *ParameterTimelineEntryParameter) GetIdOk() (*string, bool)`
+`func (o *ParameterTimelineEntryParameter) GetParameterIdOk() (*string, bool)`
 
-GetIdOk returns a tuple with the Id field if it's non-nil, zero value otherwise
+GetParameterIdOk returns a tuple with the ParameterId field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetId
+### SetParameterId
 
-`func (o *ParameterTimelineEntryParameter) SetId(v string)`
+`func (o *ParameterTimelineEntryParameter) SetParameterId(v string)`
 
-SetId sets Id field to given value.
+SetParameterId sets ParameterId field to given value.
 
 
+### SetParameterIdNil
+
+`func (o *ParameterTimelineEntryParameter) SetParameterIdNil(b bool)`
+
+ SetParameterIdNil sets the value for ParameterId to be an explicit nil
+
+### UnsetParameterId
+`func (o *ParameterTimelineEntryParameter) UnsetParameterId()`
+
+UnsetParameterId ensures that no value is present for ParameterId, not even an explicit nil
 ### GetName
 
 `func (o *ParameterTimelineEntryParameter) GetName() string`

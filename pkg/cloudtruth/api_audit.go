@@ -13,33 +13,32 @@ package cloudtruth
 
 import (
 	"bytes"
-	_context "context"
-	_ioutil "io/ioutil"
-	_nethttp "net/http"
-	_neturl "net/url"
+	"context"
+	"io/ioutil"
+	"net/http"
+	"net/url"
 	"strings"
 	"time"
 )
 
-// Linger please
-var (
-	_ _context.Context
-)
 
 // AuditApiService AuditApi service
 type AuditApiService service
 
 type ApiAuditListRequest struct {
-	ctx _context.Context
+	ctx context.Context
 	ApiService *AuditApiService
 	action *string
 	earliest *time.Time
+	environmentId *string
 	latest *time.Time
 	objectId *string
 	objectType *string
 	ordering *string
 	page *int32
 	pageSize *int32
+	parameterId *string
+	projectId *string
 	userId *string
 }
 
@@ -48,43 +47,69 @@ func (r ApiAuditListRequest) Action(action string) ApiAuditListRequest {
 	r.action = &action
 	return r
 }
+
 func (r ApiAuditListRequest) Earliest(earliest time.Time) ApiAuditListRequest {
 	r.earliest = &earliest
 	return r
 }
+
+// Returns records for the environment, associated tags, and values.
+func (r ApiAuditListRequest) EnvironmentId(environmentId string) ApiAuditListRequest {
+	r.environmentId = &environmentId
+	return r
+}
+
 func (r ApiAuditListRequest) Latest(latest time.Time) ApiAuditListRequest {
 	r.latest = &latest
 	return r
 }
+
 func (r ApiAuditListRequest) ObjectId(objectId string) ApiAuditListRequest {
 	r.objectId = &objectId
 	return r
 }
+
 func (r ApiAuditListRequest) ObjectType(objectType string) ApiAuditListRequest {
 	r.objectType = &objectType
 	return r
 }
+
 // Which field to use when ordering the results.
 func (r ApiAuditListRequest) Ordering(ordering string) ApiAuditListRequest {
 	r.ordering = &ordering
 	return r
 }
+
 // A page number within the paginated result set.
 func (r ApiAuditListRequest) Page(page int32) ApiAuditListRequest {
 	r.page = &page
 	return r
 }
+
 // Number of results to return per page.
 func (r ApiAuditListRequest) PageSize(pageSize int32) ApiAuditListRequest {
 	r.pageSize = &pageSize
 	return r
 }
+
+// Returns records for the parameter and associated values.
+func (r ApiAuditListRequest) ParameterId(parameterId string) ApiAuditListRequest {
+	r.parameterId = &parameterId
+	return r
+}
+
+// Returns records for the project, it&#39;s parameters, and associated values.
+func (r ApiAuditListRequest) ProjectId(projectId string) ApiAuditListRequest {
+	r.projectId = &projectId
+	return r
+}
+
 func (r ApiAuditListRequest) UserId(userId string) ApiAuditListRequest {
 	r.userId = &userId
 	return r
 }
 
-func (r ApiAuditListRequest) Execute() (PaginatedAuditTrailList, *_nethttp.Response, error) {
+func (r ApiAuditListRequest) Execute() (*PaginatedAuditTrailList, *http.Response, error) {
 	return r.ApiService.AuditListExecute(r)
 }
 
@@ -93,10 +118,10 @@ AuditList Method for AuditList
 
 A searchable log of all the actions taken by users and service accounts within the organization.
 
- @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiAuditListRequest
 */
-func (a *AuditApiService) AuditList(ctx _context.Context) ApiAuditListRequest {
+func (a *AuditApiService) AuditList(ctx context.Context) ApiAuditListRequest {
 	return ApiAuditListRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -105,32 +130,33 @@ func (a *AuditApiService) AuditList(ctx _context.Context) ApiAuditListRequest {
 
 // Execute executes the request
 //  @return PaginatedAuditTrailList
-func (a *AuditApiService) AuditListExecute(r ApiAuditListRequest) (PaginatedAuditTrailList, *_nethttp.Response, error) {
+func (a *AuditApiService) AuditListExecute(r ApiAuditListRequest) (*PaginatedAuditTrailList, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodGet
+		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
-		localVarFormFileName string
-		localVarFileName     string
-		localVarFileBytes    []byte
-		localVarReturnValue  PaginatedAuditTrailList
+		formFiles            []formFile
+		localVarReturnValue  *PaginatedAuditTrailList
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "AuditApiService.AuditList")
 	if err != nil {
-		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/api/v1/audit/"
 
 	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := _neturl.Values{}
-	localVarFormParams := _neturl.Values{}
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
 
 	if r.action != nil {
 		localVarQueryParams.Add("action", parameterToString(*r.action, ""))
 	}
 	if r.earliest != nil {
 		localVarQueryParams.Add("earliest", parameterToString(*r.earliest, ""))
+	}
+	if r.environmentId != nil {
+		localVarQueryParams.Add("environment_id", parameterToString(*r.environmentId, ""))
 	}
 	if r.latest != nil {
 		localVarQueryParams.Add("latest", parameterToString(*r.latest, ""))
@@ -149,6 +175,12 @@ func (a *AuditApiService) AuditListExecute(r ApiAuditListRequest) (PaginatedAudi
 	}
 	if r.pageSize != nil {
 		localVarQueryParams.Add("page_size", parameterToString(*r.pageSize, ""))
+	}
+	if r.parameterId != nil {
+		localVarQueryParams.Add("parameter_id", parameterToString(*r.parameterId, ""))
+	}
+	if r.projectId != nil {
+		localVarQueryParams.Add("project_id", parameterToString(*r.projectId, ""))
 	}
 	if r.userId != nil {
 		localVarQueryParams.Add("user_id", parameterToString(*r.userId, ""))
@@ -198,7 +230,7 @@ func (a *AuditApiService) AuditListExecute(r ApiAuditListRequest) (PaginatedAudi
 			}
 		}
 	}
-	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err
 	}
@@ -208,15 +240,15 @@ func (a *AuditApiService) AuditListExecute(r ApiAuditListRequest) (PaginatedAudi
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
-	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := GenericOpenAPIError{
+		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
@@ -225,7 +257,7 @@ func (a *AuditApiService) AuditListExecute(r ApiAuditListRequest) (PaginatedAudi
 
 	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
-		newErr := GenericOpenAPIError{
+		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: err.Error(),
 		}
@@ -236,13 +268,12 @@ func (a *AuditApiService) AuditListExecute(r ApiAuditListRequest) (PaginatedAudi
 }
 
 type ApiAuditRetrieveRequest struct {
-	ctx _context.Context
+	ctx context.Context
 	ApiService *AuditApiService
 	id string
 }
 
-
-func (r ApiAuditRetrieveRequest) Execute() (AuditTrail, *_nethttp.Response, error) {
+func (r ApiAuditRetrieveRequest) Execute() (*AuditTrail, *http.Response, error) {
 	return r.ApiService.AuditRetrieveExecute(r)
 }
 
@@ -251,11 +282,11 @@ AuditRetrieve Method for AuditRetrieve
 
 Retrieve one record from the audit log.
 
- @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param id
  @return ApiAuditRetrieveRequest
 */
-func (a *AuditApiService) AuditRetrieve(ctx _context.Context, id string) ApiAuditRetrieveRequest {
+func (a *AuditApiService) AuditRetrieve(ctx context.Context, id string) ApiAuditRetrieveRequest {
 	return ApiAuditRetrieveRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -265,27 +296,25 @@ func (a *AuditApiService) AuditRetrieve(ctx _context.Context, id string) ApiAudi
 
 // Execute executes the request
 //  @return AuditTrail
-func (a *AuditApiService) AuditRetrieveExecute(r ApiAuditRetrieveRequest) (AuditTrail, *_nethttp.Response, error) {
+func (a *AuditApiService) AuditRetrieveExecute(r ApiAuditRetrieveRequest) (*AuditTrail, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodGet
+		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
-		localVarFormFileName string
-		localVarFileName     string
-		localVarFileBytes    []byte
-		localVarReturnValue  AuditTrail
+		formFiles            []formFile
+		localVarReturnValue  *AuditTrail
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "AuditApiService.AuditRetrieve")
 	if err != nil {
-		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/api/v1/audit/{id}/"
-	localVarPath = strings.Replace(localVarPath, "{"+"id"+"}", _neturl.PathEscape(parameterToString(r.id, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"id"+"}", url.PathEscape(parameterToString(r.id, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := _neturl.Values{}
-	localVarFormParams := _neturl.Values{}
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
@@ -332,7 +361,7 @@ func (a *AuditApiService) AuditRetrieveExecute(r ApiAuditRetrieveRequest) (Audit
 			}
 		}
 	}
-	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err
 	}
@@ -342,15 +371,15 @@ func (a *AuditApiService) AuditRetrieveExecute(r ApiAuditRetrieveRequest) (Audit
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
-	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := GenericOpenAPIError{
+		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
@@ -359,7 +388,7 @@ func (a *AuditApiService) AuditRetrieveExecute(r ApiAuditRetrieveRequest) (Audit
 
 	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
-		newErr := GenericOpenAPIError{
+		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: err.Error(),
 		}
@@ -370,12 +399,11 @@ func (a *AuditApiService) AuditRetrieveExecute(r ApiAuditRetrieveRequest) (Audit
 }
 
 type ApiAuditSummaryRetrieveRequest struct {
-	ctx _context.Context
+	ctx context.Context
 	ApiService *AuditApiService
 }
 
-
-func (r ApiAuditSummaryRetrieveRequest) Execute() (AuditTrailSummary, *_nethttp.Response, error) {
+func (r ApiAuditSummaryRetrieveRequest) Execute() (*AuditTrailSummary, *http.Response, error) {
 	return r.ApiService.AuditSummaryRetrieveExecute(r)
 }
 
@@ -384,10 +412,10 @@ AuditSummaryRetrieve Method for AuditSummaryRetrieve
 
 Summary information about the organization's audit trail.
 
- @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiAuditSummaryRetrieveRequest
 */
-func (a *AuditApiService) AuditSummaryRetrieve(ctx _context.Context) ApiAuditSummaryRetrieveRequest {
+func (a *AuditApiService) AuditSummaryRetrieve(ctx context.Context) ApiAuditSummaryRetrieveRequest {
 	return ApiAuditSummaryRetrieveRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -396,26 +424,24 @@ func (a *AuditApiService) AuditSummaryRetrieve(ctx _context.Context) ApiAuditSum
 
 // Execute executes the request
 //  @return AuditTrailSummary
-func (a *AuditApiService) AuditSummaryRetrieveExecute(r ApiAuditSummaryRetrieveRequest) (AuditTrailSummary, *_nethttp.Response, error) {
+func (a *AuditApiService) AuditSummaryRetrieveExecute(r ApiAuditSummaryRetrieveRequest) (*AuditTrailSummary, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodGet
+		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
-		localVarFormFileName string
-		localVarFileName     string
-		localVarFileBytes    []byte
-		localVarReturnValue  AuditTrailSummary
+		formFiles            []formFile
+		localVarReturnValue  *AuditTrailSummary
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "AuditApiService.AuditSummaryRetrieve")
 	if err != nil {
-		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/api/v1/audit/summary/"
 
 	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := _neturl.Values{}
-	localVarFormParams := _neturl.Values{}
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
@@ -462,7 +488,7 @@ func (a *AuditApiService) AuditSummaryRetrieveExecute(r ApiAuditSummaryRetrieveR
 			}
 		}
 	}
-	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err
 	}
@@ -472,15 +498,15 @@ func (a *AuditApiService) AuditSummaryRetrieveExecute(r ApiAuditSummaryRetrieveR
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
-	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := GenericOpenAPIError{
+		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
@@ -489,7 +515,7 @@ func (a *AuditApiService) AuditSummaryRetrieveExecute(r ApiAuditSummaryRetrieveR
 
 	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
-		newErr := GenericOpenAPIError{
+		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: err.Error(),
 		}

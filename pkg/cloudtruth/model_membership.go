@@ -28,14 +28,14 @@ type Membership struct {
 	// The role that the user has in the organization.
 	Role RoleEnum `json:"role"`
 	CreatedAt time.Time `json:"created_at"`
-	ModifiedAt time.Time `json:"modified_at"`
+	ModifiedAt NullableTime `json:"modified_at"`
 }
 
 // NewMembership instantiates a new Membership object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewMembership(url string, id string, user string, organization string, role RoleEnum, createdAt time.Time, modifiedAt time.Time) *Membership {
+func NewMembership(url string, id string, user string, organization string, role RoleEnum, createdAt time.Time, modifiedAt NullableTime) *Membership {
 	this := Membership{}
 	this.Url = url
 	this.Id = id
@@ -68,7 +68,7 @@ func (o *Membership) GetUrl() string {
 // GetUrlOk returns a tuple with the Url field value
 // and a boolean to check if the value has been set.
 func (o *Membership) GetUrlOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Url, true
@@ -92,7 +92,7 @@ func (o *Membership) GetId() string {
 // GetIdOk returns a tuple with the Id field value
 // and a boolean to check if the value has been set.
 func (o *Membership) GetIdOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Id, true
@@ -116,7 +116,7 @@ func (o *Membership) GetUser() string {
 // GetUserOk returns a tuple with the User field value
 // and a boolean to check if the value has been set.
 func (o *Membership) GetUserOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.User, true
@@ -140,7 +140,7 @@ func (o *Membership) GetOrganization() string {
 // GetOrganizationOk returns a tuple with the Organization field value
 // and a boolean to check if the value has been set.
 func (o *Membership) GetOrganizationOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Organization, true
@@ -164,7 +164,7 @@ func (o *Membership) GetRole() RoleEnum {
 // GetRoleOk returns a tuple with the Role field value
 // and a boolean to check if the value has been set.
 func (o *Membership) GetRoleOk() (*RoleEnum, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Role, true
@@ -188,7 +188,7 @@ func (o *Membership) GetCreatedAt() time.Time {
 // GetCreatedAtOk returns a tuple with the CreatedAt field value
 // and a boolean to check if the value has been set.
 func (o *Membership) GetCreatedAtOk() (*time.Time, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.CreatedAt, true
@@ -200,27 +200,29 @@ func (o *Membership) SetCreatedAt(v time.Time) {
 }
 
 // GetModifiedAt returns the ModifiedAt field value
+// If the value is explicit nil, the zero value for time.Time will be returned
 func (o *Membership) GetModifiedAt() time.Time {
-	if o == nil {
+	if o == nil || o.ModifiedAt.Get() == nil {
 		var ret time.Time
 		return ret
 	}
 
-	return o.ModifiedAt
+	return *o.ModifiedAt.Get()
 }
 
 // GetModifiedAtOk returns a tuple with the ModifiedAt field value
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *Membership) GetModifiedAtOk() (*time.Time, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
-	return &o.ModifiedAt, true
+	return o.ModifiedAt.Get(), o.ModifiedAt.IsSet()
 }
 
 // SetModifiedAt sets field value
 func (o *Membership) SetModifiedAt(v time.Time) {
-	o.ModifiedAt = v
+	o.ModifiedAt.Set(&v)
 }
 
 func (o Membership) MarshalJSON() ([]byte, error) {
@@ -244,7 +246,7 @@ func (o Membership) MarshalJSON() ([]byte, error) {
 		toSerialize["created_at"] = o.CreatedAt
 	}
 	if true {
-		toSerialize["modified_at"] = o.ModifiedAt
+		toSerialize["modified_at"] = o.ModifiedAt.Get()
 	}
 	return json.Marshal(toSerialize)
 }

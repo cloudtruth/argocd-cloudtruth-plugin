@@ -4,12 +4,14 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[**ProjectsCopyCreate**](ProjectsApi.md#ProjectsCopyCreate) | **Post** /api/v1/projects/{id}/copy/ | 
 [**ProjectsCreate**](ProjectsApi.md#ProjectsCreate) | **Post** /api/v1/projects/ | 
 [**ProjectsDestroy**](ProjectsApi.md#ProjectsDestroy) | **Delete** /api/v1/projects/{id}/ | 
 [**ProjectsList**](ProjectsApi.md#ProjectsList) | **Get** /api/v1/projects/ | 
 [**ProjectsParameterExportList**](ProjectsApi.md#ProjectsParameterExportList) | **Get** /api/v1/projects/{project_pk}/parameter-export/ | 
 [**ProjectsParametersCreate**](ProjectsApi.md#ProjectsParametersCreate) | **Post** /api/v1/projects/{project_pk}/parameters/ | 
 [**ProjectsParametersDestroy**](ProjectsApi.md#ProjectsParametersDestroy) | **Delete** /api/v1/projects/{project_pk}/parameters/{id}/ | 
+[**ProjectsParametersDualityList**](ProjectsApi.md#ProjectsParametersDualityList) | **Get** /api/v1/projects/{project_pk}/parameters/duality/ | 
 [**ProjectsParametersList**](ProjectsApi.md#ProjectsParametersList) | **Get** /api/v1/projects/{project_pk}/parameters/ | 
 [**ProjectsParametersPartialUpdate**](ProjectsApi.md#ProjectsParametersPartialUpdate) | **Patch** /api/v1/projects/{project_pk}/parameters/{id}/ | 
 [**ProjectsParametersPushesList**](ProjectsApi.md#ProjectsParametersPushesList) | **Get** /api/v1/projects/{project_pk}/parameters/{parameter_pk}/pushes/ | List push operations.
@@ -44,6 +46,77 @@ Method | HTTP request | Description
 
 
 
+## ProjectsCopyCreate
+
+> Project ProjectsCopyCreate(ctx, id).Project(project).Execute()
+
+
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    "time"
+    openapiclient "./openapi"
+)
+
+func main() {
+    id := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | A UUID string identifying this project ledger.
+    project := *openapiclient.NewProject("Url_example", "Id_example", "LedgerId_example", "Name_example", []string{"Dependents_example"}, "TODO", []openapiclient.AwsPush{*openapiclient.NewAwsPush("Url_example", "Id_example", "Name_example", "TODO", time.Now(), time.Now(), []string{"Projects_example"}, []string{"Tags_example"}, openapiclient.AwsRegionEnum("af-south-1"), openapiclient.AwsServiceEnum("s3"), "Resource_example")}, []string{"PushUrls_example"}, time.Now(), time.Now()) // Project | 
+
+    configuration := openapiclient.NewConfiguration()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.ProjectsApi.ProjectsCopyCreate(context.Background(), id).Project(project).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `ProjectsApi.ProjectsCopyCreate``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `ProjectsCopyCreate`: Project
+    fmt.Fprintf(os.Stdout, "Response from `ProjectsApi.ProjectsCopyCreate`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**id** | **string** | A UUID string identifying this project ledger. | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiProjectsCopyCreateRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+ **project** | [**Project**](Project.md) |  | 
+
+### Return type
+
+[**Project**](Project.md)
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth), [tokenAuth](../README.md#tokenAuth)
+
+### HTTP request headers
+
+- **Content-Type**: application/json, application/x-www-form-urlencoded, multipart/form-data
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
 ## ProjectsCreate
 
 > Project ProjectsCreate(ctx).ProjectCreate(projectCreate).Execute()
@@ -66,8 +139,8 @@ func main() {
     projectCreate := *openapiclient.NewProjectCreate("Name_example") // ProjectCreate | 
 
     configuration := openapiclient.NewConfiguration()
-    api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.ProjectsApi.ProjectsCreate(context.Background()).ProjectCreate(projectCreate).Execute()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.ProjectsApi.ProjectsCreate(context.Background()).ProjectCreate(projectCreate).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `ProjectsApi.ProjectsCreate``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -96,7 +169,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth)
+[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth), [tokenAuth](../README.md#tokenAuth)
 
 ### HTTP request headers
 
@@ -127,11 +200,11 @@ import (
 )
 
 func main() {
-    id := TODO // string | 
+    id := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | 
 
     configuration := openapiclient.NewConfiguration()
-    api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.ProjectsApi.ProjectsDestroy(context.Background(), id).Execute()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.ProjectsApi.ProjectsDestroy(context.Background(), id).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `ProjectsApi.ProjectsDestroy``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -145,7 +218,7 @@ func main() {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**id** | [**string**](.md) |  | 
+**id** | **string** |  | 
 
 ### Other Parameters
 
@@ -162,7 +235,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth)
+[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth), [tokenAuth](../README.md#tokenAuth)
 
 ### HTTP request headers
 
@@ -201,8 +274,8 @@ func main() {
     pageSize := int32(56) // int32 | Number of results to return per page. (optional)
 
     configuration := openapiclient.NewConfiguration()
-    api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.ProjectsApi.ProjectsList(context.Background()).DescriptionIcontains(descriptionIcontains).Name(name).NameIcontains(nameIcontains).Ordering(ordering).Page(page).PageSize(pageSize).Execute()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.ProjectsApi.ProjectsList(context.Background()).DescriptionIcontains(descriptionIcontains).Name(name).NameIcontains(nameIcontains).Ordering(ordering).Page(page).PageSize(pageSize).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `ProjectsApi.ProjectsList``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -236,7 +309,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth)
+[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth), [tokenAuth](../README.md#tokenAuth)
 
 ### HTTP request headers
 
@@ -250,7 +323,7 @@ Name | Type | Description  | Notes
 
 ## ProjectsParameterExportList
 
-> ParameterExport ProjectsParameterExportList(ctx, projectPk).AsOf(asOf).Contains(contains).Endswith(endswith).Environment(environment).ExplicitExport(explicitExport).MaskSecrets(maskSecrets).Ordering(ordering).Output(output).Startswith(startswith).Tag(tag).Wrap(wrap).Execute()
+> ParameterExport ProjectsParameterExportList(ctx, projectPk).AsOf(asOf).Contains(contains).Endswith(endswith).Environment(environment).ExplicitExport(explicitExport).MaskSecrets(maskSecrets).Ordering(ordering).Output(output).Startswith(startswith).Tag(tag).Execute()
 
 
 
@@ -270,7 +343,7 @@ import (
 )
 
 func main() {
-    projectPk := TODO // string | 
+    projectPk := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | 
     asOf := time.Now() // time.Time | Specify a point in time to retrieve configuration from. Cannot be specified with `tag`. (optional)
     contains := "contains_example" // string | Only include parameters with names that contain the provided string. (optional)
     endswith := "endswith_example" // string | Only include parameters with names that end with the provided string. (optional)
@@ -280,12 +353,11 @@ func main() {
     ordering := "ordering_example" // string | Which field to use when ordering the results. (optional)
     output := "output_example" // string | Format to output: One of 'docker', 'dotenv', 'shell'. (optional)
     startswith := "startswith_example" // string | Only include parameters with names that start with the provided string. (optional)
-    tag := "tag_example" // string | Specify a tag to retrieve configuration from.  Cannot be specified with `as_of`. (optional)
-    wrap := true // bool | Indicates all secrets are wrapped. For more information on secret wrapping, see the documentation. (optional) (default to false)
+    tag := "tag_example" // string | Specify a tag to retrieve configuration from. Cannot be specified with `as_of`. Requires `environment`. (optional)
 
     configuration := openapiclient.NewConfiguration()
-    api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.ProjectsApi.ProjectsParameterExportList(context.Background(), projectPk).AsOf(asOf).Contains(contains).Endswith(endswith).Environment(environment).ExplicitExport(explicitExport).MaskSecrets(maskSecrets).Ordering(ordering).Output(output).Startswith(startswith).Tag(tag).Wrap(wrap).Execute()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.ProjectsApi.ProjectsParameterExportList(context.Background(), projectPk).AsOf(asOf).Contains(contains).Endswith(endswith).Environment(environment).ExplicitExport(explicitExport).MaskSecrets(maskSecrets).Ordering(ordering).Output(output).Startswith(startswith).Tag(tag).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `ProjectsApi.ProjectsParameterExportList``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -301,7 +373,7 @@ func main() {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**projectPk** | [**string**](.md) |  | 
+**projectPk** | **string** |  | 
 
 ### Other Parameters
 
@@ -320,8 +392,7 @@ Name | Type | Description  | Notes
  **ordering** | **string** | Which field to use when ordering the results. | 
  **output** | **string** | Format to output: One of &#39;docker&#39;, &#39;dotenv&#39;, &#39;shell&#39;. | 
  **startswith** | **string** | Only include parameters with names that start with the provided string. | 
- **tag** | **string** | Specify a tag to retrieve configuration from.  Cannot be specified with &#x60;as_of&#x60;. | 
- **wrap** | **bool** | Indicates all secrets are wrapped. For more information on secret wrapping, see the documentation. | [default to false]
+ **tag** | **string** | Specify a tag to retrieve configuration from. Cannot be specified with &#x60;as_of&#x60;. Requires &#x60;environment&#x60;. | 
 
 ### Return type
 
@@ -329,7 +400,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth)
+[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth), [tokenAuth](../README.md#tokenAuth)
 
 ### HTTP request headers
 
@@ -360,12 +431,12 @@ import (
 )
 
 func main() {
-    projectPk := TODO // string | 
+    projectPk := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | 
     parameterCreate := *openapiclient.NewParameterCreate("Name_example") // ParameterCreate | 
 
     configuration := openapiclient.NewConfiguration()
-    api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.ProjectsApi.ProjectsParametersCreate(context.Background(), projectPk).ParameterCreate(parameterCreate).Execute()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.ProjectsApi.ProjectsParametersCreate(context.Background(), projectPk).ParameterCreate(parameterCreate).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `ProjectsApi.ProjectsParametersCreate``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -381,7 +452,7 @@ func main() {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**projectPk** | [**string**](.md) |  | 
+**projectPk** | **string** |  | 
 
 ### Other Parameters
 
@@ -399,7 +470,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth)
+[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth), [tokenAuth](../README.md#tokenAuth)
 
 ### HTTP request headers
 
@@ -413,7 +484,7 @@ Name | Type | Description  | Notes
 
 ## ProjectsParametersDestroy
 
-> ProjectsParametersDestroy(ctx, id, projectPk).Execute()
+> ProjectsParametersDestroy(ctx, id, parameterId, projectPk).Execute()
 
 
 
@@ -430,12 +501,13 @@ import (
 )
 
 func main() {
-    id := TODO // string | 
-    projectPk := TODO // string | 
+    id := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | 
+    parameterId := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | 
+    projectPk := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | 
 
     configuration := openapiclient.NewConfiguration()
-    api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.ProjectsApi.ProjectsParametersDestroy(context.Background(), id, projectPk).Execute()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.ProjectsApi.ProjectsParametersDestroy(context.Background(), id, parameterId, projectPk).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `ProjectsApi.ProjectsParametersDestroy``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -449,8 +521,9 @@ func main() {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**id** | [**string**](.md) |  | 
-**projectPk** | [**string**](.md) |  | 
+**id** | **string** |  | 
+**parameterId** | **string** |  | 
+**projectPk** | **string** |  | 
 
 ### Other Parameters
 
@@ -462,13 +535,14 @@ Name | Type | Description  | Notes
 
 
 
+
 ### Return type
 
  (empty response body)
 
 ### Authorization
 
-[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth)
+[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth), [tokenAuth](../README.md#tokenAuth)
 
 ### HTTP request headers
 
@@ -480,9 +554,11 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
-## ProjectsParametersList
+## ProjectsParametersDualityList
 
-> PaginatedParameterList ProjectsParametersList(ctx, projectPk).AsOf(asOf).Environment(environment).Evaluate(evaluate).MaskSecrets(maskSecrets).Name(name).Ordering(ordering).Page(page).PageSize(pageSize).PartialSuccess(partialSuccess).Secret(secret).Tag(tag).Values(values).Wrap(wrap).Execute()
+> PaginatedParameterDualityList ProjectsParametersDualityList(ctx, projectPk).Difference(difference).Environment(environment).Evaluate(evaluate).ImmediateParameters(immediateParameters).MaskSecrets(maskSecrets).Name(name).NameContains(nameContains).NameIcontains(nameIcontains).NameIexact(nameIexact).NameIstartswith(nameIstartswith).NameStartswith(nameStartswith).Ordering(ordering).Page(page).PageSize(pageSize).Secret(secret).T1AsOf(t1AsOf).T1Tag(t1Tag).T2AsOf(t2AsOf).T2Tag(t2Tag).Values(values).Execute()
+
+
 
 
 
@@ -500,24 +576,139 @@ import (
 )
 
 func main() {
-    projectPk := TODO // string | 
-    asOf := time.Now() // time.Time | Specify a point in time to retrieve configuration from. Cannot be specified with `tag`. (optional)
-    environment := "environment_example" // string | Name or id (uuid) of the environment to get parameter values for.  Cannot be used with `values`. (optional)
-    evaluate := true // bool | If `true`, runs template evaluation on this parameter's values.  If `false`, returns the value's template. No effect on values that are not interpolated. (optional) (default to true)
-    maskSecrets := true // bool | If true, masks all secrets. (optional) (default to false)
+    projectPk := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | 
+    difference := true // bool | Compare the values at `t1` and `t2` and if they are the same, omit the parameter from the result. (optional)
+    environment := "environment_example" // string | Name or id (uuid) of the environment(s) to get parameter values for. Cannot be used with `values`. (optional)
+    evaluate := true // bool | If `true`, runs template evaluation on this parameter's values.  If `false`, returns the value's template. Has no effect on values that are not interpolated. (optional) (default to true)
+    immediateParameters := true // bool | If true, filter by current project parameters only. Otherwise, include both of the inherited and current project parameters. (optional) (default to false)
+    maskSecrets := true // bool | If true, replaces all secrets with `*****`. (optional) (default to false)
     name := "name_example" // string |  (optional)
+    nameContains := "nameContains_example" // string |  (optional)
+    nameIcontains := "nameIcontains_example" // string |  (optional)
+    nameIexact := "nameIexact_example" // string |  (optional)
+    nameIstartswith := "nameIstartswith_example" // string |  (optional)
+    nameStartswith := "nameStartswith_example" // string |  (optional)
     ordering := "ordering_example" // string | Which field to use when ordering the results. (optional)
     page := int32(56) // int32 | A page number within the paginated result set. (optional)
     pageSize := int32(56) // int32 | Number of results to return per page. (optional)
-    partialSuccess := true // bool | Determine if the response is allowed to include a partial success.  A partial success can occur if one or more external values cannot be retrieved, for example when an in-use integration is removed using the `leave` option, leaving the values untouched. When `true`, any error that occurs during external value retrieval will be placed into a field named `external_error` in the affected Value, and the `value` field will be empty.  When `false`, any such error will cause the entire request to fail. Partial success allows clients to tolerate invalid external values better. (optional) (default to false)
     secret := true // bool |  (optional)
-    tag := "tag_example" // string | Specify a tag to retrieve configuration from.  Cannot be specified with `as_of`. (optional)
-    values := true // bool | If false, values are not returned: the `values` array will have no entries. This speeds up retrieval if value content is not needed.  Cannot be used with `environment`. (optional) (default to true)
-    wrap := true // bool | If true, wraps all secrets - see documentation for more details. (optional) (default to false)
+    t1AsOf := time.Now() // time.Time | Specify a point in time to retrieve configuration from. Cannot be specified with `t1_tag`. (optional)
+    t1Tag := "t1Tag_example" // string | Specify a tag to retrieve configuration from. Cannot be specified with `t1_as_of`. Requires `environment`. (optional)
+    t2AsOf := time.Now() // time.Time | Specify a point in time to retrieve configuration from. Cannot be specified with `t2_tag`. (optional)
+    t2Tag := "t2Tag_example" // string | Specify a tag to retrieve configuration from. Cannot be specified with `t2_as_of`. Requires `environment`. (optional)
+    values := true // bool | If false, values are not returned: the `values` array will have no entries. This speeds up retrieval if value content is not needed. Cannot be used with `environment`. (optional) (default to true)
 
     configuration := openapiclient.NewConfiguration()
-    api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.ProjectsApi.ProjectsParametersList(context.Background(), projectPk).AsOf(asOf).Environment(environment).Evaluate(evaluate).MaskSecrets(maskSecrets).Name(name).Ordering(ordering).Page(page).PageSize(pageSize).PartialSuccess(partialSuccess).Secret(secret).Tag(tag).Values(values).Wrap(wrap).Execute()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.ProjectsApi.ProjectsParametersDualityList(context.Background(), projectPk).Difference(difference).Environment(environment).Evaluate(evaluate).ImmediateParameters(immediateParameters).MaskSecrets(maskSecrets).Name(name).NameContains(nameContains).NameIcontains(nameIcontains).NameIexact(nameIexact).NameIstartswith(nameIstartswith).NameStartswith(nameStartswith).Ordering(ordering).Page(page).PageSize(pageSize).Secret(secret).T1AsOf(t1AsOf).T1Tag(t1Tag).T2AsOf(t2AsOf).T2Tag(t2Tag).Values(values).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `ProjectsApi.ProjectsParametersDualityList``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `ProjectsParametersDualityList`: PaginatedParameterDualityList
+    fmt.Fprintf(os.Stdout, "Response from `ProjectsApi.ProjectsParametersDualityList`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**projectPk** | **string** |  | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiProjectsParametersDualityListRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+ **difference** | **bool** | Compare the values at &#x60;t1&#x60; and &#x60;t2&#x60; and if they are the same, omit the parameter from the result. | 
+ **environment** | **string** | Name or id (uuid) of the environment(s) to get parameter values for. Cannot be used with &#x60;values&#x60;. | 
+ **evaluate** | **bool** | If &#x60;true&#x60;, runs template evaluation on this parameter&#39;s values.  If &#x60;false&#x60;, returns the value&#39;s template. Has no effect on values that are not interpolated. | [default to true]
+ **immediateParameters** | **bool** | If true, filter by current project parameters only. Otherwise, include both of the inherited and current project parameters. | [default to false]
+ **maskSecrets** | **bool** | If true, replaces all secrets with &#x60;*****&#x60;. | [default to false]
+ **name** | **string** |  | 
+ **nameContains** | **string** |  | 
+ **nameIcontains** | **string** |  | 
+ **nameIexact** | **string** |  | 
+ **nameIstartswith** | **string** |  | 
+ **nameStartswith** | **string** |  | 
+ **ordering** | **string** | Which field to use when ordering the results. | 
+ **page** | **int32** | A page number within the paginated result set. | 
+ **pageSize** | **int32** | Number of results to return per page. | 
+ **secret** | **bool** |  | 
+ **t1AsOf** | **time.Time** | Specify a point in time to retrieve configuration from. Cannot be specified with &#x60;t1_tag&#x60;. | 
+ **t1Tag** | **string** | Specify a tag to retrieve configuration from. Cannot be specified with &#x60;t1_as_of&#x60;. Requires &#x60;environment&#x60;. | 
+ **t2AsOf** | **time.Time** | Specify a point in time to retrieve configuration from. Cannot be specified with &#x60;t2_tag&#x60;. | 
+ **t2Tag** | **string** | Specify a tag to retrieve configuration from. Cannot be specified with &#x60;t2_as_of&#x60;. Requires &#x60;environment&#x60;. | 
+ **values** | **bool** | If false, values are not returned: the &#x60;values&#x60; array will have no entries. This speeds up retrieval if value content is not needed. Cannot be used with &#x60;environment&#x60;. | [default to true]
+
+### Return type
+
+[**PaginatedParameterDualityList**](PaginatedParameterDualityList.md)
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth), [tokenAuth](../README.md#tokenAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## ProjectsParametersList
+
+> PaginatedParameterList ProjectsParametersList(ctx, projectPk).AsOf(asOf).DescriptionIcontains(descriptionIcontains).Difference(difference).Environment(environment).Evaluate(evaluate).ImmediateParameters(immediateParameters).MaskSecrets(maskSecrets).Name(name).NameContains(nameContains).NameIcontains(nameIcontains).NameIexact(nameIexact).NameIstartswith(nameIstartswith).NameStartswith(nameStartswith).Ordering(ordering).Page(page).PageSize(pageSize).Secret(secret).Tag(tag).Values(values).Execute()
+
+
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    "time"
+    openapiclient "./openapi"
+)
+
+func main() {
+    projectPk := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | 
+    asOf := time.Now() // time.Time | Specify a point in time to retrieve configuration from. Cannot be specified with `tag`. (optional)
+    descriptionIcontains := "descriptionIcontains_example" // string |  (optional)
+    difference := "difference_example" // string | Specify a list of comma-separated environment names or ids (uuid) to compare values. Only returns a parameter if there is a difference. Cannot be used with `environment` or `values`. If used with `mask_secrets` then no secret parameters will be included in the result. (optional)
+    environment := "environment_example" // string | Name or id (uuid) of the environment(s) to get parameter values for. Cannot be used with `values`. (optional)
+    evaluate := true // bool | If `true`, runs template evaluation on this parameter's values.  If `false`, returns the value's template. Has no effect on values that are not interpolated. (optional) (default to true)
+    immediateParameters := true // bool | If true, filter by current project parameters only. Otherwise, include both of the inherited and current project parameters. (optional) (default to false)
+    maskSecrets := true // bool | If true, replaces all secrets with `*****`. (optional) (default to false)
+    name := "name_example" // string |  (optional)
+    nameContains := "nameContains_example" // string |  (optional)
+    nameIcontains := "nameIcontains_example" // string |  (optional)
+    nameIexact := "nameIexact_example" // string |  (optional)
+    nameIstartswith := "nameIstartswith_example" // string |  (optional)
+    nameStartswith := "nameStartswith_example" // string |  (optional)
+    ordering := "ordering_example" // string | Which field to use when ordering the results. (optional)
+    page := int32(56) // int32 | A page number within the paginated result set. (optional)
+    pageSize := int32(56) // int32 | Number of results to return per page. (optional)
+    secret := true // bool |  (optional)
+    tag := "tag_example" // string | Specify a tag to retrieve configuration from. Cannot be specified with `as_of`. Requires `environment`. (optional)
+    values := true // bool | If false, values are not returned: the `values` array will have no entries. This speeds up retrieval if value content is not needed. Cannot be used with `environment`. (optional) (default to true)
+
+    configuration := openapiclient.NewConfiguration()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.ProjectsApi.ProjectsParametersList(context.Background(), projectPk).AsOf(asOf).DescriptionIcontains(descriptionIcontains).Difference(difference).Environment(environment).Evaluate(evaluate).ImmediateParameters(immediateParameters).MaskSecrets(maskSecrets).Name(name).NameContains(nameContains).NameIcontains(nameIcontains).NameIexact(nameIexact).NameIstartswith(nameIstartswith).NameStartswith(nameStartswith).Ordering(ordering).Page(page).PageSize(pageSize).Secret(secret).Tag(tag).Values(values).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `ProjectsApi.ProjectsParametersList``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -533,7 +724,7 @@ func main() {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**projectPk** | [**string**](.md) |  | 
+**projectPk** | **string** |  | 
 
 ### Other Parameters
 
@@ -544,18 +735,24 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
  **asOf** | **time.Time** | Specify a point in time to retrieve configuration from. Cannot be specified with &#x60;tag&#x60;. | 
- **environment** | **string** | Name or id (uuid) of the environment to get parameter values for.  Cannot be used with &#x60;values&#x60;. | 
- **evaluate** | **bool** | If &#x60;true&#x60;, runs template evaluation on this parameter&#39;s values.  If &#x60;false&#x60;, returns the value&#39;s template. No effect on values that are not interpolated. | [default to true]
- **maskSecrets** | **bool** | If true, masks all secrets. | [default to false]
+ **descriptionIcontains** | **string** |  | 
+ **difference** | **string** | Specify a list of comma-separated environment names or ids (uuid) to compare values. Only returns a parameter if there is a difference. Cannot be used with &#x60;environment&#x60; or &#x60;values&#x60;. If used with &#x60;mask_secrets&#x60; then no secret parameters will be included in the result. | 
+ **environment** | **string** | Name or id (uuid) of the environment(s) to get parameter values for. Cannot be used with &#x60;values&#x60;. | 
+ **evaluate** | **bool** | If &#x60;true&#x60;, runs template evaluation on this parameter&#39;s values.  If &#x60;false&#x60;, returns the value&#39;s template. Has no effect on values that are not interpolated. | [default to true]
+ **immediateParameters** | **bool** | If true, filter by current project parameters only. Otherwise, include both of the inherited and current project parameters. | [default to false]
+ **maskSecrets** | **bool** | If true, replaces all secrets with &#x60;*****&#x60;. | [default to false]
  **name** | **string** |  | 
+ **nameContains** | **string** |  | 
+ **nameIcontains** | **string** |  | 
+ **nameIexact** | **string** |  | 
+ **nameIstartswith** | **string** |  | 
+ **nameStartswith** | **string** |  | 
  **ordering** | **string** | Which field to use when ordering the results. | 
  **page** | **int32** | A page number within the paginated result set. | 
  **pageSize** | **int32** | Number of results to return per page. | 
- **partialSuccess** | **bool** | Determine if the response is allowed to include a partial success.  A partial success can occur if one or more external values cannot be retrieved, for example when an in-use integration is removed using the &#x60;leave&#x60; option, leaving the values untouched. When &#x60;true&#x60;, any error that occurs during external value retrieval will be placed into a field named &#x60;external_error&#x60; in the affected Value, and the &#x60;value&#x60; field will be empty.  When &#x60;false&#x60;, any such error will cause the entire request to fail. Partial success allows clients to tolerate invalid external values better. | [default to false]
  **secret** | **bool** |  | 
- **tag** | **string** | Specify a tag to retrieve configuration from.  Cannot be specified with &#x60;as_of&#x60;. | 
- **values** | **bool** | If false, values are not returned: the &#x60;values&#x60; array will have no entries. This speeds up retrieval if value content is not needed.  Cannot be used with &#x60;environment&#x60;. | [default to true]
- **wrap** | **bool** | If true, wraps all secrets - see documentation for more details. | [default to false]
+ **tag** | **string** | Specify a tag to retrieve configuration from. Cannot be specified with &#x60;as_of&#x60;. Requires &#x60;environment&#x60;. | 
+ **values** | **bool** | If false, values are not returned: the &#x60;values&#x60; array will have no entries. This speeds up retrieval if value content is not needed. Cannot be used with &#x60;environment&#x60;. | [default to true]
 
 ### Return type
 
@@ -563,7 +760,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth)
+[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth), [tokenAuth](../README.md#tokenAuth)
 
 ### HTTP request headers
 
@@ -577,7 +774,7 @@ Name | Type | Description  | Notes
 
 ## ProjectsParametersPartialUpdate
 
-> Parameter ProjectsParametersPartialUpdate(ctx, id, projectPk).PatchedParameter(patchedParameter).Execute()
+> Parameter ProjectsParametersPartialUpdate(ctx, id, parameterId, projectPk).PatchedParameterUpdate(patchedParameterUpdate).Execute()
 
 
 
@@ -594,13 +791,14 @@ import (
 )
 
 func main() {
-    id := TODO // string | 
-    projectPk := TODO // string | 
-    patchedParameter := *openapiclient.NewPatchedParameter() // PatchedParameter |  (optional)
+    id := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | 
+    parameterId := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | 
+    projectPk := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | 
+    patchedParameterUpdate := *openapiclient.NewPatchedParameterUpdate() // PatchedParameterUpdate |  (optional)
 
     configuration := openapiclient.NewConfiguration()
-    api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.ProjectsApi.ProjectsParametersPartialUpdate(context.Background(), id, projectPk).PatchedParameter(patchedParameter).Execute()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.ProjectsApi.ProjectsParametersPartialUpdate(context.Background(), id, parameterId, projectPk).PatchedParameterUpdate(patchedParameterUpdate).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `ProjectsApi.ProjectsParametersPartialUpdate``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -616,8 +814,9 @@ func main() {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**id** | [**string**](.md) |  | 
-**projectPk** | [**string**](.md) |  | 
+**id** | **string** |  | 
+**parameterId** | **string** |  | 
+**projectPk** | **string** |  | 
 
 ### Other Parameters
 
@@ -628,7 +827,8 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
 
- **patchedParameter** | [**PatchedParameter**](PatchedParameter.md) |  | 
+
+ **patchedParameterUpdate** | [**PatchedParameterUpdate**](PatchedParameterUpdate.md) |  | 
 
 ### Return type
 
@@ -636,7 +836,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth)
+[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth), [tokenAuth](../README.md#tokenAuth)
 
 ### HTTP request headers
 
@@ -650,7 +850,7 @@ Name | Type | Description  | Notes
 
 ## ProjectsParametersPushesList
 
-> PaginatedAwsPushTaskStepList ProjectsParametersPushesList(ctx, parameterPk, projectPk).AsOf(asOf).Ordering(ordering).Page(page).PageSize(pageSize).Tag(tag).Execute()
+> PaginatedTaskStepList ProjectsParametersPushesList(ctx, parameterPk, projectPk).AsOf(asOf).Ordering(ordering).Page(page).PageSize(pageSize).Tag(tag).Execute()
 
 List push operations.
 
@@ -670,22 +870,22 @@ import (
 )
 
 func main() {
-    parameterPk := TODO // string | 
-    projectPk := TODO // string | 
+    parameterPk := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | 
+    projectPk := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | 
     asOf := time.Now() // time.Time | Specify a point in time to retrieve configuration from. Cannot be specified with `tag`. (optional)
     ordering := "ordering_example" // string | Which field to use when ordering the results. (optional)
     page := int32(56) // int32 | A page number within the paginated result set. (optional)
     pageSize := int32(56) // int32 | Number of results to return per page. (optional)
-    tag := "tag_example" // string | Specify a tag to retrieve configuration from.  Cannot be specified with `as_of`. (optional)
+    tag := "tag_example" // string | Specify a tag to retrieve configuration from. Cannot be specified with `as_of`. Requires `environment`. (optional)
 
     configuration := openapiclient.NewConfiguration()
-    api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.ProjectsApi.ProjectsParametersPushesList(context.Background(), parameterPk, projectPk).AsOf(asOf).Ordering(ordering).Page(page).PageSize(pageSize).Tag(tag).Execute()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.ProjectsApi.ProjectsParametersPushesList(context.Background(), parameterPk, projectPk).AsOf(asOf).Ordering(ordering).Page(page).PageSize(pageSize).Tag(tag).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `ProjectsApi.ProjectsParametersPushesList``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
-    // response from `ProjectsParametersPushesList`: PaginatedAwsPushTaskStepList
+    // response from `ProjectsParametersPushesList`: PaginatedTaskStepList
     fmt.Fprintf(os.Stdout, "Response from `ProjectsApi.ProjectsParametersPushesList`: %v\n", resp)
 }
 ```
@@ -696,8 +896,8 @@ func main() {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**parameterPk** | [**string**](.md) |  | 
-**projectPk** | [**string**](.md) |  | 
+**parameterPk** | **string** |  | 
+**projectPk** | **string** |  | 
 
 ### Other Parameters
 
@@ -712,15 +912,15 @@ Name | Type | Description  | Notes
  **ordering** | **string** | Which field to use when ordering the results. | 
  **page** | **int32** | A page number within the paginated result set. | 
  **pageSize** | **int32** | Number of results to return per page. | 
- **tag** | **string** | Specify a tag to retrieve configuration from.  Cannot be specified with &#x60;as_of&#x60;. | 
+ **tag** | **string** | Specify a tag to retrieve configuration from. Cannot be specified with &#x60;as_of&#x60;. Requires &#x60;environment&#x60;. | 
 
 ### Return type
 
-[**PaginatedAwsPushTaskStepList**](PaginatedAwsPushTaskStepList.md)
+[**PaginatedTaskStepList**](PaginatedTaskStepList.md)
 
 ### Authorization
 
-[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth)
+[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth), [tokenAuth](../README.md#tokenAuth)
 
 ### HTTP request headers
 
@@ -734,7 +934,7 @@ Name | Type | Description  | Notes
 
 ## ProjectsParametersRetrieve
 
-> Parameter ProjectsParametersRetrieve(ctx, id, projectPk).AsOf(asOf).Environment(environment).Evaluate(evaluate).MaskSecrets(maskSecrets).PartialSuccess(partialSuccess).Tag(tag).Values(values).Wrap(wrap).Execute()
+> Parameter ProjectsParametersRetrieve(ctx, id, projectPk).AsOf(asOf).Environment(environment).Evaluate(evaluate).ImmediateParameters(immediateParameters).MaskSecrets(maskSecrets).Tag(tag).Values(values).Execute()
 
 
 
@@ -752,20 +952,19 @@ import (
 )
 
 func main() {
-    id := TODO // string | 
-    projectPk := TODO // string | 
+    id := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | A UUID string identifying this parameter ledger.
+    projectPk := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | 
     asOf := time.Now() // time.Time | Specify a point in time to retrieve configuration from. Cannot be specified with `tag`. (optional)
-    environment := "environment_example" // string | Name or id (uuid) of the environment to get parameter values for.  Cannot be used with `values`. (optional)
-    evaluate := true // bool | If `true`, runs template evaluation on this parameter's values.  If `false`, returns the value's template. No effect on values that are not interpolated. (optional) (default to true)
-    maskSecrets := true // bool | If true, masks all secrets. (optional) (default to false)
-    partialSuccess := true // bool | Determine if the response is allowed to include a partial success.  A partial success can occur if one or more external values cannot be retrieved, for example when an in-use integration is removed using the `leave` option, leaving the values untouched. When `true`, any error that occurs during external value retrieval will be placed into a field named `external_error` in the affected Value, and the `value` field will be empty.  When `false`, any such error will cause the entire request to fail. Partial success allows clients to tolerate invalid external values better. (optional) (default to false)
-    tag := "tag_example" // string | Specify a tag to retrieve configuration from.  Cannot be specified with `as_of`. (optional)
-    values := true // bool | If false, values are not returned: the `values` array will have no entries. This speeds up retrieval if value content is not needed.  Cannot be used with `environment`. (optional) (default to true)
-    wrap := true // bool | If true, wraps all secrets - see documentation for more details. (optional) (default to false)
+    environment := "environment_example" // string | Name or id (uuid) of the environment(s) to get parameter values for. Cannot be used with `values`. (optional)
+    evaluate := true // bool | If `true`, runs template evaluation on this parameter's values.  If `false`, returns the value's template. Has no effect on values that are not interpolated. (optional) (default to true)
+    immediateParameters := true // bool | If true, filter by current project parameters only. Otherwise, include both of the inherited and current project parameters. (optional) (default to false)
+    maskSecrets := true // bool | If true, replaces all secrets with `*****`. (optional) (default to false)
+    tag := "tag_example" // string | Specify a tag to retrieve configuration from. Cannot be specified with `as_of`. Requires `environment`. (optional)
+    values := true // bool | If false, values are not returned: the `values` array will have no entries. This speeds up retrieval if value content is not needed. Cannot be used with `environment`. (optional) (default to true)
 
     configuration := openapiclient.NewConfiguration()
-    api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.ProjectsApi.ProjectsParametersRetrieve(context.Background(), id, projectPk).AsOf(asOf).Environment(environment).Evaluate(evaluate).MaskSecrets(maskSecrets).PartialSuccess(partialSuccess).Tag(tag).Values(values).Wrap(wrap).Execute()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.ProjectsApi.ProjectsParametersRetrieve(context.Background(), id, projectPk).AsOf(asOf).Environment(environment).Evaluate(evaluate).ImmediateParameters(immediateParameters).MaskSecrets(maskSecrets).Tag(tag).Values(values).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `ProjectsApi.ProjectsParametersRetrieve``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -781,8 +980,8 @@ func main() {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**id** | [**string**](.md) |  | 
-**projectPk** | [**string**](.md) |  | 
+**id** | **string** | A UUID string identifying this parameter ledger. | 
+**projectPk** | **string** |  | 
 
 ### Other Parameters
 
@@ -794,13 +993,12 @@ Name | Type | Description  | Notes
 
 
  **asOf** | **time.Time** | Specify a point in time to retrieve configuration from. Cannot be specified with &#x60;tag&#x60;. | 
- **environment** | **string** | Name or id (uuid) of the environment to get parameter values for.  Cannot be used with &#x60;values&#x60;. | 
- **evaluate** | **bool** | If &#x60;true&#x60;, runs template evaluation on this parameter&#39;s values.  If &#x60;false&#x60;, returns the value&#39;s template. No effect on values that are not interpolated. | [default to true]
- **maskSecrets** | **bool** | If true, masks all secrets. | [default to false]
- **partialSuccess** | **bool** | Determine if the response is allowed to include a partial success.  A partial success can occur if one or more external values cannot be retrieved, for example when an in-use integration is removed using the &#x60;leave&#x60; option, leaving the values untouched. When &#x60;true&#x60;, any error that occurs during external value retrieval will be placed into a field named &#x60;external_error&#x60; in the affected Value, and the &#x60;value&#x60; field will be empty.  When &#x60;false&#x60;, any such error will cause the entire request to fail. Partial success allows clients to tolerate invalid external values better. | [default to false]
- **tag** | **string** | Specify a tag to retrieve configuration from.  Cannot be specified with &#x60;as_of&#x60;. | 
- **values** | **bool** | If false, values are not returned: the &#x60;values&#x60; array will have no entries. This speeds up retrieval if value content is not needed.  Cannot be used with &#x60;environment&#x60;. | [default to true]
- **wrap** | **bool** | If true, wraps all secrets - see documentation for more details. | [default to false]
+ **environment** | **string** | Name or id (uuid) of the environment(s) to get parameter values for. Cannot be used with &#x60;values&#x60;. | 
+ **evaluate** | **bool** | If &#x60;true&#x60;, runs template evaluation on this parameter&#39;s values.  If &#x60;false&#x60;, returns the value&#39;s template. Has no effect on values that are not interpolated. | [default to true]
+ **immediateParameters** | **bool** | If true, filter by current project parameters only. Otherwise, include both of the inherited and current project parameters. | [default to false]
+ **maskSecrets** | **bool** | If true, replaces all secrets with &#x60;*****&#x60;. | [default to false]
+ **tag** | **string** | Specify a tag to retrieve configuration from. Cannot be specified with &#x60;as_of&#x60;. Requires &#x60;environment&#x60;. | 
+ **values** | **bool** | If false, values are not returned: the &#x60;values&#x60; array will have no entries. This speeds up retrieval if value content is not needed. Cannot be used with &#x60;environment&#x60;. | [default to true]
 
 ### Return type
 
@@ -808,7 +1006,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth)
+[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth), [tokenAuth](../README.md#tokenAuth)
 
 ### HTTP request headers
 
@@ -839,13 +1037,13 @@ import (
 )
 
 func main() {
-    parameterPk := TODO // string | The parameter id.
-    projectPk := TODO // string | The project id.
+    parameterPk := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | The parameter id.
+    projectPk := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | The project id.
     parameterRuleCreate := *openapiclient.NewParameterRuleCreate(openapiclient.ParameterRuleTypeEnum("min"), "Constraint_example") // ParameterRuleCreate | 
 
     configuration := openapiclient.NewConfiguration()
-    api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.ProjectsApi.ProjectsParametersRulesCreate(context.Background(), parameterPk, projectPk).ParameterRuleCreate(parameterRuleCreate).Execute()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.ProjectsApi.ProjectsParametersRulesCreate(context.Background(), parameterPk, projectPk).ParameterRuleCreate(parameterRuleCreate).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `ProjectsApi.ProjectsParametersRulesCreate``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -861,8 +1059,8 @@ func main() {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**parameterPk** | [**string**](.md) | The parameter id. | 
-**projectPk** | [**string**](.md) | The project id. | 
+**parameterPk** | **string** | The parameter id. | 
+**projectPk** | **string** | The project id. | 
 
 ### Other Parameters
 
@@ -881,7 +1079,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth)
+[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth), [tokenAuth](../README.md#tokenAuth)
 
 ### HTTP request headers
 
@@ -912,13 +1110,13 @@ import (
 )
 
 func main() {
-    id := TODO // string | A UUID string identifying this parameter rule.
-    parameterPk := TODO // string | The parameter id.
-    projectPk := TODO // string | The project id.
+    id := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | A UUID string identifying this parameter rule.
+    parameterPk := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | The parameter id.
+    projectPk := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | The project id.
 
     configuration := openapiclient.NewConfiguration()
-    api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.ProjectsApi.ProjectsParametersRulesDestroy(context.Background(), id, parameterPk, projectPk).Execute()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.ProjectsApi.ProjectsParametersRulesDestroy(context.Background(), id, parameterPk, projectPk).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `ProjectsApi.ProjectsParametersRulesDestroy``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -932,9 +1130,9 @@ func main() {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**id** | [**string**](.md) | A UUID string identifying this parameter rule. | 
-**parameterPk** | [**string**](.md) | The parameter id. | 
-**projectPk** | [**string**](.md) | The project id. | 
+**id** | **string** | A UUID string identifying this parameter rule. | 
+**parameterPk** | **string** | The parameter id. | 
+**projectPk** | **string** | The project id. | 
 
 ### Other Parameters
 
@@ -953,7 +1151,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth)
+[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth), [tokenAuth](../README.md#tokenAuth)
 
 ### HTTP request headers
 
@@ -984,16 +1182,16 @@ import (
 )
 
 func main() {
-    parameterPk := TODO // string | The parameter id.
-    projectPk := TODO // string | The project id.
+    parameterPk := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | The parameter id.
+    projectPk := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | The project id.
     ordering := "ordering_example" // string | Which field to use when ordering the results. (optional)
     page := int32(56) // int32 | A page number within the paginated result set. (optional)
     pageSize := int32(56) // int32 | Number of results to return per page. (optional)
     type_ := "type__example" // string |  (optional)
 
     configuration := openapiclient.NewConfiguration()
-    api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.ProjectsApi.ProjectsParametersRulesList(context.Background(), parameterPk, projectPk).Ordering(ordering).Page(page).PageSize(pageSize).Type_(type_).Execute()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.ProjectsApi.ProjectsParametersRulesList(context.Background(), parameterPk, projectPk).Ordering(ordering).Page(page).PageSize(pageSize).Type_(type_).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `ProjectsApi.ProjectsParametersRulesList``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -1009,8 +1207,8 @@ func main() {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**parameterPk** | [**string**](.md) | The parameter id. | 
-**projectPk** | [**string**](.md) | The project id. | 
+**parameterPk** | **string** | The parameter id. | 
+**projectPk** | **string** | The project id. | 
 
 ### Other Parameters
 
@@ -1032,7 +1230,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth)
+[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth), [tokenAuth](../README.md#tokenAuth)
 
 ### HTTP request headers
 
@@ -1046,7 +1244,7 @@ Name | Type | Description  | Notes
 
 ## ProjectsParametersRulesPartialUpdate
 
-> ParameterRule ProjectsParametersRulesPartialUpdate(ctx, id, parameterPk, projectPk).PatchedParameterRule(patchedParameterRule).Execute()
+> ParameterRuleUpdate ProjectsParametersRulesPartialUpdate(ctx, id, parameterPk, projectPk).PatchedParameterRuleUpdate(patchedParameterRuleUpdate).Execute()
 
 
 
@@ -1063,19 +1261,19 @@ import (
 )
 
 func main() {
-    id := TODO // string | A UUID string identifying this parameter rule.
-    parameterPk := TODO // string | The parameter id.
-    projectPk := TODO // string | The project id.
-    patchedParameterRule := *openapiclient.NewPatchedParameterRule() // PatchedParameterRule |  (optional)
+    id := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | A UUID string identifying this parameter rule.
+    parameterPk := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | The parameter id.
+    projectPk := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | The project id.
+    patchedParameterRuleUpdate := *openapiclient.NewPatchedParameterRuleUpdate() // PatchedParameterRuleUpdate |  (optional)
 
     configuration := openapiclient.NewConfiguration()
-    api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.ProjectsApi.ProjectsParametersRulesPartialUpdate(context.Background(), id, parameterPk, projectPk).PatchedParameterRule(patchedParameterRule).Execute()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.ProjectsApi.ProjectsParametersRulesPartialUpdate(context.Background(), id, parameterPk, projectPk).PatchedParameterRuleUpdate(patchedParameterRuleUpdate).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `ProjectsApi.ProjectsParametersRulesPartialUpdate``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
-    // response from `ProjectsParametersRulesPartialUpdate`: ParameterRule
+    // response from `ProjectsParametersRulesPartialUpdate`: ParameterRuleUpdate
     fmt.Fprintf(os.Stdout, "Response from `ProjectsApi.ProjectsParametersRulesPartialUpdate`: %v\n", resp)
 }
 ```
@@ -1086,9 +1284,9 @@ func main() {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**id** | [**string**](.md) | A UUID string identifying this parameter rule. | 
-**parameterPk** | [**string**](.md) | The parameter id. | 
-**projectPk** | [**string**](.md) | The project id. | 
+**id** | **string** | A UUID string identifying this parameter rule. | 
+**parameterPk** | **string** | The parameter id. | 
+**projectPk** | **string** | The project id. | 
 
 ### Other Parameters
 
@@ -1100,15 +1298,15 @@ Name | Type | Description  | Notes
 
 
 
- **patchedParameterRule** | [**PatchedParameterRule**](PatchedParameterRule.md) |  | 
+ **patchedParameterRuleUpdate** | [**PatchedParameterRuleUpdate**](PatchedParameterRuleUpdate.md) |  | 
 
 ### Return type
 
-[**ParameterRule**](ParameterRule.md)
+[**ParameterRuleUpdate**](ParameterRuleUpdate.md)
 
 ### Authorization
 
-[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth)
+[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth), [tokenAuth](../README.md#tokenAuth)
 
 ### HTTP request headers
 
@@ -1139,13 +1337,13 @@ import (
 )
 
 func main() {
-    id := TODO // string | A UUID string identifying this parameter rule.
-    parameterPk := TODO // string | The parameter id.
-    projectPk := TODO // string | The project id.
+    id := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | A UUID string identifying this parameter rule ledger.
+    parameterPk := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | The parameter id.
+    projectPk := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | The project id.
 
     configuration := openapiclient.NewConfiguration()
-    api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.ProjectsApi.ProjectsParametersRulesRetrieve(context.Background(), id, parameterPk, projectPk).Execute()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.ProjectsApi.ProjectsParametersRulesRetrieve(context.Background(), id, parameterPk, projectPk).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `ProjectsApi.ProjectsParametersRulesRetrieve``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -1161,9 +1359,9 @@ func main() {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**id** | [**string**](.md) | A UUID string identifying this parameter rule. | 
-**parameterPk** | [**string**](.md) | The parameter id. | 
-**projectPk** | [**string**](.md) | The project id. | 
+**id** | **string** | A UUID string identifying this parameter rule ledger. | 
+**parameterPk** | **string** | The parameter id. | 
+**projectPk** | **string** | The project id. | 
 
 ### Other Parameters
 
@@ -1182,7 +1380,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth)
+[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth), [tokenAuth](../README.md#tokenAuth)
 
 ### HTTP request headers
 
@@ -1196,7 +1394,7 @@ Name | Type | Description  | Notes
 
 ## ProjectsParametersRulesUpdate
 
-> ParameterRule ProjectsParametersRulesUpdate(ctx, id, parameterPk, projectPk).ParameterRule(parameterRule).Execute()
+> ParameterRuleUpdate ProjectsParametersRulesUpdate(ctx, id, parameterPk, projectPk).ParameterRuleUpdate(parameterRuleUpdate).Execute()
 
 
 
@@ -1214,19 +1412,19 @@ import (
 )
 
 func main() {
-    id := TODO // string | A UUID string identifying this parameter rule.
-    parameterPk := TODO // string | The parameter id.
-    projectPk := TODO // string | The project id.
-    parameterRule := *openapiclient.NewParameterRule("Url_example", "Id_example", "Parameter_example", openapiclient.ParameterRuleTypeEnum("min"), "Constraint_example", time.Now(), time.Now()) // ParameterRule | 
+    id := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | A UUID string identifying this parameter rule.
+    parameterPk := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | The parameter id.
+    projectPk := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | The project id.
+    parameterRuleUpdate := *openapiclient.NewParameterRuleUpdate("Id_example", "Parameter_example", openapiclient.ParameterRuleTypeEnum("min"), "Constraint_example", time.Now(), time.Now()) // ParameterRuleUpdate | 
 
     configuration := openapiclient.NewConfiguration()
-    api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.ProjectsApi.ProjectsParametersRulesUpdate(context.Background(), id, parameterPk, projectPk).ParameterRule(parameterRule).Execute()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.ProjectsApi.ProjectsParametersRulesUpdate(context.Background(), id, parameterPk, projectPk).ParameterRuleUpdate(parameterRuleUpdate).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `ProjectsApi.ProjectsParametersRulesUpdate``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
-    // response from `ProjectsParametersRulesUpdate`: ParameterRule
+    // response from `ProjectsParametersRulesUpdate`: ParameterRuleUpdate
     fmt.Fprintf(os.Stdout, "Response from `ProjectsApi.ProjectsParametersRulesUpdate`: %v\n", resp)
 }
 ```
@@ -1237,9 +1435,9 @@ func main() {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**id** | [**string**](.md) | A UUID string identifying this parameter rule. | 
-**parameterPk** | [**string**](.md) | The parameter id. | 
-**projectPk** | [**string**](.md) | The project id. | 
+**id** | **string** | A UUID string identifying this parameter rule. | 
+**parameterPk** | **string** | The parameter id. | 
+**projectPk** | **string** | The project id. | 
 
 ### Other Parameters
 
@@ -1251,15 +1449,15 @@ Name | Type | Description  | Notes
 
 
 
- **parameterRule** | [**ParameterRule**](ParameterRule.md) |  | 
+ **parameterRuleUpdate** | [**ParameterRuleUpdate**](ParameterRuleUpdate.md) |  | 
 
 ### Return type
 
-[**ParameterRule**](ParameterRule.md)
+[**ParameterRuleUpdate**](ParameterRuleUpdate.md)
 
 ### Authorization
 
-[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth)
+[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth), [tokenAuth](../README.md#tokenAuth)
 
 ### HTTP request headers
 
@@ -1273,7 +1471,7 @@ Name | Type | Description  | Notes
 
 ## ProjectsParametersTimelineRetrieve
 
-> ParameterTimeline ProjectsParametersTimelineRetrieve(ctx, id, projectPk).AsOf(asOf).Tag(tag).Execute()
+> ParameterTimeline ProjectsParametersTimelineRetrieve(ctx, id, parameterId, projectPk).AsOf(asOf).Tag(tag).Execute()
 
 
 
@@ -1293,14 +1491,15 @@ import (
 )
 
 func main() {
-    id := TODO // string | 
-    projectPk := TODO // string | 
+    id := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | A UUID string identifying this parameter ledger.
+    parameterId := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | 
+    projectPk := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | 
     asOf := time.Now() // time.Time | Specify a point in time to retrieve configuration from. Cannot be specified with `tag`. (optional)
-    tag := "tag_example" // string | Specify a tag to retrieve configuration from.  Cannot be specified with `as_of`. (optional)
+    tag := "tag_example" // string | Specify a tag to retrieve configuration from. Cannot be specified with `as_of`. Requires `environment`. (optional)
 
     configuration := openapiclient.NewConfiguration()
-    api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.ProjectsApi.ProjectsParametersTimelineRetrieve(context.Background(), id, projectPk).AsOf(asOf).Tag(tag).Execute()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.ProjectsApi.ProjectsParametersTimelineRetrieve(context.Background(), id, parameterId, projectPk).AsOf(asOf).Tag(tag).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `ProjectsApi.ProjectsParametersTimelineRetrieve``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -1316,8 +1515,9 @@ func main() {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**id** | [**string**](.md) |  | 
-**projectPk** | [**string**](.md) |  | 
+**id** | **string** | A UUID string identifying this parameter ledger. | 
+**parameterId** | **string** |  | 
+**projectPk** | **string** |  | 
 
 ### Other Parameters
 
@@ -1328,8 +1528,9 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
 
+
  **asOf** | **time.Time** | Specify a point in time to retrieve configuration from. Cannot be specified with &#x60;tag&#x60;. | 
- **tag** | **string** | Specify a tag to retrieve configuration from.  Cannot be specified with &#x60;as_of&#x60;. | 
+ **tag** | **string** | Specify a tag to retrieve configuration from. Cannot be specified with &#x60;as_of&#x60;. Requires &#x60;environment&#x60;. | 
 
 ### Return type
 
@@ -1337,7 +1538,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth)
+[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth), [tokenAuth](../README.md#tokenAuth)
 
 ### HTTP request headers
 
@@ -1351,7 +1552,7 @@ Name | Type | Description  | Notes
 
 ## ProjectsParametersTimelinesRetrieve
 
-> ParameterTimeline ProjectsParametersTimelinesRetrieve(ctx, projectPk).AsOf(asOf).Tag(tag).Execute()
+> ParameterTimeline ProjectsParametersTimelinesRetrieve(ctx, parameterId, projectPk).AsOf(asOf).Tag(tag).Execute()
 
 
 
@@ -1371,13 +1572,14 @@ import (
 )
 
 func main() {
-    projectPk := TODO // string | 
+    parameterId := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | 
+    projectPk := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | 
     asOf := time.Now() // time.Time | Specify a point in time to retrieve configuration from. Cannot be specified with `tag`. (optional)
-    tag := "tag_example" // string | Specify a tag to retrieve configuration from.  Cannot be specified with `as_of`. (optional)
+    tag := "tag_example" // string | Specify a tag to retrieve configuration from. Cannot be specified with `as_of`. Requires `environment`. (optional)
 
     configuration := openapiclient.NewConfiguration()
-    api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.ProjectsApi.ProjectsParametersTimelinesRetrieve(context.Background(), projectPk).AsOf(asOf).Tag(tag).Execute()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.ProjectsApi.ProjectsParametersTimelinesRetrieve(context.Background(), parameterId, projectPk).AsOf(asOf).Tag(tag).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `ProjectsApi.ProjectsParametersTimelinesRetrieve``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -1393,7 +1595,8 @@ func main() {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**projectPk** | [**string**](.md) |  | 
+**parameterId** | **string** |  | 
+**projectPk** | **string** |  | 
 
 ### Other Parameters
 
@@ -1403,8 +1606,9 @@ Other parameters are passed through a pointer to a apiProjectsParametersTimeline
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
+
  **asOf** | **time.Time** | Specify a point in time to retrieve configuration from. Cannot be specified with &#x60;tag&#x60;. | 
- **tag** | **string** | Specify a tag to retrieve configuration from.  Cannot be specified with &#x60;as_of&#x60;. | 
+ **tag** | **string** | Specify a tag to retrieve configuration from. Cannot be specified with &#x60;as_of&#x60;. Requires &#x60;environment&#x60;. | 
 
 ### Return type
 
@@ -1412,7 +1616,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth)
+[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth), [tokenAuth](../README.md#tokenAuth)
 
 ### HTTP request headers
 
@@ -1426,7 +1630,7 @@ Name | Type | Description  | Notes
 
 ## ProjectsParametersUpdate
 
-> Parameter ProjectsParametersUpdate(ctx, id, projectPk).Parameter(parameter).Execute()
+> Parameter ProjectsParametersUpdate(ctx, id, parameterId, projectPk).ParameterUpdate(parameterUpdate).Execute()
 
 
 
@@ -1444,13 +1648,14 @@ import (
 )
 
 func main() {
-    id := TODO // string | 
-    projectPk := TODO // string | 
-    parameter := *openapiclient.NewParameter("Url_example", "Id_example", "Name_example", []openapiclient.ParameterRule{*openapiclient.NewParameterRule("Url_example", "Id_example", "Parameter_example", openapiclient.ParameterRuleTypeEnum("min"), "Constraint_example", time.Now(), time.Now())}, "Project_example", "ProjectName_example", []string{"ReferencingTemplates_example"}, []string{"ReferencingValues_example"}, map[string]Value{"key": *openapiclient.NewValue("Url_example", "Id_example", "Environment_example", "EnvironmentName_example", "EarliestTag_example", "Parameter_example", "ExternalError_example", "Value_example", false, false, []string{"ReferencedParameters_example"}, []string{"ReferencedTemplates_example"}, time.Now(), time.Now())}, time.Now(), time.Now()) // Parameter | 
+    id := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | 
+    parameterId := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | 
+    projectPk := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | 
+    parameterUpdate := *openapiclient.NewParameterUpdate("Id_example", "Name_example", "Project_example", time.Now(), time.Now()) // ParameterUpdate | 
 
     configuration := openapiclient.NewConfiguration()
-    api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.ProjectsApi.ProjectsParametersUpdate(context.Background(), id, projectPk).Parameter(parameter).Execute()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.ProjectsApi.ProjectsParametersUpdate(context.Background(), id, parameterId, projectPk).ParameterUpdate(parameterUpdate).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `ProjectsApi.ProjectsParametersUpdate``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -1466,8 +1671,9 @@ func main() {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**id** | [**string**](.md) |  | 
-**projectPk** | [**string**](.md) |  | 
+**id** | **string** |  | 
+**parameterId** | **string** |  | 
+**projectPk** | **string** |  | 
 
 ### Other Parameters
 
@@ -1478,7 +1684,8 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
 
- **parameter** | [**Parameter**](Parameter.md) |  | 
+
+ **parameterUpdate** | [**ParameterUpdate**](ParameterUpdate.md) |  | 
 
 ### Return type
 
@@ -1486,7 +1693,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth)
+[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth), [tokenAuth](../README.md#tokenAuth)
 
 ### HTTP request headers
 
@@ -1500,7 +1707,7 @@ Name | Type | Description  | Notes
 
 ## ProjectsParametersValuesCreate
 
-> Value ProjectsParametersValuesCreate(ctx, parameterPk, projectPk).ValueCreate(valueCreate).Evaluate(evaluate).Wrap(wrap).Execute()
+> Value ProjectsParametersValuesCreate(ctx, parameterPk, projectPk).ValueCreate(valueCreate).Evaluate(evaluate).Execute()
 
 Set a value.
 
@@ -1519,15 +1726,14 @@ import (
 )
 
 func main() {
-    parameterPk := TODO // string | The parameter id.
-    projectPk := TODO // string | The project id.
+    parameterPk := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | The parameter id.
+    projectPk := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | The project id.
     valueCreate := *openapiclient.NewValueCreate("Environment_example") // ValueCreate | 
     evaluate := true // bool | If `true`, runs template evaluation on this parameter.  If `false`, returns the value's template. No effect on values that are not interpolated. (optional) (default to true)
-    wrap := true // bool | Indicates the `internal_value` is a wrapped secret. For more information on secret wrapping, see the documentation.  (optional)
 
     configuration := openapiclient.NewConfiguration()
-    api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.ProjectsApi.ProjectsParametersValuesCreate(context.Background(), parameterPk, projectPk).ValueCreate(valueCreate).Evaluate(evaluate).Wrap(wrap).Execute()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.ProjectsApi.ProjectsParametersValuesCreate(context.Background(), parameterPk, projectPk).ValueCreate(valueCreate).Evaluate(evaluate).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `ProjectsApi.ProjectsParametersValuesCreate``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -1543,8 +1749,8 @@ func main() {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**parameterPk** | [**string**](.md) | The parameter id. | 
-**projectPk** | [**string**](.md) | The project id. | 
+**parameterPk** | **string** | The parameter id. | 
+**projectPk** | **string** | The project id. | 
 
 ### Other Parameters
 
@@ -1557,7 +1763,6 @@ Name | Type | Description  | Notes
 
  **valueCreate** | [**ValueCreate**](ValueCreate.md) |  | 
  **evaluate** | **bool** | If &#x60;true&#x60;, runs template evaluation on this parameter.  If &#x60;false&#x60;, returns the value&#39;s template. No effect on values that are not interpolated. | [default to true]
- **wrap** | **bool** | Indicates the &#x60;internal_value&#x60; is a wrapped secret. For more information on secret wrapping, see the documentation.  | 
 
 ### Return type
 
@@ -1565,7 +1770,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth)
+[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth), [tokenAuth](../README.md#tokenAuth)
 
 ### HTTP request headers
 
@@ -1598,14 +1803,14 @@ import (
 )
 
 func main() {
-    id := TODO // string | 
-    parameterPk := TODO // string | The parameter id.
-    projectPk := TODO // string | The project id.
+    id := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | 
+    parameterPk := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | The parameter id.
+    projectPk := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | The project id.
     evaluate := true // bool | If `true`, runs template evaluation on this parameter.  If `false`, returns the value's template. No effect on values that are not interpolated. (optional) (default to true)
 
     configuration := openapiclient.NewConfiguration()
-    api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.ProjectsApi.ProjectsParametersValuesDestroy(context.Background(), id, parameterPk, projectPk).Evaluate(evaluate).Execute()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.ProjectsApi.ProjectsParametersValuesDestroy(context.Background(), id, parameterPk, projectPk).Evaluate(evaluate).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `ProjectsApi.ProjectsParametersValuesDestroy``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -1619,9 +1824,9 @@ func main() {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**id** | [**string**](.md) |  | 
-**parameterPk** | [**string**](.md) | The parameter id. | 
-**projectPk** | [**string**](.md) | The project id. | 
+**id** | **string** |  | 
+**parameterPk** | **string** | The parameter id. | 
+**projectPk** | **string** | The project id. | 
 
 ### Other Parameters
 
@@ -1641,7 +1846,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth)
+[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth), [tokenAuth](../README.md#tokenAuth)
 
 ### HTTP request headers
 
@@ -1655,7 +1860,7 @@ Name | Type | Description  | Notes
 
 ## ProjectsParametersValuesList
 
-> PaginatedValueList ProjectsParametersValuesList(ctx, parameterPk, projectPk).AsOf(asOf).Environment(environment).Evaluate(evaluate).Exclude(exclude).Include(include).MaskSecrets(maskSecrets).Page(page).PageSize(pageSize).PartialSuccess(partialSuccess).Tag(tag).Wrap(wrap).Execute()
+> PaginatedValueList ProjectsParametersValuesList(ctx, parameterPk, projectPk).AsOf(asOf).Evaluate(evaluate).Exclude(exclude).Include(include).MaskSecrets(maskSecrets).Page(page).PageSize(pageSize).Tag(tag).Execute()
 
 Retrieve values.
 
@@ -1675,23 +1880,20 @@ import (
 )
 
 func main() {
-    parameterPk := TODO // string | The parameter id.
-    projectPk := TODO // string | The project id.
+    parameterPk := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | The parameter id.
+    projectPk := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | The project id.
     asOf := time.Now() // time.Time | Specify a point in time to retrieve configuration from. Cannot be specified with `tag`. (optional)
-    environment := "environment_example" // string | Name or id of the environment to limit the result to. If this is not specified then the result will contain a value for any environment in which it is set. You cannot use this option to retrieve the _effective_ value of a parameter in an environment for which is is not explicitly set. To see _effective_ values use the Parameters API (see the `values` field). (optional)
     evaluate := true // bool | If `true`, runs template evaluation on this parameter.  If `false`, returns the value's template. No effect on values that are not interpolated. (optional) (default to true)
     exclude := "exclude_example" // string | A comma-separated list of field names to exclude from the response. (optional)
     include := "include_example" // string | A comma-separated list of field names to include in the response. (optional)
     maskSecrets := true // bool | Mask secret values in responses with `*****`. (optional) (default to false)
     page := int32(56) // int32 | A page number within the paginated result set. (optional)
     pageSize := int32(56) // int32 | Number of results to return per page. (optional)
-    partialSuccess := true // bool | Determine if the response is allowed to include a partial success.  A partial success can occur if one or more external values cannot be retrieved, for example when an in-use integration is removed using the `leave` option, leaving the values untouched. When `true`, any error that occurs during external value retrieval will be placed into a field named `external_error` in the affected Value, and the `value` field will be empty.  When `false`, any such error will cause the entire request to fail. Partial success allows clients to tolerate invalid external values better. (optional) (default to false)
-    tag := "tag_example" // string | Specify a tag to retrieve configuration from.  Cannot be specified with `as_of`. (optional)
-    wrap := true // bool | For writes, indicates `internal_value` is wrapped; for reads, indicates `value` is wrapped. For more information on secret wrapping, see the documentation.  (optional) (default to false)
+    tag := "tag_example" // string | Specify a tag to retrieve configuration from. Cannot be specified with `as_of`. Requires `environment`. (optional)
 
     configuration := openapiclient.NewConfiguration()
-    api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.ProjectsApi.ProjectsParametersValuesList(context.Background(), parameterPk, projectPk).AsOf(asOf).Environment(environment).Evaluate(evaluate).Exclude(exclude).Include(include).MaskSecrets(maskSecrets).Page(page).PageSize(pageSize).PartialSuccess(partialSuccess).Tag(tag).Wrap(wrap).Execute()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.ProjectsApi.ProjectsParametersValuesList(context.Background(), parameterPk, projectPk).AsOf(asOf).Evaluate(evaluate).Exclude(exclude).Include(include).MaskSecrets(maskSecrets).Page(page).PageSize(pageSize).Tag(tag).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `ProjectsApi.ProjectsParametersValuesList``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -1707,8 +1909,8 @@ func main() {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**parameterPk** | [**string**](.md) | The parameter id. | 
-**projectPk** | [**string**](.md) | The project id. | 
+**parameterPk** | **string** | The parameter id. | 
+**projectPk** | **string** | The project id. | 
 
 ### Other Parameters
 
@@ -1720,16 +1922,13 @@ Name | Type | Description  | Notes
 
 
  **asOf** | **time.Time** | Specify a point in time to retrieve configuration from. Cannot be specified with &#x60;tag&#x60;. | 
- **environment** | **string** | Name or id of the environment to limit the result to. If this is not specified then the result will contain a value for any environment in which it is set. You cannot use this option to retrieve the _effective_ value of a parameter in an environment for which is is not explicitly set. To see _effective_ values use the Parameters API (see the &#x60;values&#x60; field). | 
  **evaluate** | **bool** | If &#x60;true&#x60;, runs template evaluation on this parameter.  If &#x60;false&#x60;, returns the value&#39;s template. No effect on values that are not interpolated. | [default to true]
  **exclude** | **string** | A comma-separated list of field names to exclude from the response. | 
  **include** | **string** | A comma-separated list of field names to include in the response. | 
  **maskSecrets** | **bool** | Mask secret values in responses with &#x60;*****&#x60;. | [default to false]
  **page** | **int32** | A page number within the paginated result set. | 
  **pageSize** | **int32** | Number of results to return per page. | 
- **partialSuccess** | **bool** | Determine if the response is allowed to include a partial success.  A partial success can occur if one or more external values cannot be retrieved, for example when an in-use integration is removed using the &#x60;leave&#x60; option, leaving the values untouched. When &#x60;true&#x60;, any error that occurs during external value retrieval will be placed into a field named &#x60;external_error&#x60; in the affected Value, and the &#x60;value&#x60; field will be empty.  When &#x60;false&#x60;, any such error will cause the entire request to fail. Partial success allows clients to tolerate invalid external values better. | [default to false]
- **tag** | **string** | Specify a tag to retrieve configuration from.  Cannot be specified with &#x60;as_of&#x60;. | 
- **wrap** | **bool** | For writes, indicates &#x60;internal_value&#x60; is wrapped; for reads, indicates &#x60;value&#x60; is wrapped. For more information on secret wrapping, see the documentation.  | [default to false]
+ **tag** | **string** | Specify a tag to retrieve configuration from. Cannot be specified with &#x60;as_of&#x60;. Requires &#x60;environment&#x60;. | 
 
 ### Return type
 
@@ -1737,7 +1936,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth)
+[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth), [tokenAuth](../README.md#tokenAuth)
 
 ### HTTP request headers
 
@@ -1751,7 +1950,7 @@ Name | Type | Description  | Notes
 
 ## ProjectsParametersValuesPartialUpdate
 
-> Value ProjectsParametersValuesPartialUpdate(ctx, id, parameterPk, projectPk).Evaluate(evaluate).Wrap(wrap).PatchedValue(patchedValue).Execute()
+> ValueUpdate ProjectsParametersValuesPartialUpdate(ctx, id, parameterPk, projectPk).Evaluate(evaluate).PatchedValueUpdate(patchedValueUpdate).Execute()
 
 Update a value.
 
@@ -1770,21 +1969,20 @@ import (
 )
 
 func main() {
-    id := TODO // string | 
-    parameterPk := TODO // string | The parameter id.
-    projectPk := TODO // string | The project id.
+    id := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | 
+    parameterPk := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | The parameter id.
+    projectPk := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | The project id.
     evaluate := true // bool | If `true`, runs template evaluation on this parameter.  If `false`, returns the value's template. No effect on values that are not interpolated. (optional) (default to true)
-    wrap := true // bool | Indicates the `internal_value` is a wrapped secret. For more information on secret wrapping, see the documentation.  (optional)
-    patchedValue := *openapiclient.NewPatchedValue() // PatchedValue |  (optional)
+    patchedValueUpdate := *openapiclient.NewPatchedValueUpdate() // PatchedValueUpdate |  (optional)
 
     configuration := openapiclient.NewConfiguration()
-    api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.ProjectsApi.ProjectsParametersValuesPartialUpdate(context.Background(), id, parameterPk, projectPk).Evaluate(evaluate).Wrap(wrap).PatchedValue(patchedValue).Execute()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.ProjectsApi.ProjectsParametersValuesPartialUpdate(context.Background(), id, parameterPk, projectPk).Evaluate(evaluate).PatchedValueUpdate(patchedValueUpdate).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `ProjectsApi.ProjectsParametersValuesPartialUpdate``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
-    // response from `ProjectsParametersValuesPartialUpdate`: Value
+    // response from `ProjectsParametersValuesPartialUpdate`: ValueUpdate
     fmt.Fprintf(os.Stdout, "Response from `ProjectsApi.ProjectsParametersValuesPartialUpdate`: %v\n", resp)
 }
 ```
@@ -1795,9 +1993,9 @@ func main() {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**id** | [**string**](.md) |  | 
-**parameterPk** | [**string**](.md) | The parameter id. | 
-**projectPk** | [**string**](.md) | The project id. | 
+**id** | **string** |  | 
+**parameterPk** | **string** | The parameter id. | 
+**projectPk** | **string** | The project id. | 
 
 ### Other Parameters
 
@@ -1810,16 +2008,15 @@ Name | Type | Description  | Notes
 
 
  **evaluate** | **bool** | If &#x60;true&#x60;, runs template evaluation on this parameter.  If &#x60;false&#x60;, returns the value&#39;s template. No effect on values that are not interpolated. | [default to true]
- **wrap** | **bool** | Indicates the &#x60;internal_value&#x60; is a wrapped secret. For more information on secret wrapping, see the documentation.  | 
- **patchedValue** | [**PatchedValue**](PatchedValue.md) |  | 
+ **patchedValueUpdate** | [**PatchedValueUpdate**](PatchedValueUpdate.md) |  | 
 
 ### Return type
 
-[**Value**](Value.md)
+[**ValueUpdate**](ValueUpdate.md)
 
 ### Authorization
 
-[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth)
+[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth), [tokenAuth](../README.md#tokenAuth)
 
 ### HTTP request headers
 
@@ -1833,7 +2030,7 @@ Name | Type | Description  | Notes
 
 ## ProjectsParametersValuesRetrieve
 
-> Value ProjectsParametersValuesRetrieve(ctx, id, parameterPk, projectPk).AsOf(asOf).Evaluate(evaluate).Exclude(exclude).Include(include).MaskSecrets(maskSecrets).PartialSuccess(partialSuccess).Tag(tag).Wrap(wrap).Execute()
+> Value ProjectsParametersValuesRetrieve(ctx, id, parameterPk, projectPk).AsOf(asOf).Evaluate(evaluate).Exclude(exclude).Include(include).MaskSecrets(maskSecrets).Tag(tag).Execute()
 
 Retrieve a value.
 
@@ -1853,21 +2050,19 @@ import (
 )
 
 func main() {
-    id := TODO // string | 
-    parameterPk := TODO // string | The parameter id.
-    projectPk := TODO // string | The project id.
+    id := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | A UUID string identifying this value ledger.
+    parameterPk := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | The parameter id.
+    projectPk := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | The project id.
     asOf := time.Now() // time.Time | Specify a point in time to retrieve configuration from. Cannot be specified with `tag`. (optional)
     evaluate := true // bool | If `true`, runs template evaluation on this parameter.  If `false`, returns the value's template. No effect on values that are not interpolated. (optional) (default to true)
     exclude := "exclude_example" // string | A comma-separated list of field names to exclude from the response. (optional)
     include := "include_example" // string | A comma-separated list of field names to include in the response. (optional)
     maskSecrets := true // bool | Mask secret values in responses with `*****`. (optional) (default to false)
-    partialSuccess := true // bool | Determine if the response is allowed to include a partial success.  A partial success can occur if one or more external values cannot be retrieved, for example when an in-use integration is removed using the `leave` option, leaving the values untouched. When `true`, any error that occurs during external value retrieval will be placed into a field named `external_error` in the affected Value, and the `value` field will be empty.  When `false`, any such error will cause the entire request to fail. Partial success allows clients to tolerate invalid external values better. (optional) (default to false)
-    tag := "tag_example" // string | Specify a tag to retrieve configuration from.  Cannot be specified with `as_of`. (optional)
-    wrap := true // bool | For writes, indicates `internal_value` is wrapped; for reads, indicates `value` is wrapped. For more information on secret wrapping, see the documentation.  (optional) (default to false)
+    tag := "tag_example" // string | Specify a tag to retrieve configuration from. Cannot be specified with `as_of`. Requires `environment`. (optional)
 
     configuration := openapiclient.NewConfiguration()
-    api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.ProjectsApi.ProjectsParametersValuesRetrieve(context.Background(), id, parameterPk, projectPk).AsOf(asOf).Evaluate(evaluate).Exclude(exclude).Include(include).MaskSecrets(maskSecrets).PartialSuccess(partialSuccess).Tag(tag).Wrap(wrap).Execute()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.ProjectsApi.ProjectsParametersValuesRetrieve(context.Background(), id, parameterPk, projectPk).AsOf(asOf).Evaluate(evaluate).Exclude(exclude).Include(include).MaskSecrets(maskSecrets).Tag(tag).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `ProjectsApi.ProjectsParametersValuesRetrieve``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -1883,9 +2078,9 @@ func main() {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**id** | [**string**](.md) |  | 
-**parameterPk** | [**string**](.md) | The parameter id. | 
-**projectPk** | [**string**](.md) | The project id. | 
+**id** | **string** | A UUID string identifying this value ledger. | 
+**parameterPk** | **string** | The parameter id. | 
+**projectPk** | **string** | The project id. | 
 
 ### Other Parameters
 
@@ -1902,9 +2097,7 @@ Name | Type | Description  | Notes
  **exclude** | **string** | A comma-separated list of field names to exclude from the response. | 
  **include** | **string** | A comma-separated list of field names to include in the response. | 
  **maskSecrets** | **bool** | Mask secret values in responses with &#x60;*****&#x60;. | [default to false]
- **partialSuccess** | **bool** | Determine if the response is allowed to include a partial success.  A partial success can occur if one or more external values cannot be retrieved, for example when an in-use integration is removed using the &#x60;leave&#x60; option, leaving the values untouched. When &#x60;true&#x60;, any error that occurs during external value retrieval will be placed into a field named &#x60;external_error&#x60; in the affected Value, and the &#x60;value&#x60; field will be empty.  When &#x60;false&#x60;, any such error will cause the entire request to fail. Partial success allows clients to tolerate invalid external values better. | [default to false]
- **tag** | **string** | Specify a tag to retrieve configuration from.  Cannot be specified with &#x60;as_of&#x60;. | 
- **wrap** | **bool** | For writes, indicates &#x60;internal_value&#x60; is wrapped; for reads, indicates &#x60;value&#x60; is wrapped. For more information on secret wrapping, see the documentation.  | [default to false]
+ **tag** | **string** | Specify a tag to retrieve configuration from. Cannot be specified with &#x60;as_of&#x60;. Requires &#x60;environment&#x60;. | 
 
 ### Return type
 
@@ -1912,7 +2105,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth)
+[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth), [tokenAuth](../README.md#tokenAuth)
 
 ### HTTP request headers
 
@@ -1926,7 +2119,7 @@ Name | Type | Description  | Notes
 
 ## ProjectsParametersValuesUpdate
 
-> Value ProjectsParametersValuesUpdate(ctx, id, parameterPk, projectPk).Evaluate(evaluate).Wrap(wrap).Value(value).Execute()
+> ValueUpdate ProjectsParametersValuesUpdate(ctx, id, parameterPk, projectPk).Evaluate(evaluate).ValueUpdate(valueUpdate).Execute()
 
 Update a value.
 
@@ -1946,21 +2139,20 @@ import (
 )
 
 func main() {
-    id := TODO // string | 
-    parameterPk := TODO // string | The parameter id.
-    projectPk := TODO // string | The project id.
+    id := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | 
+    parameterPk := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | The parameter id.
+    projectPk := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | The project id.
     evaluate := true // bool | If `true`, runs template evaluation on this parameter.  If `false`, returns the value's template. No effect on values that are not interpolated. (optional) (default to true)
-    wrap := true // bool | Indicates the `internal_value` is a wrapped secret. For more information on secret wrapping, see the documentation.  (optional)
-    value := *openapiclient.NewValue("Url_example", "Id_example", "Environment_example", "EnvironmentName_example", "EarliestTag_example", "Parameter_example", "ExternalError_example", "Value_example", false, false, []string{"ReferencedParameters_example"}, []string{"ReferencedTemplates_example"}, time.Now(), time.Now()) // Value |  (optional)
+    valueUpdate := *openapiclient.NewValueUpdate("Id_example", false, "Value_example", time.Now(), time.Now()) // ValueUpdate |  (optional)
 
     configuration := openapiclient.NewConfiguration()
-    api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.ProjectsApi.ProjectsParametersValuesUpdate(context.Background(), id, parameterPk, projectPk).Evaluate(evaluate).Wrap(wrap).Value(value).Execute()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.ProjectsApi.ProjectsParametersValuesUpdate(context.Background(), id, parameterPk, projectPk).Evaluate(evaluate).ValueUpdate(valueUpdate).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `ProjectsApi.ProjectsParametersValuesUpdate``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
-    // response from `ProjectsParametersValuesUpdate`: Value
+    // response from `ProjectsParametersValuesUpdate`: ValueUpdate
     fmt.Fprintf(os.Stdout, "Response from `ProjectsApi.ProjectsParametersValuesUpdate`: %v\n", resp)
 }
 ```
@@ -1971,9 +2163,9 @@ func main() {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**id** | [**string**](.md) |  | 
-**parameterPk** | [**string**](.md) | The parameter id. | 
-**projectPk** | [**string**](.md) | The project id. | 
+**id** | **string** |  | 
+**parameterPk** | **string** | The parameter id. | 
+**projectPk** | **string** | The project id. | 
 
 ### Other Parameters
 
@@ -1986,16 +2178,15 @@ Name | Type | Description  | Notes
 
 
  **evaluate** | **bool** | If &#x60;true&#x60;, runs template evaluation on this parameter.  If &#x60;false&#x60;, returns the value&#39;s template. No effect on values that are not interpolated. | [default to true]
- **wrap** | **bool** | Indicates the &#x60;internal_value&#x60; is a wrapped secret. For more information on secret wrapping, see the documentation.  | 
- **value** | [**Value**](Value.md) |  | 
+ **valueUpdate** | [**ValueUpdate**](ValueUpdate.md) |  | 
 
 ### Return type
 
-[**Value**](Value.md)
+[**ValueUpdate**](ValueUpdate.md)
 
 ### Authorization
 
-[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth)
+[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth), [tokenAuth](../README.md#tokenAuth)
 
 ### HTTP request headers
 
@@ -2009,7 +2200,7 @@ Name | Type | Description  | Notes
 
 ## ProjectsPartialUpdate
 
-> Project ProjectsPartialUpdate(ctx, id).PatchedProject(patchedProject).Execute()
+> ProjectUpdate ProjectsPartialUpdate(ctx, id).PatchedProjectUpdate(patchedProjectUpdate).Execute()
 
 
 
@@ -2026,17 +2217,17 @@ import (
 )
 
 func main() {
-    id := TODO // string | 
-    patchedProject := *openapiclient.NewPatchedProject() // PatchedProject |  (optional)
+    id := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | 
+    patchedProjectUpdate := *openapiclient.NewPatchedProjectUpdate() // PatchedProjectUpdate |  (optional)
 
     configuration := openapiclient.NewConfiguration()
-    api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.ProjectsApi.ProjectsPartialUpdate(context.Background(), id).PatchedProject(patchedProject).Execute()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.ProjectsApi.ProjectsPartialUpdate(context.Background(), id).PatchedProjectUpdate(patchedProjectUpdate).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `ProjectsApi.ProjectsPartialUpdate``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
-    // response from `ProjectsPartialUpdate`: Project
+    // response from `ProjectsPartialUpdate`: ProjectUpdate
     fmt.Fprintf(os.Stdout, "Response from `ProjectsApi.ProjectsPartialUpdate`: %v\n", resp)
 }
 ```
@@ -2047,7 +2238,7 @@ func main() {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**id** | [**string**](.md) |  | 
+**id** | **string** |  | 
 
 ### Other Parameters
 
@@ -2057,15 +2248,15 @@ Other parameters are passed through a pointer to a apiProjectsPartialUpdateReque
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
- **patchedProject** | [**PatchedProject**](PatchedProject.md) |  | 
+ **patchedProjectUpdate** | [**PatchedProjectUpdate**](PatchedProjectUpdate.md) |  | 
 
 ### Return type
 
-[**Project**](Project.md)
+[**ProjectUpdate**](ProjectUpdate.md)
 
 ### Authorization
 
-[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth)
+[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth), [tokenAuth](../README.md#tokenAuth)
 
 ### HTTP request headers
 
@@ -2096,11 +2287,11 @@ import (
 )
 
 func main() {
-    id := TODO // string | 
+    id := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | A UUID string identifying this project ledger.
 
     configuration := openapiclient.NewConfiguration()
-    api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.ProjectsApi.ProjectsRetrieve(context.Background(), id).Execute()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.ProjectsApi.ProjectsRetrieve(context.Background(), id).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `ProjectsApi.ProjectsRetrieve``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -2116,7 +2307,7 @@ func main() {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**id** | [**string**](.md) |  | 
+**id** | **string** | A UUID string identifying this project ledger. | 
 
 ### Other Parameters
 
@@ -2133,7 +2324,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth)
+[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth), [tokenAuth](../README.md#tokenAuth)
 
 ### HTTP request headers
 
@@ -2147,7 +2338,7 @@ Name | Type | Description  | Notes
 
 ## ProjectsTemplatePreviewCreate
 
-> TemplatePreview ProjectsTemplatePreviewCreate(ctx, projectPk).TemplatePreview(templatePreview).AsOf(asOf).Environment(environment).MaskSecrets(maskSecrets).Tag(tag).Execute()
+> TemplatePreview ProjectsTemplatePreviewCreate(ctx, projectPk).TemplatePreviewCreateRequest(templatePreviewCreateRequest).AsOf(asOf).Environment(environment).MaskSecrets(maskSecrets).Tag(tag).Template(template).Execute()
 
 
 
@@ -2167,16 +2358,17 @@ import (
 )
 
 func main() {
-    projectPk := TODO // string | 
-    templatePreview := *openapiclient.NewTemplatePreview("Body_example") // TemplatePreview | 
+    projectPk := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | 
+    templatePreviewCreateRequest := *openapiclient.NewTemplatePreviewCreateRequest("Body_example") // TemplatePreviewCreateRequest | 
     asOf := time.Now() // time.Time | Specify a point in time to retrieve configuration from. Cannot be specified with `tag`. (optional)
     environment := "environment_example" // string | Name or id of the environment to use to instantiate this template. If not specified then the default environment is used. (optional)
     maskSecrets := true // bool | Masks all secrets in the template with `*****`. (optional) (default to false)
-    tag := "tag_example" // string | Specify a tag to retrieve configuration from.  Cannot be specified with `as_of`. (optional)
+    tag := "tag_example" // string | Specify a tag to retrieve configuration from. Cannot be specified with `as_of`. Requires `environment`. (optional)
+    template := "template_example" // string | ID of the template parameter being previewed.  If not specified, this is assumed to be a not-yet-created parameter. (optional)
 
     configuration := openapiclient.NewConfiguration()
-    api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.ProjectsApi.ProjectsTemplatePreviewCreate(context.Background(), projectPk).TemplatePreview(templatePreview).AsOf(asOf).Environment(environment).MaskSecrets(maskSecrets).Tag(tag).Execute()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.ProjectsApi.ProjectsTemplatePreviewCreate(context.Background(), projectPk).TemplatePreviewCreateRequest(templatePreviewCreateRequest).AsOf(asOf).Environment(environment).MaskSecrets(maskSecrets).Tag(tag).Template(template).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `ProjectsApi.ProjectsTemplatePreviewCreate``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -2192,7 +2384,7 @@ func main() {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**projectPk** | [**string**](.md) |  | 
+**projectPk** | **string** |  | 
 
 ### Other Parameters
 
@@ -2202,11 +2394,12 @@ Other parameters are passed through a pointer to a apiProjectsTemplatePreviewCre
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
- **templatePreview** | [**TemplatePreview**](TemplatePreview.md) |  | 
+ **templatePreviewCreateRequest** | [**TemplatePreviewCreateRequest**](TemplatePreviewCreateRequest.md) |  | 
  **asOf** | **time.Time** | Specify a point in time to retrieve configuration from. Cannot be specified with &#x60;tag&#x60;. | 
  **environment** | **string** | Name or id of the environment to use to instantiate this template. If not specified then the default environment is used. | 
  **maskSecrets** | **bool** | Masks all secrets in the template with &#x60;*****&#x60;. | [default to false]
- **tag** | **string** | Specify a tag to retrieve configuration from.  Cannot be specified with &#x60;as_of&#x60;. | 
+ **tag** | **string** | Specify a tag to retrieve configuration from. Cannot be specified with &#x60;as_of&#x60;. Requires &#x60;environment&#x60;. | 
+ **template** | **string** | ID of the template parameter being previewed.  If not specified, this is assumed to be a not-yet-created parameter. | 
 
 ### Return type
 
@@ -2214,7 +2407,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth)
+[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth), [tokenAuth](../README.md#tokenAuth)
 
 ### HTTP request headers
 
@@ -2245,12 +2438,12 @@ import (
 )
 
 func main() {
-    projectPk := TODO // string | 
+    projectPk := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | 
     templateCreate := *openapiclient.NewTemplateCreate("Name_example") // TemplateCreate | 
 
     configuration := openapiclient.NewConfiguration()
-    api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.ProjectsApi.ProjectsTemplatesCreate(context.Background(), projectPk).TemplateCreate(templateCreate).Execute()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.ProjectsApi.ProjectsTemplatesCreate(context.Background(), projectPk).TemplateCreate(templateCreate).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `ProjectsApi.ProjectsTemplatesCreate``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -2266,7 +2459,7 @@ func main() {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**projectPk** | [**string**](.md) |  | 
+**projectPk** | **string** |  | 
 
 ### Other Parameters
 
@@ -2284,7 +2477,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth)
+[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth), [tokenAuth](../README.md#tokenAuth)
 
 ### HTTP request headers
 
@@ -2315,12 +2508,12 @@ import (
 )
 
 func main() {
-    id := TODO // string | 
-    projectPk := TODO // string | 
+    id := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | 
+    projectPk := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | 
 
     configuration := openapiclient.NewConfiguration()
-    api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.ProjectsApi.ProjectsTemplatesDestroy(context.Background(), id, projectPk).Execute()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.ProjectsApi.ProjectsTemplatesDestroy(context.Background(), id, projectPk).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `ProjectsApi.ProjectsTemplatesDestroy``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -2334,8 +2527,8 @@ func main() {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**id** | [**string**](.md) |  | 
-**projectPk** | [**string**](.md) |  | 
+**id** | **string** |  | 
+**projectPk** | **string** |  | 
 
 ### Other Parameters
 
@@ -2353,7 +2546,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth)
+[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth), [tokenAuth](../README.md#tokenAuth)
 
 ### HTTP request headers
 
@@ -2385,7 +2578,7 @@ import (
 )
 
 func main() {
-    projectPk := TODO // string | 
+    projectPk := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | 
     asOf := time.Now() // time.Time | Specify a point in time to retrieve configuration from. Cannot be specified with `tag`. (optional)
     environment := "environment_example" // string | Name or id of the environment to use to evaluate this template. If not specified then the original content is returned in the body. (optional)
     evaluate := true // bool | If `true`, evaluates the template's body.  If `false`, returns the unevaluated template body.  (optional) (default to false)
@@ -2394,11 +2587,11 @@ func main() {
     ordering := "ordering_example" // string | Which field to use when ordering the results. (optional)
     page := int32(56) // int32 | A page number within the paginated result set. (optional)
     pageSize := int32(56) // int32 | Number of results to return per page. (optional)
-    tag := "tag_example" // string | Specify a tag to retrieve configuration from.  Cannot be specified with `as_of`. (optional)
+    tag := "tag_example" // string | Specify a tag to retrieve configuration from. Cannot be specified with `as_of`. Requires `environment`. (optional)
 
     configuration := openapiclient.NewConfiguration()
-    api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.ProjectsApi.ProjectsTemplatesList(context.Background(), projectPk).AsOf(asOf).Environment(environment).Evaluate(evaluate).MaskSecrets(maskSecrets).Name(name).Ordering(ordering).Page(page).PageSize(pageSize).Tag(tag).Execute()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.ProjectsApi.ProjectsTemplatesList(context.Background(), projectPk).AsOf(asOf).Environment(environment).Evaluate(evaluate).MaskSecrets(maskSecrets).Name(name).Ordering(ordering).Page(page).PageSize(pageSize).Tag(tag).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `ProjectsApi.ProjectsTemplatesList``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -2414,7 +2607,7 @@ func main() {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**projectPk** | [**string**](.md) |  | 
+**projectPk** | **string** |  | 
 
 ### Other Parameters
 
@@ -2432,7 +2625,7 @@ Name | Type | Description  | Notes
  **ordering** | **string** | Which field to use when ordering the results. | 
  **page** | **int32** | A page number within the paginated result set. | 
  **pageSize** | **int32** | Number of results to return per page. | 
- **tag** | **string** | Specify a tag to retrieve configuration from.  Cannot be specified with &#x60;as_of&#x60;. | 
+ **tag** | **string** | Specify a tag to retrieve configuration from. Cannot be specified with &#x60;as_of&#x60;. Requires &#x60;environment&#x60;. | 
 
 ### Return type
 
@@ -2440,7 +2633,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth)
+[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth), [tokenAuth](../README.md#tokenAuth)
 
 ### HTTP request headers
 
@@ -2454,7 +2647,7 @@ Name | Type | Description  | Notes
 
 ## ProjectsTemplatesPartialUpdate
 
-> Template ProjectsTemplatesPartialUpdate(ctx, id, projectPk).PatchedTemplate(patchedTemplate).Execute()
+> Template ProjectsTemplatesPartialUpdate(ctx, id, projectPk).PatchedTemplateUpdate(patchedTemplateUpdate).Execute()
 
 
 
@@ -2471,13 +2664,13 @@ import (
 )
 
 func main() {
-    id := TODO // string | 
-    projectPk := TODO // string | 
-    patchedTemplate := *openapiclient.NewPatchedTemplate() // PatchedTemplate |  (optional)
+    id := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | 
+    projectPk := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | 
+    patchedTemplateUpdate := *openapiclient.NewPatchedTemplateUpdate() // PatchedTemplateUpdate |  (optional)
 
     configuration := openapiclient.NewConfiguration()
-    api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.ProjectsApi.ProjectsTemplatesPartialUpdate(context.Background(), id, projectPk).PatchedTemplate(patchedTemplate).Execute()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.ProjectsApi.ProjectsTemplatesPartialUpdate(context.Background(), id, projectPk).PatchedTemplateUpdate(patchedTemplateUpdate).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `ProjectsApi.ProjectsTemplatesPartialUpdate``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -2493,8 +2686,8 @@ func main() {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**id** | [**string**](.md) |  | 
-**projectPk** | [**string**](.md) |  | 
+**id** | **string** |  | 
+**projectPk** | **string** |  | 
 
 ### Other Parameters
 
@@ -2505,7 +2698,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
 
- **patchedTemplate** | [**PatchedTemplate**](PatchedTemplate.md) |  | 
+ **patchedTemplateUpdate** | [**PatchedTemplateUpdate**](PatchedTemplateUpdate.md) |  | 
 
 ### Return type
 
@@ -2513,7 +2706,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth)
+[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth), [tokenAuth](../README.md#tokenAuth)
 
 ### HTTP request headers
 
@@ -2545,17 +2738,17 @@ import (
 )
 
 func main() {
-    id := TODO // string | 
-    projectPk := TODO // string | 
+    id := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | A UUID string identifying this parameter ledger.
+    projectPk := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | 
     asOf := time.Now() // time.Time | Specify a point in time to retrieve configuration from. Cannot be specified with `tag`. (optional)
     environment := "environment_example" // string | Name or id of the environment to use to evaluate this template. If not specified then the original content is returned in the body. (optional)
     evaluate := true // bool | If `true`, evaluates the template's body.  If `false`, returns the unevaluated template body.  (optional) (default to true)
     maskSecrets := true // bool | Masks all secrets in the template with `*****`. (optional) (default to false)
-    tag := "tag_example" // string | Specify a tag to retrieve configuration from.  Cannot be specified with `as_of`. (optional)
+    tag := "tag_example" // string | Specify a tag to retrieve configuration from. Cannot be specified with `as_of`. Requires `environment`. (optional)
 
     configuration := openapiclient.NewConfiguration()
-    api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.ProjectsApi.ProjectsTemplatesRetrieve(context.Background(), id, projectPk).AsOf(asOf).Environment(environment).Evaluate(evaluate).MaskSecrets(maskSecrets).Tag(tag).Execute()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.ProjectsApi.ProjectsTemplatesRetrieve(context.Background(), id, projectPk).AsOf(asOf).Environment(environment).Evaluate(evaluate).MaskSecrets(maskSecrets).Tag(tag).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `ProjectsApi.ProjectsTemplatesRetrieve``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -2571,8 +2764,8 @@ func main() {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**id** | [**string**](.md) |  | 
-**projectPk** | [**string**](.md) |  | 
+**id** | **string** | A UUID string identifying this parameter ledger. | 
+**projectPk** | **string** |  | 
 
 ### Other Parameters
 
@@ -2587,7 +2780,7 @@ Name | Type | Description  | Notes
  **environment** | **string** | Name or id of the environment to use to evaluate this template. If not specified then the original content is returned in the body. | 
  **evaluate** | **bool** | If &#x60;true&#x60;, evaluates the template&#39;s body.  If &#x60;false&#x60;, returns the unevaluated template body.  | [default to true]
  **maskSecrets** | **bool** | Masks all secrets in the template with &#x60;*****&#x60;. | [default to false]
- **tag** | **string** | Specify a tag to retrieve configuration from.  Cannot be specified with &#x60;as_of&#x60;. | 
+ **tag** | **string** | Specify a tag to retrieve configuration from. Cannot be specified with &#x60;as_of&#x60;. Requires &#x60;environment&#x60;. | 
 
 ### Return type
 
@@ -2595,7 +2788,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth)
+[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth), [tokenAuth](../README.md#tokenAuth)
 
 ### HTTP request headers
 
@@ -2629,15 +2822,15 @@ import (
 )
 
 func main() {
-    id := TODO // string | 
-    projectPk := TODO // string | 
+    id := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | A UUID string identifying this parameter ledger.
+    projectPk := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | 
     asOf := time.Now() // time.Time | Specify a point in time to retrieve configuration from. Cannot be specified with `tag`. (optional)
     environment := "environment_example" // string | Name or id of the environment to use to evaluate this template. If not specified then the original content is returned in the body. (optional)
-    tag := "tag_example" // string | Specify a tag to retrieve configuration from.  Cannot be specified with `as_of`. (optional)
+    tag := "tag_example" // string | Specify a tag to retrieve configuration from. Cannot be specified with `as_of`. Requires `environment`. (optional)
 
     configuration := openapiclient.NewConfiguration()
-    api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.ProjectsApi.ProjectsTemplatesTimelineRetrieve(context.Background(), id, projectPk).AsOf(asOf).Environment(environment).Tag(tag).Execute()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.ProjectsApi.ProjectsTemplatesTimelineRetrieve(context.Background(), id, projectPk).AsOf(asOf).Environment(environment).Tag(tag).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `ProjectsApi.ProjectsTemplatesTimelineRetrieve``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -2653,8 +2846,8 @@ func main() {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**id** | [**string**](.md) |  | 
-**projectPk** | [**string**](.md) |  | 
+**id** | **string** | A UUID string identifying this parameter ledger. | 
+**projectPk** | **string** |  | 
 
 ### Other Parameters
 
@@ -2667,7 +2860,7 @@ Name | Type | Description  | Notes
 
  **asOf** | **time.Time** | Specify a point in time to retrieve configuration from. Cannot be specified with &#x60;tag&#x60;. | 
  **environment** | **string** | Name or id of the environment to use to evaluate this template. If not specified then the original content is returned in the body. | 
- **tag** | **string** | Specify a tag to retrieve configuration from.  Cannot be specified with &#x60;as_of&#x60;. | 
+ **tag** | **string** | Specify a tag to retrieve configuration from. Cannot be specified with &#x60;as_of&#x60;. Requires &#x60;environment&#x60;. | 
 
 ### Return type
 
@@ -2675,7 +2868,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth)
+[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth), [tokenAuth](../README.md#tokenAuth)
 
 ### HTTP request headers
 
@@ -2709,14 +2902,14 @@ import (
 )
 
 func main() {
-    projectPk := TODO // string | 
+    projectPk := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | 
     asOf := time.Now() // time.Time | Specify a point in time to retrieve configuration from. Cannot be specified with `tag`. (optional)
     environment := "environment_example" // string | Name or id of the environment to use to evaluate this template. If not specified then the original content is returned in the body. (optional)
-    tag := "tag_example" // string | Specify a tag to retrieve configuration from.  Cannot be specified with `as_of`. (optional)
+    tag := "tag_example" // string | Specify a tag to retrieve configuration from. Cannot be specified with `as_of`. Requires `environment`. (optional)
 
     configuration := openapiclient.NewConfiguration()
-    api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.ProjectsApi.ProjectsTemplatesTimelinesRetrieve(context.Background(), projectPk).AsOf(asOf).Environment(environment).Tag(tag).Execute()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.ProjectsApi.ProjectsTemplatesTimelinesRetrieve(context.Background(), projectPk).AsOf(asOf).Environment(environment).Tag(tag).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `ProjectsApi.ProjectsTemplatesTimelinesRetrieve``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -2732,7 +2925,7 @@ func main() {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**projectPk** | [**string**](.md) |  | 
+**projectPk** | **string** |  | 
 
 ### Other Parameters
 
@@ -2744,7 +2937,7 @@ Name | Type | Description  | Notes
 
  **asOf** | **time.Time** | Specify a point in time to retrieve configuration from. Cannot be specified with &#x60;tag&#x60;. | 
  **environment** | **string** | Name or id of the environment to use to evaluate this template. If not specified then the original content is returned in the body. | 
- **tag** | **string** | Specify a tag to retrieve configuration from.  Cannot be specified with &#x60;as_of&#x60;. | 
+ **tag** | **string** | Specify a tag to retrieve configuration from. Cannot be specified with &#x60;as_of&#x60;. Requires &#x60;environment&#x60;. | 
 
 ### Return type
 
@@ -2752,7 +2945,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth)
+[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth), [tokenAuth](../README.md#tokenAuth)
 
 ### HTTP request headers
 
@@ -2766,7 +2959,7 @@ Name | Type | Description  | Notes
 
 ## ProjectsTemplatesUpdate
 
-> Template ProjectsTemplatesUpdate(ctx, id, projectPk).Template(template).Execute()
+> Template ProjectsTemplatesUpdate(ctx, id, projectPk).TemplateUpdate(templateUpdate).Execute()
 
 
 
@@ -2784,13 +2977,13 @@ import (
 )
 
 func main() {
-    id := TODO // string | 
-    projectPk := TODO // string | 
-    template := *openapiclient.NewTemplate("Url_example", "Id_example", "Name_example", false, []string{"ReferencedParameters_example"}, []string{"ReferencedTemplates_example"}, []string{"ReferencingTemplates_example"}, []string{"ReferencingValues_example"}, false, time.Now(), time.Now()) // Template | 
+    id := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | 
+    projectPk := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | 
+    templateUpdate := *openapiclient.NewTemplateUpdate("Id_example", "Name_example", false, time.Now(), time.Now()) // TemplateUpdate | 
 
     configuration := openapiclient.NewConfiguration()
-    api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.ProjectsApi.ProjectsTemplatesUpdate(context.Background(), id, projectPk).Template(template).Execute()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.ProjectsApi.ProjectsTemplatesUpdate(context.Background(), id, projectPk).TemplateUpdate(templateUpdate).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `ProjectsApi.ProjectsTemplatesUpdate``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -2806,8 +2999,8 @@ func main() {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**id** | [**string**](.md) |  | 
-**projectPk** | [**string**](.md) |  | 
+**id** | **string** |  | 
+**projectPk** | **string** |  | 
 
 ### Other Parameters
 
@@ -2818,7 +3011,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
 
- **template** | [**Template**](Template.md) |  | 
+ **templateUpdate** | [**TemplateUpdate**](TemplateUpdate.md) |  | 
 
 ### Return type
 
@@ -2826,7 +3019,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth)
+[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth), [tokenAuth](../README.md#tokenAuth)
 
 ### HTTP request headers
 
@@ -2840,7 +3033,7 @@ Name | Type | Description  | Notes
 
 ## ProjectsUpdate
 
-> Project ProjectsUpdate(ctx, id).Project(project).Execute()
+> ProjectUpdate ProjectsUpdate(ctx, id).ProjectUpdate(projectUpdate).Execute()
 
 
 
@@ -2858,17 +3051,17 @@ import (
 )
 
 func main() {
-    id := TODO // string | 
-    project := *openapiclient.NewProject("Url_example", "Id_example", "Name_example", []string{"Dependents_example"}, []openapiclient.AwsPush{*openapiclient.NewAwsPush("Url_example", "Id_example", "Name_example", "TODO", time.Now(), time.Now(), []string{"Projects_example"}, []string{"Tags_example"}, openapiclient.AwsRegionEnum("af-south-1"), openapiclient.AwsServiceEnum("s3"), "Resource_example")}, time.Now(), time.Now()) // Project | 
+    id := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | 
+    projectUpdate := *openapiclient.NewProjectUpdate("Id_example", "Name_example", "TODO", time.Now(), time.Now()) // ProjectUpdate | 
 
     configuration := openapiclient.NewConfiguration()
-    api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.ProjectsApi.ProjectsUpdate(context.Background(), id).Project(project).Execute()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.ProjectsApi.ProjectsUpdate(context.Background(), id).ProjectUpdate(projectUpdate).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `ProjectsApi.ProjectsUpdate``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
-    // response from `ProjectsUpdate`: Project
+    // response from `ProjectsUpdate`: ProjectUpdate
     fmt.Fprintf(os.Stdout, "Response from `ProjectsApi.ProjectsUpdate`: %v\n", resp)
 }
 ```
@@ -2879,7 +3072,7 @@ func main() {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**id** | [**string**](.md) |  | 
+**id** | **string** |  | 
 
 ### Other Parameters
 
@@ -2889,15 +3082,15 @@ Other parameters are passed through a pointer to a apiProjectsUpdateRequest stru
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
- **project** | [**Project**](Project.md) |  | 
+ **projectUpdate** | [**ProjectUpdate**](ProjectUpdate.md) |  | 
 
 ### Return type
 
-[**Project**](Project.md)
+[**ProjectUpdate**](ProjectUpdate.md)
 
 ### Authorization
 
-[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth)
+[ApiKeyAuth](../README.md#ApiKeyAuth), [JWTAuth](../README.md#JWTAuth), [tokenAuth](../README.md#tokenAuth)
 
 ### HTTP request headers
 

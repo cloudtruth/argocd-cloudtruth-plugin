@@ -29,9 +29,9 @@ type GitHubIntegration struct {
 	// If an error occurs, more details will be available in this field.
 	StatusDetail string `json:"status_detail"`
 	// The last time the status was evaluated.
-	StatusLastCheckedAt time.Time `json:"status_last_checked_at"`
+	StatusLastCheckedAt NullableTime `json:"status_last_checked_at"`
 	CreatedAt time.Time `json:"created_at"`
-	ModifiedAt time.Time `json:"modified_at"`
+	ModifiedAt NullableTime `json:"modified_at"`
 	Fqn string `json:"fqn"`
 	// The type of integration.
 	Type string `json:"type"`
@@ -45,7 +45,7 @@ type GitHubIntegration struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewGitHubIntegration(url string, id string, name string, status StatusEnum, statusDetail string, statusLastCheckedAt time.Time, createdAt time.Time, modifiedAt time.Time, fqn string, type_ string, ghInstallationId int32, ghOrganizationSlug string) *GitHubIntegration {
+func NewGitHubIntegration(url string, id string, name string, status StatusEnum, statusDetail string, statusLastCheckedAt NullableTime, createdAt time.Time, modifiedAt NullableTime, fqn string, type_ string, ghInstallationId int32, ghOrganizationSlug string) *GitHubIntegration {
 	this := GitHubIntegration{}
 	this.Url = url
 	this.Id = id
@@ -83,7 +83,7 @@ func (o *GitHubIntegration) GetUrl() string {
 // GetUrlOk returns a tuple with the Url field value
 // and a boolean to check if the value has been set.
 func (o *GitHubIntegration) GetUrlOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Url, true
@@ -107,7 +107,7 @@ func (o *GitHubIntegration) GetId() string {
 // GetIdOk returns a tuple with the Id field value
 // and a boolean to check if the value has been set.
 func (o *GitHubIntegration) GetIdOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Id, true
@@ -131,7 +131,7 @@ func (o *GitHubIntegration) GetName() string {
 // GetNameOk returns a tuple with the Name field value
 // and a boolean to check if the value has been set.
 func (o *GitHubIntegration) GetNameOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Name, true
@@ -187,7 +187,7 @@ func (o *GitHubIntegration) GetStatus() StatusEnum {
 // GetStatusOk returns a tuple with the Status field value
 // and a boolean to check if the value has been set.
 func (o *GitHubIntegration) GetStatusOk() (*StatusEnum, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Status, true
@@ -211,7 +211,7 @@ func (o *GitHubIntegration) GetStatusDetail() string {
 // GetStatusDetailOk returns a tuple with the StatusDetail field value
 // and a boolean to check if the value has been set.
 func (o *GitHubIntegration) GetStatusDetailOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.StatusDetail, true
@@ -223,27 +223,29 @@ func (o *GitHubIntegration) SetStatusDetail(v string) {
 }
 
 // GetStatusLastCheckedAt returns the StatusLastCheckedAt field value
+// If the value is explicit nil, the zero value for time.Time will be returned
 func (o *GitHubIntegration) GetStatusLastCheckedAt() time.Time {
-	if o == nil {
+	if o == nil || o.StatusLastCheckedAt.Get() == nil {
 		var ret time.Time
 		return ret
 	}
 
-	return o.StatusLastCheckedAt
+	return *o.StatusLastCheckedAt.Get()
 }
 
 // GetStatusLastCheckedAtOk returns a tuple with the StatusLastCheckedAt field value
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *GitHubIntegration) GetStatusLastCheckedAtOk() (*time.Time, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
-	return &o.StatusLastCheckedAt, true
+	return o.StatusLastCheckedAt.Get(), o.StatusLastCheckedAt.IsSet()
 }
 
 // SetStatusLastCheckedAt sets field value
 func (o *GitHubIntegration) SetStatusLastCheckedAt(v time.Time) {
-	o.StatusLastCheckedAt = v
+	o.StatusLastCheckedAt.Set(&v)
 }
 
 // GetCreatedAt returns the CreatedAt field value
@@ -259,7 +261,7 @@ func (o *GitHubIntegration) GetCreatedAt() time.Time {
 // GetCreatedAtOk returns a tuple with the CreatedAt field value
 // and a boolean to check if the value has been set.
 func (o *GitHubIntegration) GetCreatedAtOk() (*time.Time, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.CreatedAt, true
@@ -271,27 +273,29 @@ func (o *GitHubIntegration) SetCreatedAt(v time.Time) {
 }
 
 // GetModifiedAt returns the ModifiedAt field value
+// If the value is explicit nil, the zero value for time.Time will be returned
 func (o *GitHubIntegration) GetModifiedAt() time.Time {
-	if o == nil {
+	if o == nil || o.ModifiedAt.Get() == nil {
 		var ret time.Time
 		return ret
 	}
 
-	return o.ModifiedAt
+	return *o.ModifiedAt.Get()
 }
 
 // GetModifiedAtOk returns a tuple with the ModifiedAt field value
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *GitHubIntegration) GetModifiedAtOk() (*time.Time, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
-	return &o.ModifiedAt, true
+	return o.ModifiedAt.Get(), o.ModifiedAt.IsSet()
 }
 
 // SetModifiedAt sets field value
 func (o *GitHubIntegration) SetModifiedAt(v time.Time) {
-	o.ModifiedAt = v
+	o.ModifiedAt.Set(&v)
 }
 
 // GetFqn returns the Fqn field value
@@ -307,7 +311,7 @@ func (o *GitHubIntegration) GetFqn() string {
 // GetFqnOk returns a tuple with the Fqn field value
 // and a boolean to check if the value has been set.
 func (o *GitHubIntegration) GetFqnOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Fqn, true
@@ -331,7 +335,7 @@ func (o *GitHubIntegration) GetType() string {
 // GetTypeOk returns a tuple with the Type field value
 // and a boolean to check if the value has been set.
 func (o *GitHubIntegration) GetTypeOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Type, true
@@ -387,7 +391,7 @@ func (o *GitHubIntegration) GetGhInstallationId() int32 {
 // GetGhInstallationIdOk returns a tuple with the GhInstallationId field value
 // and a boolean to check if the value has been set.
 func (o *GitHubIntegration) GetGhInstallationIdOk() (*int32, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.GhInstallationId, true
@@ -411,7 +415,7 @@ func (o *GitHubIntegration) GetGhOrganizationSlug() string {
 // GetGhOrganizationSlugOk returns a tuple with the GhOrganizationSlug field value
 // and a boolean to check if the value has been set.
 func (o *GitHubIntegration) GetGhOrganizationSlugOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.GhOrganizationSlug, true
@@ -443,13 +447,13 @@ func (o GitHubIntegration) MarshalJSON() ([]byte, error) {
 		toSerialize["status_detail"] = o.StatusDetail
 	}
 	if true {
-		toSerialize["status_last_checked_at"] = o.StatusLastCheckedAt
+		toSerialize["status_last_checked_at"] = o.StatusLastCheckedAt.Get()
 	}
 	if true {
 		toSerialize["created_at"] = o.CreatedAt
 	}
 	if true {
-		toSerialize["modified_at"] = o.ModifiedAt
+		toSerialize["modified_at"] = o.ModifiedAt.Get()
 	}
 	if true {
 		toSerialize["fqn"] = o.Fqn

@@ -29,9 +29,9 @@ type PatchedAwsIntegration struct {
 	// If an error occurs, more details will be available in this field.
 	StatusDetail *string `json:"status_detail,omitempty"`
 	// The last time the status was evaluated.
-	StatusLastCheckedAt *time.Time `json:"status_last_checked_at,omitempty"`
+	StatusLastCheckedAt NullableTime `json:"status_last_checked_at,omitempty"`
 	CreatedAt *time.Time `json:"created_at,omitempty"`
-	ModifiedAt *time.Time `json:"modified_at,omitempty"`
+	ModifiedAt NullableTime `json:"modified_at,omitempty"`
 	Fqn *string `json:"fqn,omitempty"`
 	// The type of integration.
 	Type *string `json:"type,omitempty"`
@@ -40,11 +40,13 @@ type PatchedAwsIntegration struct {
 	// The AWS Account ID.
 	AwsAccountId *string `json:"aws_account_id,omitempty"`
 	// The AWS regions to integrate with.
-	AwsEnabledRegions *[]AwsRegionEnum `json:"aws_enabled_regions,omitempty"`
+	AwsEnabledRegions []AwsRegionEnum `json:"aws_enabled_regions,omitempty"`
 	// The AWS services to integrate with.
-	AwsEnabledServices *[]AwsServiceEnum `json:"aws_enabled_services,omitempty"`
-	// This is a shared secret between the AWS Administrator who set up your IAM trust relationship and your CloudTruth AWS Integration.  If your AWS Administrator provided you with a value use it, otherwise we will generate a random value for you to give to your AWS Administrator.
+	AwsEnabledServices []AwsServiceEnum `json:"aws_enabled_services,omitempty"`
+	// This is a shared secret between the AWS Administrator who set up your IAM trust relationship and your CloudTruth AWS Integration.  CloudTruth will generate a random value for you to give to your AWS Administrator in order to create the necessary IAM role for proper access.
 	AwsExternalId *string `json:"aws_external_id,omitempty"`
+	// If present, this is the KMS Key Id that is used to push values.  This key must be accessible in the AWS account (it cannot be an ARN to a key in another AWS account). 
+	AwsKmsKeyId NullableString `json:"aws_kms_key_id,omitempty"`
 	// The role that CloudTruth will assume when interacting with your AWS Account through this integration.  The role is configured by your AWS Account Administrator.  If your AWS Administrator provided you with a value use it, otherwise make your own role name and give it to your AWS Administrator.
 	AwsRoleName *string `json:"aws_role_name,omitempty"`
 }
@@ -258,36 +260,46 @@ func (o *PatchedAwsIntegration) SetStatusDetail(v string) {
 	o.StatusDetail = &v
 }
 
-// GetStatusLastCheckedAt returns the StatusLastCheckedAt field value if set, zero value otherwise.
+// GetStatusLastCheckedAt returns the StatusLastCheckedAt field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *PatchedAwsIntegration) GetStatusLastCheckedAt() time.Time {
-	if o == nil || o.StatusLastCheckedAt == nil {
+	if o == nil || o.StatusLastCheckedAt.Get() == nil {
 		var ret time.Time
 		return ret
 	}
-	return *o.StatusLastCheckedAt
+	return *o.StatusLastCheckedAt.Get()
 }
 
 // GetStatusLastCheckedAtOk returns a tuple with the StatusLastCheckedAt field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *PatchedAwsIntegration) GetStatusLastCheckedAtOk() (*time.Time, bool) {
-	if o == nil || o.StatusLastCheckedAt == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.StatusLastCheckedAt, true
+	return o.StatusLastCheckedAt.Get(), o.StatusLastCheckedAt.IsSet()
 }
 
 // HasStatusLastCheckedAt returns a boolean if a field has been set.
 func (o *PatchedAwsIntegration) HasStatusLastCheckedAt() bool {
-	if o != nil && o.StatusLastCheckedAt != nil {
+	if o != nil && o.StatusLastCheckedAt.IsSet() {
 		return true
 	}
 
 	return false
 }
 
-// SetStatusLastCheckedAt gets a reference to the given time.Time and assigns it to the StatusLastCheckedAt field.
+// SetStatusLastCheckedAt gets a reference to the given NullableTime and assigns it to the StatusLastCheckedAt field.
 func (o *PatchedAwsIntegration) SetStatusLastCheckedAt(v time.Time) {
-	o.StatusLastCheckedAt = &v
+	o.StatusLastCheckedAt.Set(&v)
+}
+// SetStatusLastCheckedAtNil sets the value for StatusLastCheckedAt to be an explicit nil
+func (o *PatchedAwsIntegration) SetStatusLastCheckedAtNil() {
+	o.StatusLastCheckedAt.Set(nil)
+}
+
+// UnsetStatusLastCheckedAt ensures that no value is present for StatusLastCheckedAt, not even an explicit nil
+func (o *PatchedAwsIntegration) UnsetStatusLastCheckedAt() {
+	o.StatusLastCheckedAt.Unset()
 }
 
 // GetCreatedAt returns the CreatedAt field value if set, zero value otherwise.
@@ -322,36 +334,46 @@ func (o *PatchedAwsIntegration) SetCreatedAt(v time.Time) {
 	o.CreatedAt = &v
 }
 
-// GetModifiedAt returns the ModifiedAt field value if set, zero value otherwise.
+// GetModifiedAt returns the ModifiedAt field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *PatchedAwsIntegration) GetModifiedAt() time.Time {
-	if o == nil || o.ModifiedAt == nil {
+	if o == nil || o.ModifiedAt.Get() == nil {
 		var ret time.Time
 		return ret
 	}
-	return *o.ModifiedAt
+	return *o.ModifiedAt.Get()
 }
 
 // GetModifiedAtOk returns a tuple with the ModifiedAt field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *PatchedAwsIntegration) GetModifiedAtOk() (*time.Time, bool) {
-	if o == nil || o.ModifiedAt == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.ModifiedAt, true
+	return o.ModifiedAt.Get(), o.ModifiedAt.IsSet()
 }
 
 // HasModifiedAt returns a boolean if a field has been set.
 func (o *PatchedAwsIntegration) HasModifiedAt() bool {
-	if o != nil && o.ModifiedAt != nil {
+	if o != nil && o.ModifiedAt.IsSet() {
 		return true
 	}
 
 	return false
 }
 
-// SetModifiedAt gets a reference to the given time.Time and assigns it to the ModifiedAt field.
+// SetModifiedAt gets a reference to the given NullableTime and assigns it to the ModifiedAt field.
 func (o *PatchedAwsIntegration) SetModifiedAt(v time.Time) {
-	o.ModifiedAt = &v
+	o.ModifiedAt.Set(&v)
+}
+// SetModifiedAtNil sets the value for ModifiedAt to be an explicit nil
+func (o *PatchedAwsIntegration) SetModifiedAtNil() {
+	o.ModifiedAt.Set(nil)
+}
+
+// UnsetModifiedAt ensures that no value is present for ModifiedAt, not even an explicit nil
+func (o *PatchedAwsIntegration) UnsetModifiedAt() {
+	o.ModifiedAt.Unset()
 }
 
 // GetFqn returns the Fqn field value if set, zero value otherwise.
@@ -488,12 +510,12 @@ func (o *PatchedAwsIntegration) GetAwsEnabledRegions() []AwsRegionEnum {
 		var ret []AwsRegionEnum
 		return ret
 	}
-	return *o.AwsEnabledRegions
+	return o.AwsEnabledRegions
 }
 
 // GetAwsEnabledRegionsOk returns a tuple with the AwsEnabledRegions field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *PatchedAwsIntegration) GetAwsEnabledRegionsOk() (*[]AwsRegionEnum, bool) {
+func (o *PatchedAwsIntegration) GetAwsEnabledRegionsOk() ([]AwsRegionEnum, bool) {
 	if o == nil || o.AwsEnabledRegions == nil {
 		return nil, false
 	}
@@ -511,7 +533,7 @@ func (o *PatchedAwsIntegration) HasAwsEnabledRegions() bool {
 
 // SetAwsEnabledRegions gets a reference to the given []AwsRegionEnum and assigns it to the AwsEnabledRegions field.
 func (o *PatchedAwsIntegration) SetAwsEnabledRegions(v []AwsRegionEnum) {
-	o.AwsEnabledRegions = &v
+	o.AwsEnabledRegions = v
 }
 
 // GetAwsEnabledServices returns the AwsEnabledServices field value if set, zero value otherwise.
@@ -520,12 +542,12 @@ func (o *PatchedAwsIntegration) GetAwsEnabledServices() []AwsServiceEnum {
 		var ret []AwsServiceEnum
 		return ret
 	}
-	return *o.AwsEnabledServices
+	return o.AwsEnabledServices
 }
 
 // GetAwsEnabledServicesOk returns a tuple with the AwsEnabledServices field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *PatchedAwsIntegration) GetAwsEnabledServicesOk() (*[]AwsServiceEnum, bool) {
+func (o *PatchedAwsIntegration) GetAwsEnabledServicesOk() ([]AwsServiceEnum, bool) {
 	if o == nil || o.AwsEnabledServices == nil {
 		return nil, false
 	}
@@ -543,7 +565,7 @@ func (o *PatchedAwsIntegration) HasAwsEnabledServices() bool {
 
 // SetAwsEnabledServices gets a reference to the given []AwsServiceEnum and assigns it to the AwsEnabledServices field.
 func (o *PatchedAwsIntegration) SetAwsEnabledServices(v []AwsServiceEnum) {
-	o.AwsEnabledServices = &v
+	o.AwsEnabledServices = v
 }
 
 // GetAwsExternalId returns the AwsExternalId field value if set, zero value otherwise.
@@ -576,6 +598,48 @@ func (o *PatchedAwsIntegration) HasAwsExternalId() bool {
 // SetAwsExternalId gets a reference to the given string and assigns it to the AwsExternalId field.
 func (o *PatchedAwsIntegration) SetAwsExternalId(v string) {
 	o.AwsExternalId = &v
+}
+
+// GetAwsKmsKeyId returns the AwsKmsKeyId field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *PatchedAwsIntegration) GetAwsKmsKeyId() string {
+	if o == nil || o.AwsKmsKeyId.Get() == nil {
+		var ret string
+		return ret
+	}
+	return *o.AwsKmsKeyId.Get()
+}
+
+// GetAwsKmsKeyIdOk returns a tuple with the AwsKmsKeyId field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *PatchedAwsIntegration) GetAwsKmsKeyIdOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.AwsKmsKeyId.Get(), o.AwsKmsKeyId.IsSet()
+}
+
+// HasAwsKmsKeyId returns a boolean if a field has been set.
+func (o *PatchedAwsIntegration) HasAwsKmsKeyId() bool {
+	if o != nil && o.AwsKmsKeyId.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetAwsKmsKeyId gets a reference to the given NullableString and assigns it to the AwsKmsKeyId field.
+func (o *PatchedAwsIntegration) SetAwsKmsKeyId(v string) {
+	o.AwsKmsKeyId.Set(&v)
+}
+// SetAwsKmsKeyIdNil sets the value for AwsKmsKeyId to be an explicit nil
+func (o *PatchedAwsIntegration) SetAwsKmsKeyIdNil() {
+	o.AwsKmsKeyId.Set(nil)
+}
+
+// UnsetAwsKmsKeyId ensures that no value is present for AwsKmsKeyId, not even an explicit nil
+func (o *PatchedAwsIntegration) UnsetAwsKmsKeyId() {
+	o.AwsKmsKeyId.Unset()
 }
 
 // GetAwsRoleName returns the AwsRoleName field value if set, zero value otherwise.
@@ -630,14 +694,14 @@ func (o PatchedAwsIntegration) MarshalJSON() ([]byte, error) {
 	if o.StatusDetail != nil {
 		toSerialize["status_detail"] = o.StatusDetail
 	}
-	if o.StatusLastCheckedAt != nil {
-		toSerialize["status_last_checked_at"] = o.StatusLastCheckedAt
+	if o.StatusLastCheckedAt.IsSet() {
+		toSerialize["status_last_checked_at"] = o.StatusLastCheckedAt.Get()
 	}
 	if o.CreatedAt != nil {
 		toSerialize["created_at"] = o.CreatedAt
 	}
-	if o.ModifiedAt != nil {
-		toSerialize["modified_at"] = o.ModifiedAt
+	if o.ModifiedAt.IsSet() {
+		toSerialize["modified_at"] = o.ModifiedAt.Get()
 	}
 	if o.Fqn != nil {
 		toSerialize["fqn"] = o.Fqn
@@ -659,6 +723,9 @@ func (o PatchedAwsIntegration) MarshalJSON() ([]byte, error) {
 	}
 	if o.AwsExternalId != nil {
 		toSerialize["aws_external_id"] = o.AwsExternalId
+	}
+	if o.AwsKmsKeyId.IsSet() {
+		toSerialize["aws_kms_key_id"] = o.AwsKmsKeyId.Get()
 	}
 	if o.AwsRoleName != nil {
 		toSerialize["aws_role_name"] = o.AwsRoleName

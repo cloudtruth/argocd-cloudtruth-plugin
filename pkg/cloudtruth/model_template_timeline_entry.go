@@ -18,22 +18,20 @@ import (
 
 // TemplateTimelineEntry Details about a single change.
 type TemplateTimelineEntry struct {
-	HistoryDate time.Time `json:"history_date"`
 	HistoryType HistoryTypeEnum `json:"history_type"`
-	// The unique identifier of a user.
-	HistoryUser NullableString `json:"history_user,omitempty"`
-	// The template record as it was when archived for history.
-	HistoryTemplate TemplateTimelineEntryTemplate `json:"history_template"`
+	ModifiedAt NullableTime `json:"modified_at"`
+	ModifiedBy *string `json:"modified_by,omitempty"`
+	HistoryTemplate TemplateTimelineEntryHistoryTemplate `json:"history_template"`
 }
 
 // NewTemplateTimelineEntry instantiates a new TemplateTimelineEntry object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewTemplateTimelineEntry(historyDate time.Time, historyType HistoryTypeEnum, historyTemplate TemplateTimelineEntryTemplate) *TemplateTimelineEntry {
+func NewTemplateTimelineEntry(historyType HistoryTypeEnum, modifiedAt NullableTime, historyTemplate TemplateTimelineEntryHistoryTemplate) *TemplateTimelineEntry {
 	this := TemplateTimelineEntry{}
-	this.HistoryDate = historyDate
 	this.HistoryType = historyType
+	this.ModifiedAt = modifiedAt
 	this.HistoryTemplate = historyTemplate
 	return &this
 }
@@ -44,30 +42,6 @@ func NewTemplateTimelineEntry(historyDate time.Time, historyType HistoryTypeEnum
 func NewTemplateTimelineEntryWithDefaults() *TemplateTimelineEntry {
 	this := TemplateTimelineEntry{}
 	return &this
-}
-
-// GetHistoryDate returns the HistoryDate field value
-func (o *TemplateTimelineEntry) GetHistoryDate() time.Time {
-	if o == nil {
-		var ret time.Time
-		return ret
-	}
-
-	return o.HistoryDate
-}
-
-// GetHistoryDateOk returns a tuple with the HistoryDate field value
-// and a boolean to check if the value has been set.
-func (o *TemplateTimelineEntry) GetHistoryDateOk() (*time.Time, bool) {
-	if o == nil  {
-		return nil, false
-	}
-	return &o.HistoryDate, true
-}
-
-// SetHistoryDate sets field value
-func (o *TemplateTimelineEntry) SetHistoryDate(v time.Time) {
-	o.HistoryDate = v
 }
 
 // GetHistoryType returns the HistoryType field value
@@ -83,7 +57,7 @@ func (o *TemplateTimelineEntry) GetHistoryType() HistoryTypeEnum {
 // GetHistoryTypeOk returns a tuple with the HistoryType field value
 // and a boolean to check if the value has been set.
 func (o *TemplateTimelineEntry) GetHistoryTypeOk() (*HistoryTypeEnum, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.HistoryType, true
@@ -94,52 +68,68 @@ func (o *TemplateTimelineEntry) SetHistoryType(v HistoryTypeEnum) {
 	o.HistoryType = v
 }
 
-// GetHistoryUser returns the HistoryUser field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *TemplateTimelineEntry) GetHistoryUser() string {
-	if o == nil || o.HistoryUser.Get() == nil {
+// GetModifiedAt returns the ModifiedAt field value
+// If the value is explicit nil, the zero value for time.Time will be returned
+func (o *TemplateTimelineEntry) GetModifiedAt() time.Time {
+	if o == nil || o.ModifiedAt.Get() == nil {
+		var ret time.Time
+		return ret
+	}
+
+	return *o.ModifiedAt.Get()
+}
+
+// GetModifiedAtOk returns a tuple with the ModifiedAt field value
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *TemplateTimelineEntry) GetModifiedAtOk() (*time.Time, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.ModifiedAt.Get(), o.ModifiedAt.IsSet()
+}
+
+// SetModifiedAt sets field value
+func (o *TemplateTimelineEntry) SetModifiedAt(v time.Time) {
+	o.ModifiedAt.Set(&v)
+}
+
+// GetModifiedBy returns the ModifiedBy field value if set, zero value otherwise.
+func (o *TemplateTimelineEntry) GetModifiedBy() string {
+	if o == nil || o.ModifiedBy == nil {
 		var ret string
 		return ret
 	}
-	return *o.HistoryUser.Get()
+	return *o.ModifiedBy
 }
 
-// GetHistoryUserOk returns a tuple with the HistoryUser field value if set, nil otherwise
+// GetModifiedByOk returns a tuple with the ModifiedBy field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *TemplateTimelineEntry) GetHistoryUserOk() (*string, bool) {
-	if o == nil  {
+func (o *TemplateTimelineEntry) GetModifiedByOk() (*string, bool) {
+	if o == nil || o.ModifiedBy == nil {
 		return nil, false
 	}
-	return o.HistoryUser.Get(), o.HistoryUser.IsSet()
+	return o.ModifiedBy, true
 }
 
-// HasHistoryUser returns a boolean if a field has been set.
-func (o *TemplateTimelineEntry) HasHistoryUser() bool {
-	if o != nil && o.HistoryUser.IsSet() {
+// HasModifiedBy returns a boolean if a field has been set.
+func (o *TemplateTimelineEntry) HasModifiedBy() bool {
+	if o != nil && o.ModifiedBy != nil {
 		return true
 	}
 
 	return false
 }
 
-// SetHistoryUser gets a reference to the given NullableString and assigns it to the HistoryUser field.
-func (o *TemplateTimelineEntry) SetHistoryUser(v string) {
-	o.HistoryUser.Set(&v)
-}
-// SetHistoryUserNil sets the value for HistoryUser to be an explicit nil
-func (o *TemplateTimelineEntry) SetHistoryUserNil() {
-	o.HistoryUser.Set(nil)
-}
-
-// UnsetHistoryUser ensures that no value is present for HistoryUser, not even an explicit nil
-func (o *TemplateTimelineEntry) UnsetHistoryUser() {
-	o.HistoryUser.Unset()
+// SetModifiedBy gets a reference to the given string and assigns it to the ModifiedBy field.
+func (o *TemplateTimelineEntry) SetModifiedBy(v string) {
+	o.ModifiedBy = &v
 }
 
 // GetHistoryTemplate returns the HistoryTemplate field value
-func (o *TemplateTimelineEntry) GetHistoryTemplate() TemplateTimelineEntryTemplate {
+func (o *TemplateTimelineEntry) GetHistoryTemplate() TemplateTimelineEntryHistoryTemplate {
 	if o == nil {
-		var ret TemplateTimelineEntryTemplate
+		var ret TemplateTimelineEntryHistoryTemplate
 		return ret
 	}
 
@@ -148,28 +138,28 @@ func (o *TemplateTimelineEntry) GetHistoryTemplate() TemplateTimelineEntryTempla
 
 // GetHistoryTemplateOk returns a tuple with the HistoryTemplate field value
 // and a boolean to check if the value has been set.
-func (o *TemplateTimelineEntry) GetHistoryTemplateOk() (*TemplateTimelineEntryTemplate, bool) {
-	if o == nil  {
+func (o *TemplateTimelineEntry) GetHistoryTemplateOk() (*TemplateTimelineEntryHistoryTemplate, bool) {
+	if o == nil {
 		return nil, false
 	}
 	return &o.HistoryTemplate, true
 }
 
 // SetHistoryTemplate sets field value
-func (o *TemplateTimelineEntry) SetHistoryTemplate(v TemplateTimelineEntryTemplate) {
+func (o *TemplateTimelineEntry) SetHistoryTemplate(v TemplateTimelineEntryHistoryTemplate) {
 	o.HistoryTemplate = v
 }
 
 func (o TemplateTimelineEntry) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if true {
-		toSerialize["history_date"] = o.HistoryDate
-	}
-	if true {
 		toSerialize["history_type"] = o.HistoryType
 	}
-	if o.HistoryUser.IsSet() {
-		toSerialize["history_user"] = o.HistoryUser.Get()
+	if true {
+		toSerialize["modified_at"] = o.ModifiedAt.Get()
+	}
+	if o.ModifiedBy != nil {
+		toSerialize["modified_by"] = o.ModifiedBy
 	}
 	if true {
 		toSerialize["history_template"] = o.HistoryTemplate

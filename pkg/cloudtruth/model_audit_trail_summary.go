@@ -64,7 +64,7 @@ func (o *AuditTrailSummary) GetEarliest() time.Time {
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *AuditTrailSummary) GetEarliestOk() (*time.Time, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return o.Earliest.Get(), o.Earliest.IsSet()
@@ -88,7 +88,7 @@ func (o *AuditTrailSummary) GetMaxDays() int32 {
 // GetMaxDaysOk returns a tuple with the MaxDays field value
 // and a boolean to check if the value has been set.
 func (o *AuditTrailSummary) GetMaxDaysOk() (*int32, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.MaxDays, true
@@ -112,7 +112,7 @@ func (o *AuditTrailSummary) GetMaxRecords() int32 {
 // GetMaxRecordsOk returns a tuple with the MaxRecords field value
 // and a boolean to check if the value has been set.
 func (o *AuditTrailSummary) GetMaxRecordsOk() (*int32, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.MaxRecords, true
@@ -136,7 +136,7 @@ func (o *AuditTrailSummary) GetTotal() int32 {
 // GetTotalOk returns a tuple with the Total field value
 // and a boolean to check if the value has been set.
 func (o *AuditTrailSummary) GetTotalOk() (*int32, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Total, true

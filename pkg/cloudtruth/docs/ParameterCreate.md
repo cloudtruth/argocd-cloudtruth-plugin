@@ -6,8 +6,8 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Name** | **string** | The parameter name. | 
 **Description** | Pointer to **string** | A description of the parameter.  You may find it helpful to document how this parameter is used to assist others when they need to maintain software that uses this content. | [optional] 
-**Secret** | Pointer to **bool** | Indicates if this content is secret or not.  When a parameter is considered to be a secret, any internal values are stored in a dedicated vault for your organization for maximum security.  External values are inspected on-demand to ensure they align with the parameter&#39;s secret setting and if they do not, those external values are not allowed to be used. | [optional] 
-**Type** | Pointer to [**ParameterTypeEnum**](ParameterTypeEnum.md) |  | [optional] 
+**Secret** | Pointer to **bool** | Indicates if this content is secret or not.  External values are inspected on-demand to ensure they align with the parameter&#39;s secret setting and if they do not, those external values are not allowed to be used. | [optional] 
+**Type** | Pointer to **string** | The type of this Parameter. | [optional] [default to "string"]
 
 ## Methods
 
@@ -100,20 +100,20 @@ HasSecret returns a boolean if a field has been set.
 
 ### GetType
 
-`func (o *ParameterCreate) GetType() ParameterTypeEnum`
+`func (o *ParameterCreate) GetType() string`
 
 GetType returns the Type field if non-nil, zero value otherwise.
 
 ### GetTypeOk
 
-`func (o *ParameterCreate) GetTypeOk() (*ParameterTypeEnum, bool)`
+`func (o *ParameterCreate) GetTypeOk() (*string, bool)`
 
 GetTypeOk returns a tuple with the Type field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetType
 
-`func (o *ParameterCreate) SetType(v ParameterTypeEnum)`
+`func (o *ParameterCreate) SetType(v string)`
 
 SetType sets Type field to given value.
 

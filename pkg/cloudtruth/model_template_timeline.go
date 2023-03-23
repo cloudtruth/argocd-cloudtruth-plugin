@@ -57,7 +57,7 @@ func (o *TemplateTimeline) GetCount() int32 {
 // GetCountOk returns a tuple with the Count field value
 // and a boolean to check if the value has been set.
 func (o *TemplateTimeline) GetCountOk() (*int32, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Count, true
@@ -112,11 +112,11 @@ func (o *TemplateTimeline) GetResults() []TemplateTimelineEntry {
 
 // GetResultsOk returns a tuple with the Results field value
 // and a boolean to check if the value has been set.
-func (o *TemplateTimeline) GetResultsOk() (*[]TemplateTimelineEntry, bool) {
-	if o == nil  {
+func (o *TemplateTimeline) GetResultsOk() ([]TemplateTimelineEntry, bool) {
+	if o == nil {
 		return nil, false
 	}
-	return &o.Results, true
+	return o.Results, true
 }
 
 // SetResults sets field value

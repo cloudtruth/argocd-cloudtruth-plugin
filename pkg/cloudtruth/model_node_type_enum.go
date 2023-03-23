@@ -23,12 +23,14 @@ type NodeTypeEnum string
 const (
 	NODETYPEENUM_DIRECTORY NodeTypeEnum = "directory"
 	NODETYPEENUM_FILE NodeTypeEnum = "file"
+	NODETYPEENUM_VALUE NodeTypeEnum = "value"
 )
 
 // All allowed values of NodeTypeEnum enum
 var AllowedNodeTypeEnumEnumValues = []NodeTypeEnum{
 	"directory",
 	"file",
+	"value",
 }
 
 func (v *NodeTypeEnum) UnmarshalJSON(src []byte) error {

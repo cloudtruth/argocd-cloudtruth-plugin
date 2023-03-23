@@ -10,13 +10,13 @@ Name | Type | Description | Notes
 **Organization** | **string** | The organization that the user is a member of. | 
 **Role** | [**RoleEnum**](RoleEnum.md) | The role that the user has in the organization. | 
 **CreatedAt** | **time.Time** |  | [readonly] 
-**ModifiedAt** | **time.Time** |  | [readonly] 
+**ModifiedAt** | **NullableTime** |  | [readonly] 
 
 ## Methods
 
 ### NewMembership
 
-`func NewMembership(url string, id string, user string, organization string, role RoleEnum, createdAt time.Time, modifiedAt time.Time, ) *Membership`
+`func NewMembership(url string, id string, user string, organization string, role RoleEnum, createdAt time.Time, modifiedAt NullableTime, ) *Membership`
 
 NewMembership instantiates a new Membership object
 This constructor will assign default values to properties that have it defined,
@@ -171,6 +171,16 @@ and a boolean to check if the value has been set.
 SetModifiedAt sets ModifiedAt field to given value.
 
 
+### SetModifiedAtNil
+
+`func (o *Membership) SetModifiedAtNil(b bool)`
+
+ SetModifiedAtNil sets the value for ModifiedAt to be an explicit nil
+
+### UnsetModifiedAt
+`func (o *Membership) UnsetModifiedAt()`
+
+UnsetModifiedAt ensures that no value is present for ModifiedAt, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

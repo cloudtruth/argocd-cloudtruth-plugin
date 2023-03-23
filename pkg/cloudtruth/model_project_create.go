@@ -21,6 +21,8 @@ type ProjectCreate struct {
 	Name string `json:"name"`
 	// A description of the project.  You may find it helpful to document how this project is used to assist others when they need to maintain software that uses this content.
 	Description *string `json:"description,omitempty"`
+	// A regular expression parameter names must match
+	ParameterNamePattern *string `json:"parameter_name_pattern,omitempty"`
 	// Project dependencies allow projects to be used for shared configuration, for example a database used by many applications needs to advertise its port number.  Projects can depend on another project which will add the parameters from the parent project into the current project.  All of the parameter names between the two projects must be unique.  When retrieving values or rendering templates, all of the parameters from the parent project will also be available in the current project.
 	DependsOn NullableString `json:"depends_on,omitempty"`
 }
@@ -56,7 +58,7 @@ func (o *ProjectCreate) GetName() string {
 // GetNameOk returns a tuple with the Name field value
 // and a boolean to check if the value has been set.
 func (o *ProjectCreate) GetNameOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Name, true
@@ -99,6 +101,38 @@ func (o *ProjectCreate) SetDescription(v string) {
 	o.Description = &v
 }
 
+// GetParameterNamePattern returns the ParameterNamePattern field value if set, zero value otherwise.
+func (o *ProjectCreate) GetParameterNamePattern() string {
+	if o == nil || o.ParameterNamePattern == nil {
+		var ret string
+		return ret
+	}
+	return *o.ParameterNamePattern
+}
+
+// GetParameterNamePatternOk returns a tuple with the ParameterNamePattern field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ProjectCreate) GetParameterNamePatternOk() (*string, bool) {
+	if o == nil || o.ParameterNamePattern == nil {
+		return nil, false
+	}
+	return o.ParameterNamePattern, true
+}
+
+// HasParameterNamePattern returns a boolean if a field has been set.
+func (o *ProjectCreate) HasParameterNamePattern() bool {
+	if o != nil && o.ParameterNamePattern != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetParameterNamePattern gets a reference to the given string and assigns it to the ParameterNamePattern field.
+func (o *ProjectCreate) SetParameterNamePattern(v string) {
+	o.ParameterNamePattern = &v
+}
+
 // GetDependsOn returns the DependsOn field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *ProjectCreate) GetDependsOn() string {
 	if o == nil || o.DependsOn.Get() == nil {
@@ -112,7 +146,7 @@ func (o *ProjectCreate) GetDependsOn() string {
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *ProjectCreate) GetDependsOnOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return o.DependsOn.Get(), o.DependsOn.IsSet()
@@ -148,6 +182,9 @@ func (o ProjectCreate) MarshalJSON() ([]byte, error) {
 	}
 	if o.Description != nil {
 		toSerialize["description"] = o.Description
+	}
+	if o.ParameterNamePattern != nil {
+		toSerialize["parameter_name_pattern"] = o.ParameterNamePattern
 	}
 	if o.DependsOn.IsSet() {
 		toSerialize["depends_on"] = o.DependsOn.Get()
