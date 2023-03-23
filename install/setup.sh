@@ -21,9 +21,6 @@ echoFile() {
   fi
 }
 
-ARGO_NAMESPACE=${ARGO_NAMESPACE:-argocd}
-echo "Installing to namespace '${ARGO_NAMESPACE}', override with: ARGO_NAMESPACE=xyz setup.sh"
-echo
 echo "The requested environment variables control the plugin"
 echo "ApiKey is required, and they can all be overriden for each argocd project"
 echo
@@ -42,6 +39,11 @@ if test -z ${CLOUDTRUTH_PROJECT}; then echo "Using 'MyFirstProject' for project"
 
 printf "Input Cloudtruth Tag []: "
 read CLOUDTRUTH_TAG < /dev/tty
+
+printf "Input the namespace that ArgoCD is installed to [argocd]: "
+read ARGO_NAMESPACE < /dev/tty
+if test -z ${ARGO_NAMESPACE}; then echo "Using 'argocd' for argocd namespace"; ARGO_NAMESPACE=argocd; fi
+
 
 secret_yaml=$(cat <<EOF
 $(echoFile argocd-cloudtruth-plugin-secret.yaml)
