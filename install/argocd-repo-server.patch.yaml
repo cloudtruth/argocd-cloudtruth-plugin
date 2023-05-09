@@ -8,6 +8,7 @@ spec:
     spec:
       containers:
         - name: argocd-repo-server
+          image: replaced_by_setup 
           volumeMounts:
             - name: custom-tools
               subPath: argocd-cloudtruth-plugin

@@ -66,7 +66,11 @@ echo "${secret_yaml}" | kubectl apply -n ${ARGO_NAMESPACE} -f -
 kubectl get -n ${ARGO_NAMESPACE} configmap/argocd-cm -o yaml > ${basedir}/argocd-cm..original.$(date +%s).yaml
 kubectl patch -n ${ARGO_NAMESPACE} configmap/argocd-cm --patch "$(echoFile argocd-cm.patch.yaml)"
 
+# Get the current argocd-repo-server image and replace it in the yaml
+ARGOCD_REPO_IMAGE=$(kubectl get -n argocd deployment/argocd-repo-server -o jsonpath="{.spec.template.spec.containers[0].image}")
+argocd_repo_server=$(echoFile argocd-repo-server.patch.yaml | sed "s|image:.*$|image: ${ARGOCD_REPO_IMAGE}|")
+
 kubectl get -n ${ARGO_NAMESPACE} deployment/argocd-repo-server -o yaml > ${basedir}/argocd-repo-server.original.$(date +%s).yaml
-kubectl patch -n ${ARGO_NAMESPACE} deployment/argocd-repo-server --patch "$(echoFile argocd-repo-server.patch.yaml)"
+kubectl patch -n ${ARGO_NAMESPACE} deployment/argocd-repo-server --patch "${argocd_repo_server}"
 
 kubectl rollout restart -n ${ARGO_NAMESPACE} deployment/argocd-repo-server
