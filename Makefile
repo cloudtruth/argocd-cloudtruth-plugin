@@ -18,7 +18,7 @@ pkg/cloudtruth/client.go: pkg/openapi.yml
 		--type-mappings=object=interface{}
 
 pkg/openapi.yml: pkg
-	curl -s https://api.cloudtruth.io/api/schema/ > pkg/openapi.yml 
+	curl -s https://api.cloudtruth.io/api/schema/ > pkg/openapi.yml
 
 pkg:
 	mkdir -p pkg

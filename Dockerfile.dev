@@ -1,0 +1,32 @@
+# Use this for local development to get the image, compiled for the right platform, into a local cluster without having to push to an image repo.
+FROM openapitools/openapi-generator-cli:v6.2.0 AS client-builder
+
+COPY . /build/
+
+RUN mkdir -p /build/pkg
+RUN curl -s https://api.cloudtruth.io/api/schema/ > /build/pkg/openapi.yml
+
+RUN /usr/local/bin/docker-entrypoint.sh generate \
+		-i /build/pkg/openapi.yml \
+		-g go \
+		-o /build/pkg/cloudtruth \
+		--additional-properties packageName=cloudtruth \
+		--additional-properties isGoSubmodule=true \
+		--additional-properties packageVersion=1.0.0 \
+		--additional-properties enumClassPrefix=true \
+		--type-mappings=object=interface{}
+
+FROM golang:1.20-alpine AS go-builder
+
+COPY . /build/
+COPY --from=client-builder /build/pkg /build/pkg
+
+WORKDIR /build
+RUN ls -lart /build/
+RUN go build -o dist/argocd-cloudtruth-plugin
+
+FROM alpine
+ARG CMP_ROOT=/home/argocd/cmp-server
+
+COPY --from=go-builder /build/dist/argocd-cloudtruth-plugin /usr/bin/
+COPY plugin.yaml ${CMP_ROOT}/config/
