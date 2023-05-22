@@ -13,6 +13,8 @@ dockers:
   - image_templates:
     - "cloudtruth/{{.ProjectName}}:{{ .Tag }}"
     - "cloudtruth/{{.ProjectName}}:latest"
+    extra_files:
+    - plugin.yaml
 archives:
   - replacements:
       darwin: Darwin

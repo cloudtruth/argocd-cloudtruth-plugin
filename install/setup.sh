@@ -63,9 +63,6 @@ fi
 
 echo "${secret_yaml}" | kubectl apply -n ${ARGO_NAMESPACE} -f -
 
-kubectl get -n ${ARGO_NAMESPACE} configmap/argocd-cm -o yaml > ${basedir}/argocd-cm..original.$(date +%s).yaml
-kubectl patch -n ${ARGO_NAMESPACE} configmap/argocd-cm --patch "$(echoFile argocd-cm.patch.yaml)"
-
 kubectl get -n ${ARGO_NAMESPACE} deployment/argocd-repo-server -o yaml > ${basedir}/argocd-repo-server.original.$(date +%s).yaml
 kubectl patch -n ${ARGO_NAMESPACE} deployment/argocd-repo-server --patch "$(echoFile argocd-repo-server.patch.yaml)"
 

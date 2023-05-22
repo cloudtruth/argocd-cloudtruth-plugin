@@ -7,23 +7,24 @@ spec:
   template:
     spec:
       containers:
-        - name: argocd-repo-server
+        - name: argocd-cloudtruth-plugin
+          command: [/var/run/argocd/argocd-cmp-server] # Entrypoint should be Argo CD lightweight CMP server i.e. argocd-cmp-server
+          image: cloudtruth/argocd-cloudtruth-plugin
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 999
           volumeMounts:
-            - name: custom-tools
-              subPath: argocd-cloudtruth-plugin
-              mountPath: /usr/local/bin/argocd-cloudtruth-plugin
+            - mountPath: /var/run/argocd
+              name: var-files
+            - mountPath: /home/argocd/cmp-server/plugins
+              name: plugins
+            # Starting with v2.4, do NOT mount the same tmp volume as the repo-server container. The filesystem separation helps
+            # mitigate path traversal attacks.
+            - mountPath: /tmp
+              name: cmp-tmp
           envFrom:
             - secretRef:
                 name: argocd-cloudtruth-plugin
       volumes:
-        - name: custom-tools
-          emptyDir: {}
-      initContainers:
-        - name: install-argocd-cloudtruth-plugin
-          image: cloudtruth/argocd-cloudtruth-plugin
-          command: [sh, -c]
-          args:
-            - cp /argocd-cloudtruth-plugin /custom-tools/
-          volumeMounts:
-            - name: custom-tools
-              mountPath: /custom-tools
+        - emptyDir: {}
+          name: cmp-tmp

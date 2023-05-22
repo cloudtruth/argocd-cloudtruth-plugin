@@ -1,3 +1,5 @@
 FROM alpine
-ENTRYPOINT ["/argocd-cloudtruth-plugin"]
-COPY argocd-cloudtruth-plugin /
+ARG CMP_ROOT=/home/argocd/cmp-server
+
+COPY argocd-cloudtruth-plugin /usr/bin/
+COPY plugin.yaml ${CMP_ROOT}/config/
