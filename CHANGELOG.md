@@ -1,3 +1,8 @@
+0.7.0 (05/22/2023)
+------------------
+
+convert to new sidecar plugin format for argocd >= v2.6
+
 0.6.0 (03/23/2023)
 ------------------
 
