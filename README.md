@@ -23,11 +23,11 @@ After installing the plugin, create the file `.argocd-cloudtruth-plugin` in your
 
 The configuration for using the plugin can be set and read in one of 4 ways (in order of priority - last wins):
 * During install, the `CLOUDTRUTH_*` settings are added to `Secret[argocd-cloudtruth-plugin]` and are made available as system environment variables with an envFrom mount to `argocd-repo-server`.  You can edit the Secret or re-run the installer to change them.
-* Application specific settings can be added to the plugin activation file (as yaml) checked into the repo.  The keys in the file get transformed to look like environment variables in order to determine matches for priority, so a key in the file of `cloudtruth-project` will get compared to and override the environment variable `CLOUDTRUTH_PROJECT`
+* Application specific settings can be added to the plugin activation file (`.argocd-cloudtruth-plugin` containing yaml) that you check in to your repo to enable it to use the plugin.  The keys in the file get transformed to look like environment variables in order to determine matches for priority, so a key in the file of `cloudtruth-project` will get compared to and override the environment variable `CLOUDTRUTH_PROJECT`
 * Plugin specific environment variables can be set as part of its attachment to the argocd Application
 * Plugin specific params can be set as part of its attachment to the argocd Application
 
-The settings that control the plugin's behavior area as follows:
+The settings that control the plugin's behavior are as follows:
 
 | Parameter | Description | Type | Default | Required |
 |-----------|-------------|------|---------|:--------:|

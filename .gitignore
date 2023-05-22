@@ -2,3 +2,4 @@ local/
 dist/
 pkg/
 .git*
+install/*original*
