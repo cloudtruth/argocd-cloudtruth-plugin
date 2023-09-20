@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"io/ioutil"
 	"os"
 	"strings"
 
@@ -20,7 +19,7 @@ var (
 	builtBy = "unknown"
 )
 
-var config struct {
+type Options struct {
 	Verbose          []bool   `short:"v" long:"verbose" description:"Show verbose debug information"`
 	Version          bool     `long:"version" description:"Show version information"`
 	Environment      string   `short:"e" long:"environment" description:"The cloudtruth environment" default:"default" env:"CLOUDTRUTH_ENVIRONMENT"`
@@ -66,7 +65,7 @@ func mergeArgoEnv(name string, defaultValue string, pluginConfig map[string]stri
 func readPluginConfig(filename string) map[string]string {
 	log.Debugf("Parsing plugin config file '%s'", filename)
 	data := make(map[string]string)
-	yfile, err := ioutil.ReadFile(filename)
+	yfile, err := os.ReadFile(filename)
 
 	if err != nil {
 		log.Warnf("Unable to read plugin config from file '%s': %s", filename, err)
@@ -87,6 +86,7 @@ func readPluginConfig(filename string) map[string]string {
 func main() {
 	log.SetOutput(os.Stderr)
 
+	var config Options
 	p := flags.NewParser(&config, flags.Default)
 	p.LongDescription = "Processes given files to replace paramater references with values from cloudtruth."
 	_, err := p.Parse()
@@ -135,19 +135,28 @@ func main() {
 	log.Debug("Project: ", config.Project)
 	log.Trace("ALL Config: ", config)
 
-	ctapi := NewCTApi(config.ApiKey, config.ApiUrl, fmt.Sprintf("argocd-cloudtruth-plugin/%s/%s/go", version, commit))
-
 	// TODO: allow user to specify project and/or environment in the replacement pattern, e.g. <ENV:PROJ:PARAM>
-	params := ctapi.parameters(config.Project, config.Environment, config.Tag)
-
 	// TODO: scan files to figure out which ones have a pattern to be replaced rather than replacing against all files
+	// TODO: support templates - how do we map a template to a file, or just have a file that only contains the template?
+	ctapi := NewCTApi(config.ApiKey, config.ApiUrl, fmt.Sprintf("argocd-cloudtruth-plugin/%s/%s/go", version, commit), len(config.Verbose) >= 3)
+	params := ctapi.parameters(config.Project, config.Environment, config.Tag)
+	templates := ctapi.templates(config.Project, config.Environment, config.Tag)
+
+	err = applyTransformations(config.FilePattern, config.ReferencePattern, params, templates)
+	if err != nil {
+		log.Fatalf("Failed to apply transformations: %v", err)
+	}
+}
+
+func applyTransformations(filePattern []string, referencePattern string, params map[string]Parameter, templates map[string]Template) error {
 	first := true
-	for _, pattern := range config.FilePattern {
+	for _, pattern := range filePattern {
 		log.Info("Processing pattern: ", pattern)
 
 		matches, err := filepathx.Glob(pattern)
 		if err != nil {
-			log.Fatal(err)
+			log.Errorf("Failed to match pattern: %v", err)
+			return err
 		}
 
 		for _, path := range matches {
@@ -156,16 +165,18 @@ func main() {
 			if !first {
 				fmt.Print("\n\n---\n\n")
 			}
-			fmt.Print(fileReplace(path, config.ReferencePattern, params))
+			fmt.Print(fileReplace(path, referencePattern, params, templates))
 			first = false
 		}
 	}
+	return nil
 }
 
-func fileReplace(path string, pattern string, parameters map[string]Parameter) string {
-	originalContents, err := ioutil.ReadFile(path)
+func fileReplace(path string, pattern string, parameters map[string]Parameter, templates map[string]Template) (string, error) {
+	originalContents, err := os.ReadFile(path)
 	if err != nil {
-		log.Fatalf("Unable to read file: %v", err)
+		log.Errorf("Unable to read file: %v", err)
+		return "", err
 	}
 
 	replacedContents := string(originalContents)
@@ -174,5 +185,14 @@ func fileReplace(path string, pattern string, parameters map[string]Parameter) s
 		replacedContents = strings.Replace(replacedContents, pattern, v.value, -1)
 	}
 
-	return replacedContents
+	for k, v := range templates {
+		pattern := fmt.Sprintf(pattern, "templates."+k)
+		if strings.Contains(replacedContents, pattern) {
+			log.Debugf("Replacing template '%s'", pattern)
+			template_value := v.value()
+			replacedContents = strings.Replace(replacedContents, pattern, template_value, -1)
+		}
+	}
+
+	return replacedContents, nil
 }

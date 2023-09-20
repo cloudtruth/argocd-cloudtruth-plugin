@@ -1,6 +1,6 @@
 # argocd-cloudtruth-plugin
 
-The CloudTruth configuration management plugin for [ArgoCD](https://argo-cd.readthedocs.io/en/stable/)  When attached to an argocd project, it replaces parameter and secret references (`<parameter_name>`) with the values looked up from CloudTruth.
+The CloudTruth configuration management plugin for [ArgoCD](https://argo-cd.readthedocs.io/en/stable/)  When attached to an argocd project, it replaces template (`<templates.template_name>`), parameter and secret references (`<parameter_name>`) with the values looked up from CloudTruth.
 
 ## Installation
 
@@ -42,7 +42,7 @@ Once the plugin has been enabled for an Application, you can change settings by 
 
 ![Edit plugin on a project](docs/plugin-add.png)
 
-Once enabled, the plugin will act upon the yaml files produced by the Argo project, performing substitutions of text like `<PARAMETER_OR_SECRET_NAME>` with the lookup of the value of `PARAMETER_OR_SECRET_NAME` in CloudTruth for the given `CLOUDTRUTH_PROJECT`, `CLOUDTRUTH_ENVIRONMENT` and `CLOUDTRUTH_TAG`
+Once enabled, the plugin will act upon the yaml files produced by the Argo project, performing substitutions of text like `<PARAMETER_OR_SECRET_NAME>` or `<templates.TEMPLATE_NAME>` with the lookup of the value of `PARAMETER_OR_SECRET_NAME` or `TEMPLATE_NAME` in CloudTruth for the given `CLOUDTRUTH_PROJECT`, `CLOUDTRUTH_ENVIRONMENT` and `CLOUDTRUTH_TAG`
 
 ## Argo CD CLI Usage
 ### Adding the plugin to existing projects
@@ -64,6 +64,16 @@ argocd app create YOUR_APP --repo https://github.com/YOUR_REPO --path YOUR_PATH_
 ```shell
 argocd app set YOUR_APP --plugin-env CLOUDTRUTH_PROJECT=YOUR_CLOUDTRUTH_PROJECT
 ```
+
+### Running the plugin locally
+
+You can use docker to run the plugin against a directory tree as shown below:
+
+```
+docker run --platform linux/amd64 -v $(pwd):/data --workdir /data cloudtruth/argocd-cloudtruth-plugin /usr/bin/argocd-cloudtruth-plugin --environment production --project myProject --api-key ""
+```
+
+The plugin will also read configuration from a `.argocd-cloudtruth-plugin` file if present.  The `--platform` is only neccessary if running on a non-intel platform (e.g. apple silicon)
 
 ## Development
 

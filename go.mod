@@ -1,9 +1,9 @@
-module github.com/argocd-cloudtruth-plugin
+module github.com/cloudtruth/argocd-cloudtruth-plugin
 
-go 1.17
+go 1.20
 
 require (
-	github.com/argocd-cloudtruth-plugin/pkg/cloudtruth v1.0.0
+	github.com/cloudtruth/cloudtruth-go-client v1.0.0
 	github.com/jessevdk/go-flags v1.5.0
 	github.com/sirupsen/logrus v1.9.2
 	github.com/yargevad/filepathx v1.0.0
@@ -19,4 +19,4 @@ require (
 	google.golang.org/protobuf v1.30.0 // indirect
 )
 
-replace github.com/argocd-cloudtruth-plugin/pkg/cloudtruth v1.0.0 => ./pkg/cloudtruth
+replace github.com/cloudtruth/cloudtruth-go-client v1.0.0 => ./pkg/cloudtruth
