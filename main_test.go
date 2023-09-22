@@ -149,8 +149,9 @@ func TestFileReplace(t *testing.T) {
 
 	parameters := map[string]Parameter{"name": {value: "John"}}
 	templates := map[string]Template{"name": {value: func() string { return "Mary" }}}
+	ctproject := &CTProject{nil, "env", "envuuid", "proj", "projuuid", "", parameters, templates}
 
-	replacedContents, err := fileReplace(filePath, "{%s}", parameters, templates)
+	replacedContents, err := fileReplace(filePath, "{%s}", ctproject)
 	if err != nil {
 		t.Errorf("Expected no error, but got: %v", err)
 	}
@@ -165,7 +166,7 @@ func TestFileReplace(t *testing.T) {
 		t.Fatalf("Failed to create test file: %v", err)
 	}
 
-	replacedContents, err = fileReplace(filePath, "{%s}", parameters, templates)
+	replacedContents, err = fileReplace(filePath, "{%s}", ctproject)
 	if err != nil {
 		t.Errorf("Expected no error, but got: %v", err)
 	}
@@ -181,7 +182,7 @@ func TestFileReplace(t *testing.T) {
 		t.Fatalf("Failed to create test file: %v", err)
 	}
 
-	replacedContents, err = fileReplace(filePath, "{%s}", parameters, templates)
+	replacedContents, err = fileReplace(filePath, "{%s}", ctproject)
 	if err != nil {
 		t.Errorf("Expected no error, but got: %v", err)
 	}
@@ -192,7 +193,7 @@ func TestFileReplace(t *testing.T) {
 
 	// Test case 4: non-existing file
 	filePath = "nonexistent.txt"
-	replacedContents, err = fileReplace(filePath, "{%s}", parameters, templates)
+	replacedContents, err = fileReplace(filePath, "{%s}", ctproject)
 	if err == nil {
 		t.Error("Expected an error, but got nil")
 	}
@@ -211,7 +212,7 @@ func TestFileReplace(t *testing.T) {
 		t.Fatalf("Failed to create test file: %v", err)
 	}
 
-	replacedContents, err = fileReplace(filePath, "", parameters, templates)
+	replacedContents, err = fileReplace(filePath, "", ctproject)
 	if err != nil {
 		t.Errorf("Expected no error, but got: %v", err)
 	}
@@ -226,7 +227,7 @@ func TestFileReplace(t *testing.T) {
 		t.Fatalf("Failed to create test file: %v", err)
 	}
 
-	replacedContents, err = fileReplace(filePath, "{%s}", parameters, templates)
+	replacedContents, err = fileReplace(filePath, "{%s}", ctproject)
 	if err != nil {
 		t.Errorf("Expected no error, but got: %v", err)
 	}

@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"os"
+	"regexp"
 	"strings"
 
 	"gopkg.in/yaml.v3"
@@ -139,16 +140,15 @@ func main() {
 	// TODO: scan files to figure out which ones have a pattern to be replaced rather than replacing against all files
 	// TODO: support templates - how do we map a template to a file, or just have a file that only contains the template?
 	ctapi := NewCTApi(config.ApiKey, config.ApiUrl, fmt.Sprintf("argocd-cloudtruth-plugin/%s/%s/go", version, commit), len(config.Verbose) >= 3)
-	params := ctapi.parameters(config.Project, config.Environment, config.Tag)
-	templates := ctapi.templates(config.Project, config.Environment, config.Tag)
+	ctproject := NewCTProject(ctapi, config.Project, config.Environment, config.Tag)
 
-	err = applyTransformations(config.FilePattern, config.ReferencePattern, params, templates)
+	err = applyTransformations(config.FilePattern, config.ReferencePattern, ctproject)
 	if err != nil {
 		log.Fatalf("Failed to apply transformations: %v", err)
 	}
 }
 
-func applyTransformations(filePattern []string, referencePattern string, params map[string]Parameter, templates map[string]Template) error {
+func applyTransformations(filePattern []string, referencePattern string, ctproject *CTProject) error {
 	first := true
 	for _, pattern := range filePattern {
 		log.Info("Processing pattern: ", pattern)
@@ -165,14 +165,14 @@ func applyTransformations(filePattern []string, referencePattern string, params 
 			if !first {
 				fmt.Print("\n\n---\n\n")
 			}
-			fmt.Print(fileReplace(path, referencePattern, params, templates))
+			fmt.Print(fileReplace(path, referencePattern, ctproject))
 			first = false
 		}
 	}
 	return nil
 }
 
-func fileReplace(path string, pattern string, parameters map[string]Parameter, templates map[string]Template) (string, error) {
+func fileReplace(path string, pattern string, ctproject *CTProject) (string, error) {
 	originalContents, err := os.ReadFile(path)
 	if err != nil {
 		log.Errorf("Unable to read file: %v", err)
@@ -180,17 +180,37 @@ func fileReplace(path string, pattern string, parameters map[string]Parameter, t
 	}
 
 	replacedContents := string(originalContents)
-	for k, v := range parameters {
-		pattern := fmt.Sprintf(pattern, k)
-		replacedContents = strings.Replace(replacedContents, pattern, v.value, -1)
+
+	// Kinda hacky, but no option due to use of golang tring format matches for replacement (<%s>)
+	// Should probably change the interface on the cli to use regexes (?), or maybe even use full liquid templates for plugin
+	templatesPresent := false
+	paramsPresent := false
+	re := regexp.MustCompile(strings.Replace(pattern, "%s", "(.+?)", -1))
+	refs := re.FindAllStringSubmatch(replacedContents, -1)
+
+	for _, ref := range refs {
+		if len(ref) > 1 && strings.HasPrefix(ref[1], "templates.") {
+			templatesPresent = true
+		} else {
+			paramsPresent = true
+		}
 	}
 
-	for k, v := range templates {
-		pattern := fmt.Sprintf(pattern, "templates."+k)
-		if strings.Contains(replacedContents, pattern) {
-			log.Debugf("Replacing template '%s'", pattern)
-			template_value := v.value()
-			replacedContents = strings.Replace(replacedContents, pattern, template_value, -1)
+	if paramsPresent {
+		for k, v := range ctproject.Parameters() {
+			pattern := fmt.Sprintf(pattern, k)
+			replacedContents = strings.Replace(replacedContents, pattern, v.value, -1)
+		}
+	}
+
+	if templatesPresent {
+		for k, v := range ctproject.Templates() {
+			pattern := fmt.Sprintf(pattern, "templates."+k)
+			if strings.Contains(replacedContents, pattern) {
+				log.Debugf("Replacing template '%s'", pattern)
+				template_value := v.Get()
+				replacedContents = strings.Replace(replacedContents, pattern, template_value, -1)
+			}
 		}
 	}
 

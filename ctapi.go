@@ -12,21 +12,34 @@ import (
 )
 
 type CTApi struct {
-	configuration         *cloudtruth.Configuration
-	client                *cloudtruth.APIClient
-	environment_ids_cache map[string]string
-	project_ids_cache     map[string]string
-	template_ids_cache    map[string]map[string]string
+	configuration *cloudtruth.Configuration
+	client        *cloudtruth.APIClient
+	environments  map[string]cloudtruth.Environment
+	projects      map[string]cloudtruth.Project
+}
+
+type CTProject struct {
+	ctapi            *CTApi
+	environment_name string
+	environment_id   string
+	project_name     string
+	project_id       string
+	tag              string
+	parameters       map[string]Parameter
+	templates        map[string]Template
 }
 
 type Parameter struct {
-	key    string
+	id     string
+	name   string
 	value  string
 	secret bool
 }
 
 type Template struct {
-	key   string
+	id    string
+	name  string
+	body  string
 	value func() string
 }
 
@@ -36,7 +49,6 @@ func NewCTApi(api_key string, api_url string, user_agent string, debug bool) *CT
 	ctapi := new(CTApi)
 	ctapi.configuration = cloudtruth.NewConfiguration()
 	ctapi.configuration.UserAgent = user_agent
-	ctapi.template_ids_cache = make(map[string]map[string]string)
 	u, err := url.Parse(api_url)
 	if err != nil {
 		log.Fatalf("Invalid url: %s, err: %v", api_url, err)
@@ -49,11 +61,14 @@ func NewCTApi(api_key string, api_url string, user_agent string, debug bool) *CT
 
 	ctapi.client = cloudtruth.NewAPIClient(ctapi.configuration)
 
+	ctapi.environments = make(map[string]cloudtruth.Environment)
+	ctapi.projects = make(map[string]cloudtruth.Project)
+
 	return ctapi
 }
 
-func (ctapi *CTApi) environment_ids() map[string]string {
-	if ctapi.environment_ids_cache == nil {
+func (ctapi *CTApi) Environments() map[string]cloudtruth.Environment {
+	if len(ctapi.environments) == 0 {
 		log.Debug("Fetching environments")
 
 		resp, r, err := ctapi.client.EnvironmentsApi.EnvironmentsList(context.Background()).Execute()
@@ -62,28 +77,41 @@ func (ctapi *CTApi) environment_ids() map[string]string {
 			fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 			os.Exit(2)
 		}
-		// log.Printf("Response from `EnvironmentsApi.EnvironmentsList`: %v\n", resp)
-		ctapi.environment_ids_cache = make(map[string]string)
+
 		for _, p := range resp.Results {
-			ctapi.environment_ids_cache[p.Name] = p.Id
+			ctapi.environments[p.Name] = p
 		}
 	}
 
-	return ctapi.environment_ids_cache
+	return ctapi.environments
 }
 
-func (ctapi *CTApi) environments() []string {
-	id_map := ctapi.environment_ids()
-
-	keys := make([]string, 0, len(id_map))
-	for k := range id_map {
-		keys = append(keys, k)
+func (ctapi *CTApi) EnvironmentId(name string) string {
+	if len(ctapi.environments) != 0 {
+		return ctapi.environments[name].Id
 	}
-	return keys
+
+	log.Debugf("Looking up environment id: %s", name)
+
+	request := ctapi.client.EnvironmentsApi.EnvironmentsList(context.Background())
+	request = request.Name(name)
+	resp, r, err := request.Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `EnvironmentsApi.EnvironmentsList``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+		os.Exit(2)
+	}
+
+	if len(resp.Results) != 1 || resp.Results[0].Name != name {
+		log.Errorf("Could not find environment: %s", name)
+		os.Exit(2)
+	}
+
+	return resp.Results[0].Id
 }
 
-func (ctapi *CTApi) project_ids() map[string]string {
-	if ctapi.project_ids_cache == nil {
+func (ctapi *CTApi) Projects() map[string]cloudtruth.Project {
+	if len(ctapi.projects) == 0 {
 		log.Debug("Fetching projects")
 
 		resp, r, err := ctapi.client.ProjectsApi.ProjectsList(context.Background()).Execute()
@@ -92,73 +120,95 @@ func (ctapi *CTApi) project_ids() map[string]string {
 			fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 			os.Exit(2)
 		}
-		// log.Printf("Response from `ProjectsApi.ProjectsList`: %v\n", resp)
-		ctapi.project_ids_cache = make(map[string]string)
+
 		for _, p := range resp.Results {
-			ctapi.project_ids_cache[p.Name] = p.Id
+			ctapi.projects[p.Name] = p
 		}
 	}
 
-	return ctapi.project_ids_cache
+	return ctapi.projects
 }
 
-func (ctapi *CTApi) projects() []string {
-	id_map := ctapi.project_ids()
-
-	keys := make([]string, 0, len(id_map))
-	for k := range id_map {
-		keys = append(keys, k)
-	}
-	return keys
-}
-
-func (ctapi *CTApi) parameters(project string, environment string, tag string) map[string]Parameter {
-	log.Debug("Fetching parameters")
-
-	env_id := ctapi.environment_ids()[environment]
-	proj_id := ctapi.project_ids()[project]
-
-	request := ctapi.client.ProjectsApi.ProjectsParametersList(context.Background(), proj_id)
-	request = request.Environment(env_id)
-	request = request.Evaluate(true)
-	if tag != "" {
-		request = request.Tag(tag)
+func (ctapi *CTApi) ProjectId(name string) string {
+	if len(ctapi.projects) != 0 {
+		return ctapi.projects[name].Id
 	}
 
+	log.Debugf("Looking up project id: %s", name)
+
+	request := ctapi.client.ProjectsApi.ProjectsList(context.Background())
+	request = request.Name(name)
 	resp, r, err := request.Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `ProjectsApi.ProjectsParametersList``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `ProjectsApi.ProjectsList``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 		os.Exit(2)
 	}
-	// log.Printf("Response from `ProjectsApi.ProjectsParametersList`: %v\n", resp)
-	result := make(map[string]Parameter)
-	for _, p := range resp.Results {
-		var v cloudtruth.ParameterValuesValue
-		for _, v = range p.Values {
-			break
-		}
-		result[p.Name] = Parameter{p.Name, *v.Value.Get(), *p.Secret}
+
+	if len(resp.Results) != 1 || resp.Results[0].Name != name {
+		log.Errorf("Could not find project: %s", name)
+		os.Exit(2)
 	}
 
-	return result
+	return resp.Results[0].Id
 }
 
-func (ctapi *CTApi) template_ids(project string) map[string]string {
-	return ctapi.template_ids_cache[project]
+func NewCTProject(ctapi *CTApi, project_name string, environment_name string, tag string) *CTProject {
+	ctproject := new(CTProject)
+	ctproject.ctapi = ctapi
+	ctproject.project_name = project_name
+	ctproject.project_id = ctapi.ProjectId(project_name)
+	ctproject.environment_name = environment_name
+	ctproject.environment_id = ctapi.EnvironmentId(environment_name)
+	ctproject.tag = tag
+	ctproject.parameters = make(map[string]Parameter)
+	ctproject.templates = make(map[string]Template)
+	return ctproject
 }
 
-func (ctapi *CTApi) template(project string, environment string, tag string, template string) string {
+func (ctproject *CTProject) Parameters() map[string]Parameter {
+	if len(ctproject.parameters) == 0 {
+		log.Infof("Fetching parameters %s=%s/%s=%s",
+			ctproject.project_name, ctproject.project_id,
+			ctproject.environment_name, ctproject.environment_id)
 
-	env_id := ctapi.environment_ids()[environment]
-	proj_id := ctapi.project_ids()[project]
-	tmpl_id := ctapi.template_ids(project)[template]
-	log.Debugf("Fetching template %s/%s/%s", project, template, tmpl_id)
+		request := ctproject.ctapi.client.ProjectsApi.ProjectsParametersList(context.Background(), ctproject.project_id)
+		request = request.Environment(ctproject.environment_id)
+		request = request.Evaluate(true)
+		if ctproject.tag != "" {
+			request = request.Tag(ctproject.tag)
+		}
 
-	request := ctapi.client.ProjectsApi.ProjectsTemplatesRetrieve(context.Background(), tmpl_id, proj_id)
-	request = request.Environment(env_id)
-	if tag != "" {
-		request = request.Tag(tag)
+		resp, r, err := request.Execute()
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "Error when calling `ProjectsApi.ProjectsParametersList``: %v\n", err)
+			fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+			os.Exit(2)
+		}
+
+		for _, p := range resp.Results {
+			v := ""
+			if len(p.ValuesFlat) != 0 {
+				v = *p.ValuesFlat[0].Value.Get()
+			}
+			ctproject.parameters[p.Name] = Parameter{p.Id, p.Name, v, *p.Secret}
+		}
+	}
+	return ctproject.parameters
+}
+
+func (ctproject *CTProject) Template(template_name string) string {
+	template := ctproject.templates[template_name]
+
+	log.Infof("Fetching template %s=%s/%s=%s/%s=%s",
+		ctproject.project_name, ctproject.project_id,
+		ctproject.environment_name, ctproject.environment_id,
+		template.name, template.id)
+
+	request := ctproject.ctapi.client.ProjectsApi.ProjectsTemplatesRetrieve(context.Background(), template.id, ctproject.project_id)
+	request = request.Environment(ctproject.environment_id)
+	if ctproject.tag != "" {
+		request = request.Tag(ctproject.tag)
 	}
 
 	resp, r, err := request.Execute()
@@ -167,42 +217,44 @@ func (ctapi *CTApi) template(project string, environment string, tag string, tem
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 		os.Exit(2)
 	}
-	// log.Printf("Response from `ProjectsApi.ProjectsTemplatesRetrieve`: %v\n", resp)
 
 	return *resp.Body
 }
 
-func (ctapi *CTApi) templates(project string, environment string, tag string) map[string]Template {
-	log.Debug("Fetching templates")
+func (ctproject *CTProject) Templates() map[string]Template {
+	if len(ctproject.templates) == 0 {
+		log.Infof("Fetching templates %s=%s/%s=%s",
+			ctproject.project_name, ctproject.project_id,
+			ctproject.environment_name, ctproject.environment_id)
 
-	template_ids_cache := make(map[string]string)
+		request := ctproject.ctapi.client.ProjectsApi.ProjectsTemplatesList(context.Background(), ctproject.project_id)
+		request = request.Environment(ctproject.environment_id)
+		request = request.Evaluate(false)
+		if ctproject.tag != "" {
+			request = request.Tag(ctproject.tag)
+		}
 
-	env_id := ctapi.environment_ids()[environment]
-	proj_id := ctapi.project_ids()[project]
+		resp, r, err := request.Execute()
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "Error when calling `ProjectsApi.ProjectsTemplatesList``: %v\n", err)
+			fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+			os.Exit(2)
+		}
 
-	request := ctapi.client.ProjectsApi.ProjectsTemplatesList(context.Background(), proj_id)
-	request = request.Environment(env_id)
-	request = request.Evaluate(false)
-	if tag != "" {
-		request = request.Tag(tag)
+		for _, t := range resp.Results {
+			template_name := t.Name
+			log.Debugf("Adding template reference '%s'", template_name)
+			anon := func() string { return ctproject.Template(template_name) }
+			ctproject.templates[t.Name] = Template{t.Id, t.Name, "", anon}
+		}
 	}
 
-	resp, r, err := request.Execute()
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `ProjectsApi.ProjectsTemplatesList``: %v\n", err)
-		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
-		os.Exit(2)
-	}
-	// log.Printf("Response from `ProjectsApi.ProjectsTemplatesList`: %v\n", resp)
-	result := make(map[string]Template)
-	for _, t := range resp.Results {
-		name := t.Name
-		log.Debugf("Adding template reference '%s'", name)
-		anon := func() string { return ctapi.template(project, environment, tag, name) }
-		result[t.Name] = Template{name, anon}
-		template_ids_cache[t.Name] = t.Id
-	}
-	ctapi.template_ids_cache[project] = template_ids_cache
+	return ctproject.templates
+}
 
-	return result
+func (template *Template) Get() string {
+	if template.body == "" {
+		template.body = template.value()
+	}
+	return template.body
 }
