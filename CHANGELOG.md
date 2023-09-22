@@ -1,3 +1,9 @@
+0.8.2 (09/22/2023)
+------------------
+
+fix transformation output (bogus nils in putput)
+capture plugin logs in sidecar to /tmp/argocd-cloudtruth-plugin.log
+
 0.8.1 (09/22/2023)
 ------------------
 
