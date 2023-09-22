@@ -177,7 +177,11 @@ func applyTransformations(filePattern []string, referencePattern string, ctproje
 			if !first {
 				fmt.Print("\n\n---\n\n")
 			}
-			fmt.Print(fileReplace(path, referencePattern, ctproject))
+			result, e := fileReplace(path, referencePattern, ctproject)
+			if e != nil {
+				return e
+			}
+			fmt.Print(result)
 			first = false
 		}
 	}
