@@ -1,3 +1,8 @@
+0.8.1 (09/22/2023)
+------------------
+
+allow setting plugin log level through environment/params/file
+
 0.8.0 (09/22/2023)
 ------------------
 

@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"regexp"
+	"strconv"
 	"strings"
 
 	"gopkg.in/yaml.v3"
@@ -83,16 +84,8 @@ func readPluginConfig(filename string) map[string]string {
 	return data
 }
 
-// Processes given files to replace paramater references with values from cloudtruth
-func main() {
-	log.SetOutput(os.Stderr)
-
-	var config Options
-	p := flags.NewParser(&config, flags.Default)
-	p.LongDescription = "Processes given files to replace paramater references with values from cloudtruth."
-	_, err := p.Parse()
-
-	switch len(config.Verbose) {
+func setLogLevel(level int) {
+	switch level {
 	case 2:
 		log.SetLevel(log.DebugLevel)
 	case 1:
@@ -102,6 +95,16 @@ func main() {
 	default:
 		log.SetLevel(log.TraceLevel)
 	}
+}
+
+// Processes given files to replace paramater references with values from cloudtruth
+func main() {
+	log.SetOutput(os.Stderr)
+
+	var config Options
+	p := flags.NewParser(&config, flags.Default)
+	p.LongDescription = "Processes given files to replace paramater references with values from cloudtruth."
+	_, err := p.Parse()
 
 	if config.Version {
 		fmt.Printf("argocd-cloudtruth-plugin %s, commit %s, built at %s by %s\n", version, commit, date, builtBy)
@@ -113,6 +116,15 @@ func main() {
 	}
 
 	pluginConfig := readPluginConfig(".argocd-cloudtruth-plugin")
+
+	log_level := mergeArgoEnv("CLOUDTRUTH_LOG_LEVEL", strconv.Itoa(len(config.Verbose)), pluginConfig)
+	log_level_int, err := strconv.Atoi(log_level)
+	if err != nil {
+		fmt.Printf("Invalid log level '%s'\n", log_level)
+		os.Exit(1)
+	}
+	setLogLevel(log_level_int)
+
 	config.ApiUrl = mergeArgoEnv("CLOUDTRUTH_API_URL", config.ApiUrl, pluginConfig)
 	config.ApiKey = mergeArgoEnv("CLOUDTRUTH_API_KEY", config.ApiKey, pluginConfig)
 	config.Environment = mergeArgoEnv("CLOUDTRUTH_ENVIRONMENT", config.Environment, pluginConfig)
@@ -139,7 +151,7 @@ func main() {
 	// TODO: allow user to specify project and/or environment in the replacement pattern, e.g. <ENV:PROJ:PARAM>
 	// TODO: scan files to figure out which ones have a pattern to be replaced rather than replacing against all files
 	// TODO: support templates - how do we map a template to a file, or just have a file that only contains the template?
-	ctapi := NewCTApi(config.ApiKey, config.ApiUrl, fmt.Sprintf("argocd-cloudtruth-plugin/%s/%s/go", version, commit), len(config.Verbose) >= 3)
+	ctapi := NewCTApi(config.ApiKey, config.ApiUrl, fmt.Sprintf("argocd-cloudtruth-plugin/%s/%s/go", version, commit), log_level_int >= 4)
 	ctproject := NewCTProject(ctapi, config.Project, config.Environment, config.Tag)
 
 	err = applyTransformations(config.FilePattern, config.ReferencePattern, ctproject)
@@ -214,5 +226,6 @@ func fileReplace(path string, pattern string, ctproject *CTProject) (string, err
 		}
 	}
 
+	log.Tracef("**** Start Transformation result of '%s':\n%s\n**** End Transformation result of '%s'\n", path, replacedContents, path)
 	return replacedContents, nil
 }

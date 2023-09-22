@@ -4,7 +4,7 @@ metadata:
   # The name of the plugin must be unique within a given Argo CD instance.
   name: argocd-cloudtruth-plugin
 spec:
-  version: v0.8.0
+  version: v0.8.1
   # The init command runs in the Application source directory at the beginning of each manifest generation. The init
   # command can output anything. A non-zero status code will fail manifest generation.
   init:
@@ -59,6 +59,11 @@ spec:
       - name: cloudtruth-file-pattern
         title: CloudTruth File Pattern
         tooltip: The file pattern (glob) to perform substitutions on (defaults to *.y*ml).  Multiple delimted with comma
+        required: false
+        itemType: "string"
+      - name: cloudtruth-log-level
+        title: CloudTruth Log Level
+        tooltip: Enables more detailed log output in the plugin that goes to stderr in the argocd-repo-server logs. 0=warn,1=info,2=debug,3=trace,4=apitrace
         required: false
         itemType: "string"
       - name: cloudtruth-api-key
