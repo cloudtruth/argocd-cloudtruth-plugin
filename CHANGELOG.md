@@ -1,3 +1,9 @@
+0.8.0 (09/22/2023)
+------------------
+
+refactor with performance tweaks
+add support for cloudtruth templates, e.g. `<templates.TEMPLATE_NAME>` instead of `<PARAM_NAME>`
+
 0.7.0 (05/22/2023)
 ------------------
 
