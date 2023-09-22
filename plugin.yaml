@@ -4,7 +4,7 @@ metadata:
   # The name of the plugin must be unique within a given Argo CD instance.
   name: argocd-cloudtruth-plugin
 spec:
-  version: v0.8.1
+  version: v0.8.2
   # The init command runs in the Application source directory at the beginning of each manifest generation. The init
   # command can output anything. A non-zero status code will fail manifest generation.
   init:
@@ -16,8 +16,8 @@ spec:
   # must be ONLY valid YAML manifests. A non-zero exit code will fail manifest generation.
   # Error output will be sent to the UI, so avoid printing sensitive information (such as secrets).
   generate:
-    command: [argocd-cloudtruth-plugin]
-    args: []
+    command: [sh]
+    args: [-c, 'argocd-cloudtruth-plugin 2> /tmp/argocd-cloudtruth-plugin.log']
   # The discovery config is applied to a repository. If every configured discovery tool matches, then the plugin may be
   # used to generate manifests for Applications using the repository. If the discovery config is omitted then the plugin
   # will not match any application but can still be invoked explicitly by specifying the plugin name in the app spec.
