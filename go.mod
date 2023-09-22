@@ -1,6 +1,6 @@
 module github.com/cloudtruth/argocd-cloudtruth-plugin
 
-go 1.20
+go 1.21
 
 require (
 	github.com/cloudtruth/cloudtruth-go-client v1.0.0
