@@ -37,7 +37,7 @@ The settings that control the plugin's behavior are as follows:
 | CLOUDTRUTH_TAG | the CloudTruth tag to query against | string | `""` | no |
 | CLOUDTRUTH_REFERENCE_PATTERN | the pattern that indicates parameter references in the input files | string | `<%s>` | no |
 | CLOUDTRUTH_FILE_PATTERN | the file pattern (glob) of the input files | array(string) delim=, | `*.y*ml` | no |
-| CLOUDTRUTH_LOG_LEVEL | Enables more detailed log output in the plugin that goes to stderr in the argocd-repo-server logs 0=warn,1=info,2=debug,3=trace,4=apitrace | int | `0` | no |
+| CLOUDTRUTH_LOG_LEVEL | Enables more detailed log output in the plugin that goes to /tmp/argocd-cloudtruth-plugin.log in the sidecar container in argocd-repo-server. 0=warn,1=info,2=debug,3=trace,4=apitrace | int | `0` | no |
 
 Once the plugin has been enabled for an Application, you can change settings by visiting the plugin settings from the PARAMETERS tab in the App Details section of the Application:
 
